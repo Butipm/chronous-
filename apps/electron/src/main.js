@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, globalShortcut, Tray, dialog, ipcMain, shell, Notification } = require('electron');
+const { app, BrowserWindow, Menu, globalShortcut, Tray, dialog, ipcMain, shell } = require('electron');
 const path = require('path');
 
 const { getApplicationMenu } = require('./menu/applicationMenu.js');
@@ -57,19 +57,6 @@ async function startBackend() {
   await startIntegrations();
 
   return result.serverPort;
-}
-
-/**
- * @description utility function to create a notification
- * @param {string} title - Notification title
- * @param {string} body - Notification body
- */
-function showNotification(title, body) {
-  new Notification({
-    title,
-    body,
-    silent: true,
-  }).show();
 }
 
 /**
@@ -240,13 +227,13 @@ app.whenReady().then(() => {
   });
 
   /**
-   * Hide on close
+   * Closing the window fully quits the app - including the embedded server and tray icon -
+   * rather than hiding to the background, so there is no lingering instance after close.
    */
   win.on('close', function (event) {
-    event.preventDefault();
     if (!isQuitting) {
-      showNotification('Window Closed', 'App running in background');
-      win.hide();
+      event.preventDefault();
+      appShutdown();
     }
   });
 

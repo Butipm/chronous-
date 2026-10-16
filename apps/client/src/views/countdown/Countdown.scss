@@ -26,6 +26,16 @@ $item-height: 3.5rem;
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    /* feed active: drop the logo/title row and shrink the clock, so the fed content
+       (FreeShow, ProPresenter output, a video) gets as much of the screen as possible */
+    &--compact {
+      font-size: $timer-label-size;
+
+      .clock-container .time {
+        font-size: clamp(16px, 2vw, 28px);
+      }
+    }
   }
 
   .project-header__brand {

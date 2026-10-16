@@ -133,10 +133,15 @@ export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, clas
       onMouseLeave={() => setIsExpanded(false)}
     >
       <IconButton
-        aria-label='Feed a URL into this screen'
+        type='button'
+        aria-label={feedUrl ? 'Stop showing fed content' : 'Feed a URL into this screen'}
+        title={feedUrl ? 'Click to stop showing the fed URL' : undefined}
         variant={feedUrl ? 'primary' : 'subtle-white'}
         size='medium'
         className='url-feed-overlay__handle'
+        onClick={() => {
+          if (feedUrl) handleClear();
+        }}
       >
         <IoLink />
       </IconButton>
