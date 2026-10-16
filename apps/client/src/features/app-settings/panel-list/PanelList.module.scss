@@ -28,7 +28,7 @@ ul {
 
   &:focus-visible {
     background-color: $gray-1000;
-    outline: 2px solid $neon-cyan-500;
+    outline: 2px solid $electric-cyan-500;
     outline-offset: -2px;
   }
 
@@ -46,13 +46,13 @@ ul {
   border-left: 3px solid transparent;
 
   &.groupActive {
-    color: $neon-cyan-400;
+    color: $electric-cyan-400;
     font-weight: 600;
   }
 
   &.active {
     color: $ui-white;
-    border-left-color: $neon-cyan-400;
+    border-left-color: $electric-cyan-400;
     background-color: $bg-active;
     font-weight: 600;
   }
@@ -78,7 +78,7 @@ ul {
 
   &.active {
     color: $ui-white;
-    border-left-color: $neon-cyan-400;
+    border-left-color: $electric-cyan-400;
     background-color: $bg-active;
     font-weight: 600;
   }

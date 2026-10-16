@@ -16,14 +16,14 @@
   place-content: center;
 
   &.selected {
-    border: 2px solid $neon-cyan-500;
+    border: 2px solid $electric-cyan-500;
   }
 
   &.selectable {
     cursor: pointer;
 
     &:hover {
-      border: 2px solid $neon-cyan-300;
+      border: 2px solid $electric-cyan-300;
     }
   }
 }

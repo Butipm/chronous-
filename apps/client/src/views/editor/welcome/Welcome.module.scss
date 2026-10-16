@@ -63,7 +63,7 @@
       }
       .current {
         &:hover {
-          background-color: $neon-cyan-900;
+          background-color: $electric-cyan-900;
         }
       }
     }
@@ -87,9 +87,9 @@
 }
 
 .current {
-  background-color: $neon-cyan-700;
+  background-color: $electric-cyan-700;
 
   &:hover {
-    background-color: $neon-cyan-900;
+    background-color: $electric-cyan-900;
   }
 }

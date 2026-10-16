@@ -35,7 +35,7 @@
 
   &.active {
     background-color: $bg-active;
-    box-shadow: inset 3px 0 $neon-cyan-400;
+    box-shadow: inset 3px 0 $electric-cyan-400;
     color: $ui-white;
     font-weight: 600;
   }
@@ -57,7 +57,7 @@
   align-items: center;
   gap: 0.25rem;
   margin-left: auto;
-  color: $neon-cyan-400;
+  color: $electric-cyan-400;
   font-size: $aux-text-size;
   font-weight: 600;
 }

@@ -42,19 +42,31 @@ export default function PlaybackButtons({ playback, numEvents, selectedEventInde
         {goLabel}
       </TapButton>
       <div className={style.playbackContainer}>
-        <TapButton onClick={setPlayback.start} disabled={disableStart} theme={Playback.Play} active={isPlaying}>
+        <TapButton
+          onClick={setPlayback.start}
+          disabled={disableStart}
+          theme={Playback.Play}
+          active={isPlaying}
+          aria-label='Play'
+        >
           <IoPlay />
         </TapButton>
 
-        <TapButton onClick={setPlayback.pause} disabled={disablePause} theme={Playback.Pause} active={isPaused}>
+        <TapButton
+          onClick={setPlayback.pause}
+          disabled={disablePause}
+          theme={Playback.Pause}
+          active={isPaused}
+          aria-label='Pause'
+        >
           <IoPause />
         </TapButton>
       </div>
       <div className={style.transportContainer}>
-        <TapButton onClick={setPlayback.previous} disabled={disablePrev}>
+        <TapButton onClick={setPlayback.previous} disabled={disablePrev} aria-label='Previous event'>
           <IoPlaySkipBack />
         </TapButton>
-        <TapButton onClick={setPlayback.next} disabled={disableNext}>
+        <TapButton onClick={setPlayback.next} disabled={disableNext} aria-label='Next event'>
           <IoPlaySkipForward />
         </TapButton>
       </div>
@@ -62,10 +74,10 @@ export default function PlaybackButtons({ playback, numEvents, selectedEventInde
         <TapButton onClick={setPlayback.roll} disabled={disableRoll} theme={Playback.Roll} active={isRolling}>
           Roll
         </TapButton>
-        <TapButton onClick={setPlayback.reload} disabled={disableReload}>
+        <TapButton onClick={setPlayback.reload} disabled={disableReload} aria-label='Reload current event'>
           <IoReload className={style.invertX} />
         </TapButton>
-        <TapButton onClick={setPlayback.stop} disabled={disableStop} theme={Playback.Stop}>
+        <TapButton onClick={setPlayback.stop} disabled={disableStop} theme={Playback.Stop} aria-label='Stop'>
           <IoStop />
         </TapButton>
       </div>

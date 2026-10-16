@@ -14,12 +14,12 @@
 
   /* States */
   &[data-checked] {
-    background-color: $neon-cyan-700;
+    background-color: $electric-cyan-700;
     box-shadow: none;
   }
 
   &:focus {
-    outline: 2px solid $neon-cyan-500;
+    outline: 2px solid $electric-cyan-500;
     outline-offset: 2px;
   }
 

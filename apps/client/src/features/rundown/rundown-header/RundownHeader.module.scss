@@ -37,7 +37,7 @@
 
   &:focus-visible {
     background: transparent;
-    outline: 1px solid $neon-cyan-500;
+    outline: 1px solid $electric-cyan-500;
   }
 
   &:hover:not(:disabled):not(:active) {
@@ -49,11 +49,11 @@
   }
 
   &[data-pressed] {
-    background: $neon-cyan-700;
+    background: $electric-cyan-700;
     color: $ui-white;
 
     &:hover:not(:disabled):not(:active) {
-      background: $neon-cyan-600;
+      background: $electric-cyan-600;
     }
   }
 }

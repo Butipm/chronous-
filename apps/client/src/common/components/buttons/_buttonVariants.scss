@@ -4,12 +4,12 @@
 @mixin button-variants {
   .subtle {
     background: $gray-1050;
-    color: $neon-cyan-500;
+    color: $electric-cyan-500;
     line-height: 1em;
 
     &:hover:not(:disabled):not(:active) {
       background: $gray-1000;
-      color: $neon-cyan-300;
+      color: $electric-cyan-300;
     }
 
     &:active:not(:disabled) {
@@ -38,22 +38,17 @@
   }
 
   .primary {
-    background: linear-gradient(135deg, $neon-pink-700, $neon-cyan-700);
+    background: $electric-cyan-700;
     color: $ui-white;
-    transition:
-      box-shadow 0.15s,
-      background 0.15s;
+    transition: background 0.15s;
 
     &:hover:not(:disabled):not(:active) {
-      background: linear-gradient(135deg, $neon-pink-500, $neon-cyan-500);
-      box-shadow:
-        0 0 8px rgba($neon-pink-500, 0.6),
-        0 0 16px rgba($neon-cyan-500, 0.4);
+      background: $electric-cyan-600;
     }
 
     &:active:not(:disabled) {
-      background: linear-gradient(135deg, $neon-pink-700, $neon-cyan-700);
-      border-color: $space-black;
+      background: $electric-cyan-800;
+      border-color: $electric-cyan-900;
     }
 
     &:disabled {
@@ -93,11 +88,11 @@
 
   .ghosted {
     background: transparent;
-    color: $neon-cyan-500;
+    color: $electric-cyan-500;
 
     &:hover:not(:disabled):not(:active) {
       background: $gray-1000;
-      color: $neon-cyan-500;
+      color: $electric-cyan-500;
     }
 
     &:active:not(:disabled) {

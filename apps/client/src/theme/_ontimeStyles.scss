@@ -19,15 +19,15 @@ $zindex-dialog: 400;
 $zindex-modal: 500;
 $zindex-sudo: 1000;
 
-// semantic colours - retrofuturism/synthwave: cyan carries interactive/informational
-// meaning, pink carries brand identity. Status colours (error/warning/success) keep their
-// ordinary meaning unchanged - a synthwave reskin should not make "danger" ambiguous.
-$action-blue: $neon-cyan-500;
-$action-text-color: $neon-cyan-300;
-$ontime-color: $neon-pink-500;
+// semantic colours - "Modern Broadcast": electric-cyan is the primary interactive accent,
+// broadcast-blue carries brand identity. Status colours (error/warning/success) keep their
+// ordinary meaning unchanged - a reskin should not make "danger" ambiguous.
+$action-blue: $electric-cyan-500;
+$action-text-color: $electric-cyan-300;
+$ontime-color: $broadcast-blue-500;
 $error-red: $red-500;
 $warning-orange: $orange-500;
-$info-blue: $neon-cyan-500;
+$info-blue: $electric-cyan-500;
 $opacity-disabled: 0.4;
 $active-red: $red-700;
 $active-green: $green-700;
@@ -47,12 +47,12 @@ $text-black: $gray-1350;
 $playback-over: #f57c13;
 $playback-under: $green-500;
 
-// interface panels - deep space purple-black instead of neutral gray
-$bg-container-l1: $space-black-deep;
-$bg-container-l2: $space-purple;
+// interface panels - midnight-navy foundation, per the Modern Broadcast spec
+$bg-container-l1: $midnight-navy;
+$bg-container-l2: $deep-navy;
 $bg-active: rgba($action-blue, 0.16);
 
-$backdrop-color: rgba($space-black-deep, 0.8);
+$backdrop-color: rgba($midnight-navy, 0.8);
 $box-shadow-l1: rgba(0, 0, 0, 0.15) 0 3px 3px 0;
 $box-shadow-l2: rgba(0, 0, 0, 0.15) 0 3px 3px 0;
 $box-shadow-right: rgba(0, 0, 0, 0.15) 3px 0 3px 0;
@@ -67,11 +67,12 @@ $element-spacing: 0.5rem;
 $section-spacing: 1rem;
 $main-spacing: 2rem;
 
-// interface text
+// interface text - main text off-white, secondary text cool grey-blue, per the Modern
+// Broadcast spec
 $ontime-font-family: 'Open Sans', 'Segoe UI', sans-serif;
 $title-gray: $gray-200;
-$label-gray: $gray-600;
-$secondary-text-gray: $gray-400;
+$label-gray: $cool-grey-blue;
+$secondary-text-gray: $cool-grey-blue;
 $muted-gray: $gray-600;
 $section-white: $ui-white;
 $inner-section-text-size: calc(1rem - 2px);

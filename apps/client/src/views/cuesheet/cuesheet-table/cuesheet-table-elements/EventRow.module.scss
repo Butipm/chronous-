@@ -7,13 +7,13 @@
   min-height: 2.5rem;
 
   &:hover {
-    outline: 1px solid $neon-cyan-500;
+    outline: 1px solid $electric-cyan-500;
     outline-offset: -1px;
     background: color-mix(in srgb, transparent 80%, var(--user-bg, $gray-500) 20%);
   }
 
   &[data-cursor='true'] {
-    outline: 2px solid $neon-cyan-500;
+    outline: 2px solid $electric-cyan-500;
     outline-offset: -2px;
     background: color-mix(in srgb, transparent 80%, var(--user-bg, $gray-500) 20%);
   }

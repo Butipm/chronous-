@@ -16,15 +16,15 @@ $title-font-size: clamp(18px, 2.25vw, 42px);
 $timer-value-size: clamp(24px, 2.5vw, 48px);
 $header-font-size: clamp(24px, 2.5vw, 48px);
 
-// General styling - retrofuturism/synthwave accent, see theme/_mixins.scss for the glow mixins
-$accent-color: $neon-cyan-500; // --accent-color-override
-$viewer-label-color: rgba($neon-cyan-300, 55%);
+// General styling - "Modern Broadcast": electric-cyan accent on a midnight-navy foundation
+$accent-color: $electric-cyan-500; // --accent-color-override
+$viewer-label-color: rgba($cool-grey-blue, 75%);
 
 // Main Properties of a viewer
-$viewer-background-color: $space-black; // --background-color-override
-$viewer-color: rgba(white, 85%); // --color-override
-$viewer-secondary-color: rgba($neon-pink-300, 70%); // --secondary-color-override
-$viewer-card-bg-color: rgba($space-purple, 45%); // --card-background-color-override
+$viewer-background-color: $midnight-navy; // --background-color-override
+$viewer-color: rgba(white, 90%); // --color-override
+$viewer-secondary-color: $cool-grey-blue; // --secondary-color-override
+$viewer-card-bg-color: $slate-surface; // --card-background-color-override
 $element-border-radius: 4px;
 
 // Generic element sizes

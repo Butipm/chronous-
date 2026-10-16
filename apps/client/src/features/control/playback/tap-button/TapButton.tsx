@@ -13,10 +13,21 @@ interface TapButtonProps {
   theme?: Playback | 'neutral';
   active?: boolean;
   className?: string;
+  /** Icon-only buttons have no visible label - this is what a screen reader announces */
+  'aria-label'?: string;
 }
 
 const TapButton = forwardRef((props: PropsWithChildren<TapButtonProps>, ref: ForwardedRef<HTMLButtonElement>) => {
-  const { children, disabled, onClick, theme = 'neutral', aspect = 'normal', active, className } = props;
+  const {
+    children,
+    disabled,
+    onClick,
+    theme = 'neutral',
+    aspect = 'normal',
+    active,
+    className,
+    'aria-label': ariaLabel,
+  } = props;
 
   return (
     <button
@@ -25,6 +36,7 @@ const TapButton = forwardRef((props: PropsWithChildren<TapButtonProps>, ref: For
       type='button'
       onClick={onClick}
       ref={ref}
+      aria-label={ariaLabel}
     >
       {children}
     </button>

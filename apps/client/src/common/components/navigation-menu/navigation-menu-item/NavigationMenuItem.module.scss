@@ -40,7 +40,7 @@
   }
 
   &:focus-visible {
-    outline: 2px solid $neon-cyan-500;
+    outline: 2px solid $electric-cyan-500;
     outline-offset: -2px;
     background-color: $white-3;
   }
@@ -52,12 +52,12 @@
 
   &.current {
     background-color: $bg-active;
-    border-left-color: $neon-cyan-400;
+    border-left-color: $electric-cyan-400;
     color: $ui-white;
     font-weight: 600;
 
     > svg {
-      color: $neon-cyan-300;
+      color: $electric-cyan-300;
     }
   }
 }

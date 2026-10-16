@@ -19,13 +19,13 @@
   }
 
   &[data-checked] {
-    background-color: $neon-cyan-500;
+    background-color: $electric-cyan-500;
 
     &:hover:not(:disabled) {
-      background: $neon-cyan-400;
+      background: $electric-cyan-400;
     }
     &:active:not(:disabled) {
-      background: $neon-cyan-600;
+      background: $electric-cyan-600;
     }
   }
 
@@ -35,7 +35,7 @@
   }
 
   &:focus-visible {
-    outline: 2px solid $neon-cyan-500;
+    outline: 2px solid $electric-cyan-500;
     outline-offset: 2px;
   }
 }
