@@ -1,9 +1,11 @@
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 import { Playback, SimpleDirection, SimplePlayback, TimerPhase } from 'ontime-types';
 import { millisToString, parseUserTime } from 'ontime-utils';
+import { useState } from 'react';
 import { IoAdd, IoArrowDown, IoArrowUp, IoPause, IoPlay, IoPlaySkipForward, IoRemove, IoStop } from 'react-icons/io5';
 
 import TimeInput from '../../../../common/components/input/time-input/TimeInput';
+import UrlFeedOverlay, { FeedFrame } from '../../../../common/components/url-feed-overlay/UrlFeedOverlay';
 import {
   setAuxTimer,
   setPlayback,
@@ -22,6 +24,7 @@ import style from './TrackingPlaybackBar.module.scss';
 
 export default function TrackingPlaybackBar() {
   const timer = useTimer();
+  const [feedUrl, setFeedUrl] = useState<string | null>(null);
 
   const { playback, numEvents, selectedEventIndex } = usePlaybackControl();
 
@@ -148,6 +151,14 @@ export default function TrackingPlaybackBar() {
       </div>
 
       <div className={style.auxSection}>
+        <div className={style.feedTrigger}>
+          <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} storageKey='ontime-tracking-feed-url' size='small' />
+          {feedUrl && (
+            <div className={style.feedPreview}>
+              <FeedFrame url={feedUrl} />
+            </div>
+          )}
+        </div>
         <TapButton onClick={handleAuxPlayPause} className={style.iconButton} theme={Playback.Play} aspect='square'>
           {auxPlayback === SimplePlayback.Start ? <IoPause /> : <IoPlay />}
         </TapButton>

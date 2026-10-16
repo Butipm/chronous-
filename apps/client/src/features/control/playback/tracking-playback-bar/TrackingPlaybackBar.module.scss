@@ -91,6 +91,38 @@ $element-height: 4.5rem; // matches go button height in PlaybackButtons
   flex-shrink: 0;
 }
 
+.feedTrigger {
+  position: relative;
+
+  // this bar sits at the bottom of the screen, so the url-feed-overlay's input popup (which
+  // normally drops down below its trigger) needs to open upward instead, or it would render
+  // off-screen past the bottom edge
+  :global(.url-feed-overlay__panel) {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.feedPreview {
+  position: fixed;
+  right: $section-spacing;
+  bottom: calc($element-height + $panel-gap * 2 + 0.5rem);
+  width: min(28rem, 60vw);
+  height: 16rem;
+  border-radius: $panel-border-radius;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 4px 16px 0;
+  z-index: $zindex-floating;
+
+  // .feed-frame is the shared global class (see common/components/url-feed-overlay), not a
+  // module-local one - :global stops it being hashed so this selector actually matches it
+  :global(.feed-frame) {
+    height: 100%;
+  }
+}
+
 .auxControls {
   display: flex;
   gap: $element-inner-spacing;
