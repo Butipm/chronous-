@@ -1,6 +1,8 @@
 @use '../../theme/viewerDefs' as *;
+@use '../../theme/mixins' as *;
 
 .stage-timer {
+  position: relative;
   margin: 0;
   box-sizing: border-box; /* reset */
   overflow: hidden;
@@ -16,6 +18,21 @@
 
   display: flex;
   flex-direction: column;
+
+  /* the receding synthwave grid horizon, sitting behind every other element */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    @include synthwave-grid-floor(rgba($neon-cyan-500, 0.14));
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 
   &--finished {
     outline: clamp(4px, 1vw, 16px) solid var(--timer-overtime-color-override, $timer-finished-color);
@@ -151,6 +168,7 @@
       text-align: center;
       letter-spacing: 0.05em;
       font-weight: 600;
+      @include neon-text-glow($neon-cyan-500, 0.6);
 
       transition-property: font-size;
       transition-duration: $viewer-transition-time;

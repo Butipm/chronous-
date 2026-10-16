@@ -15,3 +15,29 @@
 .fourtyfive {
   @include rotate-fourty-five;
 }
+
+//////////////////////////////////// retrofuturism / synthwave
+
+/** Neon tube glow around text - the signature synthwave look */
+@mixin neon-text-glow($color, $intensity: 1) {
+  text-shadow:
+    0 0 calc(4px * #{$intensity}) currentcolor,
+    0 0 calc(11px * #{$intensity}) currentcolor,
+    0 0 calc(22px * #{$intensity}) #{$color};
+}
+
+/** Neon-edged glow around a shape (buttons, panels, the timer's finished/overtime outline) */
+@mixin neon-box-glow($color, $intensity: 1) {
+  box-shadow:
+    0 0 calc(6px * #{$intensity}) #{$color},
+    0 0 calc(16px * #{$intensity}) #{$color},
+    inset 0 0 calc(2px * #{$intensity}) #{$color};
+}
+
+/** The receding scanline grid under a synthwave sunset - a cheap, pure-CSS horizon */
+@mixin synthwave-grid-floor($line-color) {
+  background-image: linear-gradient(#{$line-color} 1px, transparent 1px), linear-gradient(90deg, #{$line-color} 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center;
+  mask-image: linear-gradient(to top, black, transparent 70%);
+}

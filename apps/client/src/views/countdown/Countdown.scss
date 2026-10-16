@@ -1,8 +1,10 @@
 @use '@/theme/viewerDefs' as *;
+@use '@/theme/mixins' as *;
 
 $item-height: 3.5rem;
 
 .countdown {
+  position: relative;
   margin: 0;
   box-sizing: border-box; /* reset */
   overflow: hidden;
@@ -17,6 +19,21 @@ $item-height: 3.5rem;
   gap: $view-element-gap;
   padding: $view-outer-padding;
   font-size: $base-font-size;
+
+  /* the receding synthwave grid horizon, sitting behind every other element */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    @include synthwave-grid-floor(rgba($neon-pink-500, 0.12));
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 
   /* feed active: the header only needs to be tall enough to be legible, not spaced out for
      a full-screen display, so tighten the gap/top-padding stacking above the fed content */
@@ -79,6 +96,7 @@ $item-height: 3.5rem;
       color: var(--secondary-color-override, $viewer-secondary-color);
       letter-spacing: 0.05em;
       line-height: 0.95em;
+      @include neon-text-glow($neon-pink-500, 0.5);
     }
   }
 

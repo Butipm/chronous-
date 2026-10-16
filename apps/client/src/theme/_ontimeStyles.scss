@@ -19,13 +19,15 @@ $zindex-dialog: 400;
 $zindex-modal: 500;
 $zindex-sudo: 1000;
 
-// semantic colours
-$action-blue: $blue-500;
-$action-text-color: $blue-400;
-$ontime-color: $blue-500;
+// semantic colours - retrofuturism/synthwave: cyan carries interactive/informational
+// meaning, pink carries brand identity. Status colours (error/warning/success) keep their
+// ordinary meaning unchanged - a synthwave reskin should not make "danger" ambiguous.
+$action-blue: $neon-cyan-500;
+$action-text-color: $neon-cyan-300;
+$ontime-color: $neon-pink-500;
 $error-red: $red-500;
 $warning-orange: $orange-500;
-$info-blue: $blue-500;
+$info-blue: $neon-cyan-500;
 $opacity-disabled: 0.4;
 $active-red: $red-700;
 $active-green: $green-700;
@@ -45,12 +47,12 @@ $text-black: $gray-1350;
 $playback-over: #f57c13;
 $playback-under: $green-500;
 
-// interface panels
-$bg-container-l1: $gray-1350;
-$bg-container-l2: $gray-1300;
+// interface panels - deep space purple-black instead of neutral gray
+$bg-container-l1: $space-black-deep;
+$bg-container-l2: $space-purple;
 $bg-active: rgba($action-blue, 0.16);
 
-$backdrop-color: rgba(0, 0, 0, 0.7);
+$backdrop-color: rgba($space-black-deep, 0.8);
 $box-shadow-l1: rgba(0, 0, 0, 0.15) 0 3px 3px 0;
 $box-shadow-l2: rgba(0, 0, 0, 0.15) 0 3px 3px 0;
 $box-shadow-right: rgba(0, 0, 0, 0.15) 3px 0 3px 0;
