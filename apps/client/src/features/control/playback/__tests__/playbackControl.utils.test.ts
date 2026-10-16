@@ -2,7 +2,7 @@ import { Playback, TimerPhase } from 'ontime-types';
 import { describe, expect, it } from 'vitest';
 
 import { setPlayback } from '../../../../common/hooks/useSocket';
-import { PlaybackControlInput, getPlaybackControlState } from '../playbackControl.utils';
+import { ENDING_SOON_THRESHOLD_MS, PlaybackControlInput, getPlaybackControlState, isEndingSoon } from '../playbackControl.utils';
 
 function stateFor(overrides: Partial<PlaybackControlInput>) {
   return getPlaybackControlState({
@@ -68,5 +68,47 @@ describe('getPlaybackControlState()', () => {
     expect(stateFor({ playback: Playback.Armed, selectedEventIndex: 0 }).disableAddTime).toBe(true);
     expect(stateFor({ playback: Playback.Roll, selectedEventIndex: 0 }).disableAddTime).toBe(true);
     expect(stateFor({ playback: Playback.Stop }).disableAddTime).toBe(true);
+  });
+});
+
+describe('isEndingSoon()', () => {
+  it('is true for a playing timer at exactly the threshold', () => {
+    expect(isEndingSoon(ENDING_SOON_THRESHOLD_MS, Playback.Play, TimerPhase.Default)).toBe(true);
+  });
+
+  it('is true for a playing timer under the threshold', () => {
+    expect(isEndingSoon(1, Playback.Play, TimerPhase.Danger)).toBe(true);
+  });
+
+  it('is false just above the threshold', () => {
+    expect(isEndingSoon(ENDING_SOON_THRESHOLD_MS + 1, Playback.Play, TimerPhase.Default)).toBe(false);
+  });
+
+  it('is false once the timer has run out, that is overtime/end-sound territory instead', () => {
+    expect(isEndingSoon(0, Playback.Play, TimerPhase.Overtime)).toBe(false);
+    expect(isEndingSoon(-500, Playback.Play, TimerPhase.Overtime)).toBe(false);
+  });
+
+  it('is false when there is no current time to compare', () => {
+    expect(isEndingSoon(null, Playback.Play, TimerPhase.Default)).toBe(false);
+  });
+
+  it('is false while paused, armed or stopped, even under the threshold', () => {
+    expect(isEndingSoon(30_000, Playback.Pause, TimerPhase.Danger)).toBe(false);
+    expect(isEndingSoon(30_000, Playback.Armed, TimerPhase.Default)).toBe(false);
+    expect(isEndingSoon(30_000, Playback.Stop, TimerPhase.None)).toBe(false);
+  });
+
+  it('is false for a roll timer still waiting to start, even if its countdown is under the threshold', () => {
+    expect(isEndingSoon(30_000, Playback.Roll, TimerPhase.Pending)).toBe(false);
+  });
+
+  it('is true for a roll timer once its event is actually running', () => {
+    expect(isEndingSoon(30_000, Playback.Roll, TimerPhase.Danger)).toBe(true);
+  });
+
+  it('ignores the event own warning/danger phase - the window is a fixed 60s regardless', () => {
+    expect(isEndingSoon(ENDING_SOON_THRESHOLD_MS, Playback.Play, TimerPhase.Default)).toBe(true);
+    expect(isEndingSoon(ENDING_SOON_THRESHOLD_MS + 1, Playback.Play, TimerPhase.Danger)).toBe(false);
   });
 });

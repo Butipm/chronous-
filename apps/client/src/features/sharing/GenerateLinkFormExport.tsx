@@ -33,6 +33,7 @@ export default function GenerateLinkFormExport({ lockedPath }: GenerateLinkFormE
     }
     return [
       { value: OntimeView.Timer, label: 'Timer' },
+      { value: 'timercontrol', label: 'Timer Control (start/pause/stop from this device)' },
       { value: OntimeView.Cuesheet, label: 'Cuesheet' },
       { value: OntimeView.Operator, label: 'Operator' },
       { value: '<<companion>>', label: 'Companion' },

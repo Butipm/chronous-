@@ -80,6 +80,18 @@ export function getPlaybackControlState({
   };
 }
 
+/** Fixed heads-up window, independent of each event's own (optional, variable) warning/danger thresholds */
+export const ENDING_SOON_THRESHOLD_MS = 60_000;
+
+/**
+ * Whether a running timer has 60s or less left, so the controller can show an unmissable
+ * heads-up regardless of whether this event has its own warning/danger times configured.
+ */
+export function isEndingSoon(current: number | null, playback: Playback, phase: TimerPhase): boolean {
+  const isRunning = (playback === Playback.Play || playback === Playback.Roll) && phase !== TimerPhase.Pending;
+  return isRunning && current !== null && current > 0 && current <= ENDING_SOON_THRESHOLD_MS;
+}
+
 /**
  * Determines the action and label for the "Go" button based on playback state.
  */

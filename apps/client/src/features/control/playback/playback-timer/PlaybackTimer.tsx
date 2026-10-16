@@ -9,6 +9,7 @@ import { useTimerProgress } from '../../../../common/hooks/useSocket';
 import { cx } from '../../../../common/utils/styleUtils';
 import { formatDuration, normaliseWallClock } from '../../../../common/utils/time';
 import TimerDisplay from '../timer-display/TimerDisplay';
+import { useEndingSoonAlert } from './useEndingSoonAlert';
 
 import style from './PlaybackTimer.module.scss';
 
@@ -34,6 +35,7 @@ export default function PlaybackTimer({ children }: PropsWithChildren) {
   const hasAddedTime = Boolean(timer.addedTime);
   const rollLabel = isRolling ? 'Roll mode active' : '';
   const addedTimeLabel = resolveAddedTimeLabel(timer.addedTime);
+  const isEndingSoon = useEndingSoonAlert(timer.current, timer.playback, timer.phase);
 
   return (
     <div className={style.timeContainer}>
@@ -43,7 +45,7 @@ export default function PlaybackTimer({ children }: PropsWithChildren) {
         <Tooltip text={addedTimeLabel} render={<div />} className={style.indicatorDelay} data-active={hasAddedTime} />
       </div>
       <TimerDisplay
-        className={style.timerDisplay}
+        className={cx([style.timerDisplay, isEndingSoon && style.timerDisplayEndingSoon])}
         time={isWaiting ? timer.secondaryTimer : timer.current}
         phase={timer.phase}
       />
