@@ -31,7 +31,9 @@ function writeStoredUrl(storageKey: string, url: string | null) {
  * Builds a YouTube embed URL that actually autoplays. Browsers only allow autoplay when
  * the video starts muted (no exceptions for an iframe's allow="autoplay" attribute alone) -
  * operators who want sound can unmute from the player's own controls. playsinline stops a
- * mobile browser from hijacking it into a native fullscreen player instead of playing in place.
+ * mobile browser from hijacking it into a native fullscreen player instead of playing in
+ * place. This works the same for a live stream's video ID as for an uploaded video - YouTube
+ * detects it is live server-side, there is no separate "live" embed param needed.
  */
 function toYoutubeEmbedUrl(videoId: string): string {
   return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1`;
@@ -42,16 +44,30 @@ function toYoutubeEmbedUrl(videoId: string): string {
  * Anything we do not recognise is passed through unchanged, which covers local tools
  * like FreeShow or ProPresenter's web output that already serve a plain embeddable page.
  */
-function toEmbeddableUrl(rawUrl: string): string {
+export function toEmbeddableUrl(rawUrl: string): string {
   try {
     const url = new URL(rawUrl);
     if (url.hostname === 'youtu.be') {
       const id = url.pathname.slice(1);
       if (id) return toYoutubeEmbedUrl(id);
     }
-    if (url.hostname.endsWith('youtube.com') && url.pathname === '/watch') {
-      const id = url.searchParams.get('v');
-      if (id) return toYoutubeEmbedUrl(id);
+    if (url.hostname.endsWith('youtube.com')) {
+      if (url.pathname === '/watch') {
+        const id = url.searchParams.get('v');
+        if (id) return toYoutubeEmbedUrl(id);
+      }
+      // live stream share links look like youtube.com/live/VIDEO_ID - same video ID,
+      // just a different path, so the same /embed/ form plays it
+      const liveVideoMatch = url.pathname.match(/^\/live\/([^/?]+)/);
+      if (liveVideoMatch) return toYoutubeEmbedUrl(liveVideoMatch[1]);
+      // "watch whatever this channel is currently streaming" - youtube.com/channel/ID/live -
+      // YouTube has a dedicated embed form for this since there is no single video ID to
+      // resolve to until the stream starts. A @handle/live URL cannot be resolved the same
+      // way without a YouTube Data API lookup, so it is left as an unrecognised passthrough.
+      const channelLiveMatch = url.pathname.match(/^\/channel\/([^/]+)\/live/);
+      if (channelLiveMatch) {
+        return `https://www.youtube.com/embed/live_stream?channel=${channelLiveMatch[1]}&autoplay=1&mute=1&playsinline=1`;
+      }
     }
     return url.href;
   } catch {
