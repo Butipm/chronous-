@@ -62,7 +62,10 @@ function Countdown({ customFields, rundownData, projectData, isMirrored, setting
   );
 
   return (
-    <div className={`countdown ${isMirrored ? 'mirror' : ''}`} data-testid='countdown-view'>
+    <div
+      className={cx(['countdown', isMirrored && 'mirror', feedUrl && 'countdown--feed-active'])}
+      data-testid='countdown-view'
+    >
       <ViewParamsEditor target={OntimeView.Countdown} viewOptions={countdownOptions} />
       <div className={cx(['project-header', feedUrl && 'project-header--compact'])}>
         {!feedUrl && (
@@ -72,7 +75,12 @@ function Countdown({ customFields, rundownData, projectData, isMirrored, setting
           </div>
         )}
         <CountdownClock />
-        <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} storageKey='ontime-countdown-feed-url' />
+        <UrlFeedOverlay
+          feedUrl={feedUrl}
+          onFeedChange={setFeedUrl}
+          storageKey='ontime-countdown-feed-url'
+          size={feedUrl ? 'small' : 'medium'}
+        />
       </div>
 
       {feedUrl && <FeedFrame url={feedUrl} />}

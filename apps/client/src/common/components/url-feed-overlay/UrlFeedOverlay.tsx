@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { IoClose, IoLink } from 'react-icons/io5';
 
 import IconButton from '../buttons/IconButton';
@@ -92,19 +92,29 @@ interface UrlFeedOverlayProps {
   /** Keeps each view's fed URL independent (eg Timer and Countdown remember their own) */
   storageKey: string;
   className?: string;
+  /** Shrinks the trigger icon - useful once a feed is active and every pixel above it counts */
+  size?: 'small' | 'medium';
 }
 
 /**
- * A hover-revealed control that lets an operator push any URL (FreeShow, ProPresenter's
+ * A click-revealed control that lets an operator push any URL (FreeShow, ProPresenter's
  * web output, a YouTube video, etc.) onto this screen as a live preview, alongside the
  * running timer/clock. Intended for a confidence monitor / second-screen setup where
  * whoever is watching this display also needs to see what the audience-facing output is
  * showing - feed it FreeShow, ProPresenter, or a video, and whoever's looking sees both
  * the time and the content at once.
+ *
+ * Click, not hover, opens the box: hover reveal was fragile in practice - moving the
+ * mouse from the icon down into the input crossed a dead zone (the gap between them) that
+ * fired mouseleave and unmounted the box before a click or keystroke could land there, and
+ * re-hovering the icon after a click often did not fire a fresh mouseenter at all if the
+ * pointer had not actually moved since the click. A click is a discrete event regardless of
+ * where the pointer has been, so it does not have either problem.
  */
-export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, className }: UrlFeedOverlayProps) {
+export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, className, size = 'medium' }: UrlFeedOverlayProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [draftUrl, setDraftUrl] = useState(feedUrl ?? '');
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const stored = readStoredUrl(storageKey);
@@ -115,13 +125,32 @@ export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, clas
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // auto-hide the box after 5s of no activity (no typing), even while still hovered -
-  // keeps it from lingering over the view once the operator has stepped away
+  // auto-hide the box after 5s of no activity (no typing) - keeps it from lingering over
+  // the view once the operator has stepped away, without needing them to keep hovering it
   useEffect(() => {
     if (!isExpanded) return undefined;
     const timeoutId = window.setTimeout(() => setIsExpanded(false), 5000);
     return () => window.clearTimeout(timeoutId);
   }, [isExpanded, draftUrl]);
+
+  // close on a click outside the box, and on Escape - standard dropdown behaviour
+  useEffect(() => {
+    if (!isExpanded) return undefined;
+    const handlePointerDown = (event: MouseEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
+        setIsExpanded(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsExpanded(false);
+    };
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isExpanded]);
 
   const handleSubmit = useCallback(
     (event: FormEvent) => {
@@ -143,20 +172,20 @@ export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, clas
   }, [onFeedChange, storageKey]);
 
   return (
-    <div
-      className={cx(['url-feed-overlay', isExpanded && 'url-feed-overlay--expanded', className])}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
-    >
+    <div ref={containerRef} className={cx(['url-feed-overlay', isExpanded && 'url-feed-overlay--expanded', className])}>
       <IconButton
         type='button'
         aria-label={feedUrl ? 'Stop showing fed content' : 'Feed a URL into this screen'}
         title={feedUrl ? 'Click to stop showing the fed URL' : undefined}
         variant={feedUrl ? 'primary' : 'subtle-white'}
-        size='medium'
+        size={size}
         className='url-feed-overlay__handle'
         onClick={() => {
-          if (feedUrl) handleClear();
+          if (feedUrl) {
+            handleClear();
+          } else {
+            setIsExpanded((current) => !current);
+          }
         }}
       >
         <IoLink />

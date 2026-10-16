@@ -23,6 +23,14 @@
     transition: $viewer-transition-time;
   }
 
+  /* feed active: the trigger row and compact timer band only need to be tall enough to be
+     legible/clickable, not spaced out for a full-screen display, so tighten every gap that
+     stacks above the fed content */
+  &--feed-active {
+    gap: 0.25rem;
+    padding-top: calc(0.5rem + var(--pwa-safe-area-top));
+  }
+
   .blackout {
     position: absolute;
     inset: 0;
@@ -73,6 +81,16 @@
 
     &--hidden {
       opacity: 0;
+    }
+  }
+
+  &--feed-active .clock-container {
+    .label {
+      font-size: clamp(10px, 1vw, 14px);
+    }
+
+    .clock {
+      font-size: clamp(14px, 1.5vw, 20px);
     }
   }
 

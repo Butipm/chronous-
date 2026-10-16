@@ -157,7 +157,12 @@ function Timer({ customFields, projectData, isMirrored, settings, viewSettings, 
   return (
     <div
       data-testid='timer-view'
-      className={cx(['stage-timer', isMirrored && 'mirror', showFinished && 'stage-timer--finished'])}
+      className={cx([
+        'stage-timer',
+        isMirrored && 'mirror',
+        showFinished && 'stage-timer--finished',
+        feedUrl && 'stage-timer--feed-active',
+      ])}
       style={userStyles}
     >
       {!hideLogo && projectData?.logo && <ViewLogo name={projectData.logo} className='logo' />}
@@ -170,7 +175,12 @@ function Timer({ customFields, projectData, isMirrored, settings, viewSettings, 
 
       <div className='feed-trigger-row'>
         {showClock && <TimerAutoTickingClock clockFormat={timeformat} />}
-        <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} storageKey='ontime-timer-feed-url' />
+        <UrlFeedOverlay
+          feedUrl={feedUrl}
+          onFeedChange={setFeedUrl}
+          storageKey='ontime-timer-feed-url'
+          size={feedUrl ? 'small' : 'medium'}
+        />
       </div>
 
       {feedUrl ? (

@@ -18,6 +18,13 @@ $item-height: 3.5rem;
   padding: $view-outer-padding;
   font-size: $base-font-size;
 
+  /* feed active: the header only needs to be tall enough to be legible, not spaced out for
+     a full-screen display, so tighten the gap/top-padding stacking above the fed content */
+  &.countdown--feed-active {
+    gap: 0.25rem;
+    padding-top: calc(0.5rem + var(--pwa-safe-area-top));
+  }
+
   /* =================== HEADER + EXTRAS ===================*/
   .project-header {
     position: relative; /* anchors the url-feed-overlay panel to the full header box */
