@@ -234,13 +234,19 @@ export default function Rundown({ order, flatOrder, entries, id, rundownMetadata
       if (isEndGroup) {
         const parentId = entryId.split('end-')[1];
         const parentMetadata = metadata[parentId];
+        // the group header's own metadata snapshot has no visibility into its children (it was
+        // captured before any of them were processed), so the last child's id - what a new
+        // entry appended here needs as previousEventId - comes from the group entry itself
+        const parentGroupEntry = entries[parentId];
+        const lastChildId =
+          parentGroupEntry && isOntimeGroup(parentGroupEntry) ? (parentGroupEntry.entries.at(-1) ?? null) : null;
 
         return (
           <Fragment key={entryId}>
             {dropLineBefore && <div className={style.dropLine} />}
-            {isEditMode && parentMetadata?.groupEntries === 0 && (
+            {isEditMode && (
               <QuickAddButtons
-                previousEventId={null}
+                previousEventId={lastChildId}
                 parentGroup={parentId}
                 backgroundColor={parentMetadata?.groupColour}
               />
