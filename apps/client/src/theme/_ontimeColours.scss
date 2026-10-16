@@ -117,13 +117,41 @@ $violet-1300: #0f0336;
 $violet-1350: #0a0126;
 
 // retrofuturism / synthwave - an imagined 2044 as seen from the 1980s: neon on near-black,
-// chrome gradients, grid horizons
+// chrome gradients, grid horizons. Full scales (matching blue/violet's step structure) so
+// every $blue-N usage across the app has a direct $neon-cyan-N replacement, not just the
+// handful of steps the first theming pass touched.
+$neon-pink-50: #fff0f8;
+$neon-pink-100: #ffddf0;
+$neon-pink-200: #ffb3e0;
 $neon-pink-300: #ff8ad1;
+$neon-pink-400: #ff5bb8;
 $neon-pink-500: #ff2d95;
+$neon-pink-600: #e01f80;
 $neon-pink-700: #d1007a;
+$neon-pink-800: #b3006a;
+$neon-pink-900: #96005a;
+$neon-pink-1000: #7a0049;
+$neon-pink-1100: #5c0038;
+$neon-pink-1200: #420028;
+$neon-pink-1300: #2e001c;
+$neon-pink-1350: #210014;
+
+$neon-cyan-50: #eafdff;
+$neon-cyan-100: #d1fbff;
+$neon-cyan-200: #9ff6ff;
 $neon-cyan-300: #7af6ff;
+$neon-cyan-400: #3deeff;
 $neon-cyan-500: #00e5ff;
+$neon-cyan-600: #00c2da;
 $neon-cyan-700: #00a8bd;
+$neon-cyan-800: #008a9b;
+$neon-cyan-900: #00717f;
+$neon-cyan-1000: #005a65;
+$neon-cyan-1100: #00424a;
+$neon-cyan-1200: #002d33;
+$neon-cyan-1300: #001f24;
+$neon-cyan-1350: #00171b;
+
 $space-black: #0a0118;
 $space-black-deep: #050108;
 $space-purple: #1a0b2e;

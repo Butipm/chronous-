@@ -198,14 +198,14 @@ $item-height: 3.5rem;
     }
 
     &.sub--selectable:focus-visible {
-      outline: 2px solid $blue-500;
+      outline: 2px solid $neon-cyan-500;
       outline-offset: 2px;
     }
   }
 
   .sub--selected {
-    background-color: rgba($blue-700, 0.18);
-    box-shadow: inset 0 0 0 1px $blue-500;
+    background-color: rgba($neon-cyan-700, 0.18);
+    box-shadow: inset 0 0 0 1px $neon-cyan-500;
   }
 
   .sub--skipped,
@@ -309,10 +309,10 @@ $item-height: 3.5rem;
   }
 
   .sub--group.sub--selected {
-    box-shadow: inset 0 0 0 1px $blue-500;
+    box-shadow: inset 0 0 0 1px $neon-cyan-500;
     background:
       linear-gradient(90deg, color-mix(in srgb, var(--user-color, transparent) 22%, transparent), transparent 42%),
-      $blue-700;
+      $neon-cyan-700;
 
     .sub__schedule,
     .sub__status,
@@ -322,7 +322,7 @@ $item-height: 3.5rem;
   }
 
   .list-container--select .sub--group.sub--selected {
-    background-color: rgba($blue-700, 0.18);
+    background-color: rgba($neon-cyan-700, 0.18);
     background-image: none;
 
     .sub__schedule,

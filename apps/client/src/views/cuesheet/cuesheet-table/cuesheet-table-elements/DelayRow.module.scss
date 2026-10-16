@@ -6,7 +6,7 @@
   border-left: 4px solid transparent;
 
   &[data-cursor='true'] {
-    outline: 2px solid $blue-500;
+    outline: 2px solid $neon-cyan-500;
     outline-offset: -2px;
     background: color-mix(in srgb, transparent 80%, var(--user-bg, $gray-500) 20%);
   }

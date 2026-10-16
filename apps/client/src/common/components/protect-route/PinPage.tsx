@@ -38,7 +38,7 @@ export default function PinPage({ permission, handleValidation }: PropsWithChild
         className={style.card}
       >
         <img src='ontime-logo.png' alt='' className={style.logo} />
-        <h1 className={style.title}>{`Ontime ${permission}`}</h1>
+        <h1 className={style.title}>{`Chronous ${permission}`}</h1>
         <p className={style.subtitle}>{`Enter the PIN to access the ${permission}`}</p>
         <Input
           type='password'

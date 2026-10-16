@@ -9,7 +9,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.25rem 1rem;
-  background-color: $blue-700;
+  background-color: $neon-cyan-700;
   color: #fff;
   font-size: 1rem;
   border-radius: 99px;
@@ -17,7 +17,7 @@
   transition: bottom 0.3s;
 
   &:active {
-    background-color: $blue-900;
+    background-color: $neon-cyan-900;
   }
 }
 

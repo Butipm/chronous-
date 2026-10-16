@@ -55,7 +55,7 @@ function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
         <Dialog.Popup className={style.drawer}>
           <div className={style.header}>
             <div className={style.headerText}>
-              <Dialog.Title className={style.title}>Ontime</Dialog.Title>
+              <Dialog.Title className={style.title}>Chronous</Dialog.Title>
               {name && <span className={style.clientName}>{name}</span>}
             </div>
             <IconButton variant='subtle-white' size='large' aria-label='Close menu' onClick={onClose}>
@@ -87,7 +87,7 @@ function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
               </NavigationMenuItem>
             </MenuGroup>
 
-            <MenuGroup label='Ontime app'>
+            <MenuGroup label='Chronous app'>
               <EditorNavigation />
               <ClientLink
                 to='cuesheet'

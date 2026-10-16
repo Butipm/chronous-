@@ -140,7 +140,7 @@
 
   &:focus-visible {
     background: transparent;
-    outline: 1px solid $blue-500;
+    outline: 1px solid $neon-cyan-500;
   }
 
   &:hover:not([data-disabled]):not(:active) {
@@ -152,11 +152,11 @@
   }
 
   &[data-pressed] {
-    background: $blue-700;
+    background: $neon-cyan-700;
     color: $ui-white;
 
     &:hover:not([data-disabled]):not(:active) {
-      background: $blue-600;
+      background: $neon-cyan-600;
     }
   }
 }

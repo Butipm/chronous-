@@ -42,7 +42,7 @@
   }
 
   &:focus-visible {
-    outline: 2px solid $blue-500;
+    outline: 2px solid $neon-cyan-500;
     outline-offset: 2px;
   }
 }
@@ -105,7 +105,7 @@
   &[data-highlighted] {
     z-index: 0;
     position: relative;
-    background-color: $blue-700;
+    background-color: $neon-cyan-700;
   }
 }
 

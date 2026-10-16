@@ -21,7 +21,7 @@
 
   &:focus:not(:read-only) {
     background-color: $gray-1000;
-    border: 1px solid $blue-500;
+    border: 1px solid $neon-cyan-500;
   }
 
   &:disabled {

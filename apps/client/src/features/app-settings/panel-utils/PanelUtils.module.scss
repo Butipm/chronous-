@@ -127,7 +127,7 @@ $card-padding: 2rem;
     background-color: $bg-active;
 
     > td:first-child {
-      box-shadow: inset 3px 0 $blue-400;
+      box-shadow: inset 3px 0 $neon-cyan-400;
       font-weight: 500;
     }
   }
@@ -211,7 +211,7 @@ $card-padding: 2rem;
   $loader-size: 4rem;
   width: $loader-size;
   height: $loader-size;
-  background: $blue-500;
+  background: $neon-cyan-500;
   display: inline-block;
   border-radius: 50%;
   box-sizing: border-box;

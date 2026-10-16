@@ -17,12 +17,15 @@ import ExternalLinkRow from './ExternalLinkRow';
 export default function AboutPanel() {
   return (
     <>
-      <Panel.Header>About Ontime</Panel.Header>
+      <Panel.Header>About Chronous</Panel.Header>
       <Panel.Section>
         <Panel.Card>
-          <Panel.SubHeader>Ontime</Panel.SubHeader>
+          <Panel.SubHeader>Built on Ontime</Panel.SubHeader>
           <Panel.Divider />
-          <Info>Free, open-source software for managing rundowns and event timers.</Info>
+          <Info>
+            Chronous is a fork of Ontime, free open-source software for managing rundowns and event timers. These
+            links support the original Ontime project.
+          </Info>
           <Panel.ListGroup>
             <ExternalLinkRow href={websiteUrl} title='www.getontime.no' description='App site and downloads' />
             <ExternalLinkRow

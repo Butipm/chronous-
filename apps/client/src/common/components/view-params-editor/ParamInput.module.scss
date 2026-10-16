@@ -33,13 +33,13 @@
   }
 
   &:focus-within {
-    outline: 2px solid $blue-500;
+    outline: 2px solid $neon-cyan-500;
     outline-offset: -2px;
   }
 
   &.selected {
     background: $bg-active;
-    box-shadow: inset 3px 0 $blue-400;
+    box-shadow: inset 3px 0 $neon-cyan-400;
     color: $ui-white;
   }
 
@@ -58,7 +58,7 @@
     }
 
     &[data-checked] {
-      border-color: $blue-400;
+      border-color: $neon-cyan-400;
     }
 
     &:focus-visible {
