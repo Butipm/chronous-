@@ -20,6 +20,7 @@ import { getCountdownCandidates, getOrderedSubscriptions, resolveSubscriptionTar
 import CountdownSelect from './CountdownSelect';
 import CountdownSubscriptions from './CountdownSubscriptions';
 import SingleEventCountdown from './SingleEventCountdown';
+import UrlFeedOverlay, { FeedFrame } from './UrlFeedOverlay';
 import { CountdownData, useCountdownData } from './useCountdownData';
 
 import './Countdown.scss';
@@ -46,6 +47,7 @@ function Countdown({ customFields, rundownData, projectData, isMirrored, setting
   const { subscriptions } = useCountdownOptions();
 
   const [editMode, setEditMode] = useState(false);
+  const [feedUrl, setFeedUrl] = useState<string | null>(null);
 
   const candidates = getCountdownCandidates(rundownData);
 
@@ -68,15 +70,20 @@ function Countdown({ customFields, rundownData, projectData, isMirrored, setting
           <div className='title'>{projectData.title}</div>
         </div>
         <CountdownClock />
+        <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} />
       </div>
 
-      {!hasEvents && <CountdownEmptyState description={getLocalizedString('countdown.no_events_description')} />}
+      {feedUrl && <FeedFrame url={feedUrl} />}
 
-      {hasEvents && editMode && (
+      {!feedUrl && !hasEvents && (
+        <CountdownEmptyState description={getLocalizedString('countdown.no_events_description')} />
+      )}
+
+      {!feedUrl && hasEvents && editMode && (
         <CountdownSelect events={candidates} subscriptions={subscriptions} disableEdit={() => setEditMode(false)} />
       )}
 
-      {hasEvents && !editMode && (
+      {!feedUrl && hasEvents && !editMode && (
         <CountdownContents
           candidates={candidates}
           rundownData={rundownData}

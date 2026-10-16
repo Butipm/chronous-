@@ -1,0 +1,63 @@
+@use '@/theme/viewerDefs' as *;
+
+.url-feed-overlay {
+  /* sits in-flow as the last item of the header row, same height as the clock -
+     never overlaps it. Only the expanded panel breaks out, anchored below the
+     whole header box (see .project-header's position: relative), not below
+     this handle's own (shorter) box, so it clears the clock regardless of how
+     tall the header renders at a given viewport size. */
+  position: static;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+
+  .url-feed-overlay__handle {
+    opacity: 0.35;
+    transition: opacity 0.2s;
+  }
+
+  &:hover .url-feed-overlay__handle,
+  &.url-feed-overlay--expanded .url-feed-overlay__handle {
+    opacity: 1;
+  }
+}
+
+.url-feed-overlay__panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--card-background-color-override, $viewer-card-bg-color);
+  border: 1px solid rgba(white, 0.15);
+  border-radius: $element-border-radius;
+  padding: 0.35rem 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 2px 8px 0;
+  max-width: calc(100vw - 3rem - var(--pwa-safe-area-right));
+}
+
+.url-feed-overlay__input {
+  width: min(28rem, 60vw);
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-override, $viewer-color);
+  font-family: var(--font-family-override, $viewer-font-family);
+  font-size: 0.95rem;
+
+  &::placeholder {
+    color: var(--secondary-color-override, $viewer-secondary-color);
+  }
+}
+
+.feed-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: $ui-black;
+}
