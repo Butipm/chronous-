@@ -1,8 +1,10 @@
 import { useLocalStorage } from '@mantine/hooks';
+import { useState } from 'react';
 import { IoChevronDown, IoChevronUp, IoSettingsOutline } from 'react-icons/io5';
 
 import IconButton from '../../../common/components/buttons/IconButton';
 import Tooltip from '../../../common/components/tooltip/Tooltip';
+import UrlFeedOverlay, { FeedFrame } from '../../../common/components/url-feed-overlay/UrlFeedOverlay';
 import { useAuxTimersActive, usePlaybackControl } from '../../../common/hooks/useSocket';
 import useAppSettingsNavigation from '../../app-settings/useAppSettingsNavigation';
 import AddTime from './add-time/AddTime';
@@ -17,6 +19,7 @@ export default function PlaybackControl() {
   const { setLocation } = useAppSettingsNavigation();
   const [collapsed, setCollapsed] = useLocalStorage({ key: 'ontime-aux-timers-collapsed', defaultValue: false });
   const isAuxTimerActive = useAuxTimersActive();
+  const [feedUrl, setFeedUrl] = useState<string | null>(null);
 
   return (
     <div className={style.mainContainer}>
@@ -29,6 +32,15 @@ export default function PlaybackControl() {
         selectedEventIndex={data.selectedEventIndex}
         timerPhase={data.timerPhase}
       />
+      <div className={style.auxHeader}>
+        <span className={style.label}>Feed preview</span>
+        <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} storageKey='ontime-editor-feed-url' size='small' />
+      </div>
+      {feedUrl && (
+        <div className={style.feedPreview}>
+          <FeedFrame url={feedUrl} />
+        </div>
+      )}
       <div className={style.auxHeader}>
         <span className={style.label}>
           Aux timers

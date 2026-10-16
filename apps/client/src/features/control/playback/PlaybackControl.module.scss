@@ -4,10 +4,24 @@
 }
 
 .auxHeader {
+  position: relative; /* anchors the url-feed-overlay panel (see Feed preview header) to this row */
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 1rem;
+}
+
+.feedPreview {
+  margin-top: 0.5rem;
+  height: 14rem;
+  border-radius: $panel-border-radius;
+  overflow: hidden;
+
+  // .feed-frame is a shared global class (see common/components/url-feed-overlay), not a
+  // module-local one - :global stops it being hashed so this selector actually matches it
+  :global(.feed-frame) {
+    height: 100%;
+  }
 }
 
 .label {
