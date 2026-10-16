@@ -5,6 +5,7 @@ import { IoAdd } from 'react-icons/io5';
 import Button from '../../common/components/buttons/Button';
 import Empty from '../../common/components/state/Empty';
 import EmptyPage from '../../common/components/state/EmptyPage';
+import UrlFeedOverlay, { FeedFrame } from '../../common/components/url-feed-overlay/UrlFeedOverlay';
 import ViewLogo from '../../common/components/view-logo/ViewLogo';
 import ViewParamsEditor from '../../common/components/view-params-editor/ViewParamsEditor';
 import { useAutoTickingClock } from '../../common/hooks/useAutoTickingClock';
@@ -20,7 +21,6 @@ import { getCountdownCandidates, getOrderedSubscriptions, resolveSubscriptionTar
 import CountdownSelect from './CountdownSelect';
 import CountdownSubscriptions from './CountdownSubscriptions';
 import SingleEventCountdown from './SingleEventCountdown';
-import UrlFeedOverlay, { FeedFrame } from './UrlFeedOverlay';
 import { CountdownData, useCountdownData } from './useCountdownData';
 
 import './Countdown.scss';
@@ -70,7 +70,7 @@ function Countdown({ customFields, rundownData, projectData, isMirrored, setting
           <div className='title'>{projectData.title}</div>
         </div>
         <CountdownClock />
-        <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} />
+        <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} storageKey='ontime-countdown-feed-url' />
       </div>
 
       {feedUrl && <FeedFrame url={feedUrl} />}

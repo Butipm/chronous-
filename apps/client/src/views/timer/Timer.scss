@@ -37,10 +37,24 @@
     }
   }
 
+  /* =================== FEED TRIGGER ===================*/
+
+  /* always-present row so the feed-overlay trigger (and the clock, when shown) has a stable
+     anchor to attach its dropdown panel to - see UrlFeedOverlay.scss */
+  .feed-trigger-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
   /* =================== CLOCK ===================*/
 
   .clock-container {
-    margin-left: auto;
+    /* positioning now comes from the parent .feed-trigger-row (justify-content: flex-end) -
+       it groups the clock with the feed-overlay trigger at the row's right edge */
+    margin-right: 1rem;
     font-weight: 600;
     transition: opacity $viewer-transition-time;
 
@@ -88,6 +102,18 @@
 
     width: 100%;
     overflow: hidden;
+
+    /* feed active: shrink and move the timer to a compact top band, so the fed content
+       (FreeShow, ProPresenter output, a video) takes the rest of the screen below it */
+    &--compact {
+      flex: 0 0 auto;
+      justify-content: flex-start;
+      padding-bottom: $view-element-gap;
+
+      .timer {
+        font-size: clamp(32px, 8vw, 140px);
+      }
+    }
 
     .end-message {
       text-align: center;
@@ -176,6 +202,9 @@
     padding: 2vw;
     background: var(--background-color-override, $viewer-background-color);
     opacity: 0;
+    /* inactive (opacity: 0) must not intercept clicks/hover for whatever is actually on
+       screen underneath it - it has no interactive content of its own either way */
+    pointer-events: none;
     transition: opacity $viewer-transition-time;
 
     &--active {

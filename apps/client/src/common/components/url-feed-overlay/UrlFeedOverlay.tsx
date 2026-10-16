@@ -1,27 +1,25 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { IoClose, IoLink } from 'react-icons/io5';
 
-import IconButton from '../../common/components/buttons/IconButton';
-import { cx } from '../../common/utils/styleUtils';
+import IconButton from '../buttons/IconButton';
+import { cx } from '../../utils/styleUtils';
 
 import './UrlFeedOverlay.scss';
 
-const STORAGE_KEY = 'ontime-countdown-feed-url';
-
-function readStoredUrl(): string | null {
+function readStoredUrl(storageKey: string): string | null {
   try {
-    return localStorage.getItem(STORAGE_KEY);
+    return localStorage.getItem(storageKey);
   } catch {
     return null;
   }
 }
 
-function writeStoredUrl(url: string | null) {
+function writeStoredUrl(storageKey: string, url: string | null) {
   try {
     if (url) {
-      localStorage.setItem(STORAGE_KEY, url);
+      localStorage.setItem(storageKey, url);
     } else {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(storageKey);
     }
   } catch {
     // Storage may be unavailable (private window, disabled cookies) - the feed still
@@ -65,20 +63,25 @@ function normaliseInput(value: string): string | null {
 interface UrlFeedOverlayProps {
   feedUrl: string | null;
   onFeedChange: (url: string | null) => void;
+  /** Keeps each view's fed URL independent (eg Timer and Countdown remember their own) */
+  storageKey: string;
+  className?: string;
 }
 
 /**
  * A hover-revealed control that lets an operator push any URL (FreeShow, ProPresenter's
  * web output, a YouTube video, etc.) onto this screen as a live preview, alongside the
- * countdown clock. Intended for a confidence monitor / second-screen setup where whoever
- * is watching this display also needs to see what the audience-facing output is showing.
+ * running timer/clock. Intended for a confidence monitor / second-screen setup where
+ * whoever is watching this display also needs to see what the audience-facing output is
+ * showing - feed it FreeShow, ProPresenter, or a video, and whoever's looking sees both
+ * the time and the content at once.
  */
-function UrlFeedOverlay({ feedUrl, onFeedChange }: UrlFeedOverlayProps) {
+export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, className }: UrlFeedOverlayProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [draftUrl, setDraftUrl] = useState(feedUrl ?? '');
 
   useEffect(() => {
-    const stored = readStoredUrl();
+    const stored = readStoredUrl(storageKey);
     if (stored && !feedUrl) {
       onFeedChange(stored);
     }
@@ -87,7 +90,7 @@ function UrlFeedOverlay({ feedUrl, onFeedChange }: UrlFeedOverlayProps) {
   }, []);
 
   // auto-hide the box after 5s of no activity (no typing), even while still hovered -
-  // keeps it from lingering over the countdown once the operator has stepped away
+  // keeps it from lingering over the view once the operator has stepped away
   useEffect(() => {
     if (!isExpanded) return undefined;
     const timeoutId = window.setTimeout(() => setIsExpanded(false), 5000);
@@ -99,23 +102,23 @@ function UrlFeedOverlay({ feedUrl, onFeedChange }: UrlFeedOverlayProps) {
       event.preventDefault();
       const normalised = normaliseInput(draftUrl);
       if (!normalised) return;
-      writeStoredUrl(normalised);
+      writeStoredUrl(storageKey, normalised);
       onFeedChange(normalised);
       setIsExpanded(false);
     },
-    [draftUrl, onFeedChange],
+    [draftUrl, onFeedChange, storageKey],
   );
 
   const handleClear = useCallback(() => {
-    writeStoredUrl(null);
+    writeStoredUrl(storageKey, null);
     onFeedChange(null);
     setDraftUrl('');
     setIsExpanded(false);
-  }, [onFeedChange]);
+  }, [onFeedChange, storageKey]);
 
   return (
     <div
-      className={cx(['url-feed-overlay', isExpanded && 'url-feed-overlay--expanded'])}
+      className={cx(['url-feed-overlay', isExpanded && 'url-feed-overlay--expanded', className])}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
@@ -155,12 +158,10 @@ function UrlFeedOverlay({ feedUrl, onFeedChange }: UrlFeedOverlayProps) {
   );
 }
 
-export default UrlFeedOverlay;
-
-export function FeedFrame({ url }: { url: string }) {
+export function FeedFrame({ url, className }: { url: string; className?: string }) {
   return (
     <iframe
-      className='feed-frame'
+      className={cx(['feed-frame', className])}
       src={toEmbeddableUrl(url)}
       title='Fed content'
       allow='autoplay; encrypted-media; fullscreen'

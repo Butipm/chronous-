@@ -1,10 +1,11 @@
 import { MaybeString, OntimeView, TimerType } from 'ontime-types';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { FitText } from '../../common/components/fit-text/FitText';
 import MultiPartProgressBar from '../../common/components/multi-part-progress-bar/MultiPartProgressBar';
 import EmptyPage from '../../common/components/state/EmptyPage';
 import TitleCard from '../../common/components/title-card/TitleCard';
+import UrlFeedOverlay, { FeedFrame } from '../../common/components/url-feed-overlay/UrlFeedOverlay';
 import ViewLogo from '../../common/components/view-logo/ViewLogo';
 import ViewParamsEditor from '../../common/components/view-params-editor/ViewParamsEditor';
 import { useAutoTickingClock } from '../../common/hooks/useAutoTickingClock';
@@ -52,6 +53,7 @@ export default function TimerLoader() {
 }
 
 function Timer({ customFields, projectData, isMirrored, settings, viewSettings, entries }: TimerData) {
+  const [feedUrl, setFeedUrl] = useState<string | null>(null);
   const { eventNext, eventNow, message, time, clock, timerTypeNow, countToEndNow, auxTimer } = useTimerSocket();
   const {
     hideClock,
@@ -166,57 +168,79 @@ function Timer({ customFields, projectData, isMirrored, settings, viewSettings, 
 
       <div className={cx(['blackout', message.timer.blackout && 'blackout--active'])} />
 
-      {!hideMessage && (
-        <div className={cx(['message-overlay', showOverlay && 'message-overlay--active'])}>
-          <FitText mode='multi' min={32} max={256} className={cx(['message', message.timer.blink && 'blink'])}>
-            {message.timer.text}
-          </FitText>
-        </div>
-      )}
-
-      {showClock && <TimerAutoTickingClock clockFormat={timeformat} />}
-
-      <div className={cx(['timer-container', message.timer.blink && !showOverlay && 'blink'])}>
-        {showEndMessage ? (
-          <FitText mode='multi' min={64} max={256} className='end-message'>
-            {freezeMessage}
-          </FitText>
-        ) : (
-          <div
-            className={cx(['timer', subduePaused && 'timer--paused', showFinished && 'timer--finished'])}
-            style={{ fontSize: `${timerFontSize}vw` }}
-            data-type={viewTimerType}
-            data-phase={showWarning || showDanger ? time.phase : undefined}
-          >
-            {display}
-          </div>
-        )}
-        <div className={cx(['secondary', !secondaryContent && 'secondary--hidden'])}>
-          <FitText mode='multi' min={64} max={256}>
-            {secondaryContent}
-          </FitText>
-        </div>
+      <div className='feed-trigger-row'>
+        {showClock && <TimerAutoTickingClock clockFormat={timeformat} />}
+        <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} storageKey='ontime-timer-feed-url' />
       </div>
 
-      {showProgressBar && (
-        <MultiPartProgressBar
-          className={cx(['progress-container', !isPlaying && 'progress-container--paused'])}
-          now={time.current}
-          complete={totalTime}
-          eventId={eventNow?.id}
-          normalColor={viewSettings.normalColor}
-          warning={eventNow?.timeWarning}
-          warningColor={viewSettings.warningColor}
-          danger={eventNow?.timeDanger}
-          dangerColor={viewSettings.dangerColor}
-          hideOvertime={!showFinished}
-        />
-      )}
-
-      {!hideCards && (
+      {feedUrl ? (
         <>
-          {showNow && <TitleCard className='event now' label='now' title={nowMain} secondary={nowSecondary} />}
-          {showNext && <TitleCard className='event next' label='next' title={nextMain} secondary={nextSecondary} />}
+          {/* the message overlay is fullscreen and would hide the fed content entirely, so it is
+              suppressed while a feed is active - the point is to see the feed, not cover it */}
+          <div className='timer-container timer-container--compact'>
+            <div
+              className={cx(['timer', subduePaused && 'timer--paused', showFinished && 'timer--finished'])}
+              data-type={viewTimerType}
+              data-phase={showWarning || showDanger ? time.phase : undefined}
+            >
+              {display}
+            </div>
+          </div>
+          <FeedFrame url={feedUrl} />
+        </>
+      ) : (
+        <>
+          {!hideMessage && (
+            <div className={cx(['message-overlay', showOverlay && 'message-overlay--active'])}>
+              <FitText mode='multi' min={32} max={256} className={cx(['message', message.timer.blink && 'blink'])}>
+                {message.timer.text}
+              </FitText>
+            </div>
+          )}
+
+          <div className={cx(['timer-container', message.timer.blink && !showOverlay && 'blink'])}>
+            {showEndMessage ? (
+              <FitText mode='multi' min={64} max={256} className='end-message'>
+                {freezeMessage}
+              </FitText>
+            ) : (
+              <div
+                className={cx(['timer', subduePaused && 'timer--paused', showFinished && 'timer--finished'])}
+                style={{ fontSize: `${timerFontSize}vw` }}
+                data-type={viewTimerType}
+                data-phase={showWarning || showDanger ? time.phase : undefined}
+              >
+                {display}
+              </div>
+            )}
+            <div className={cx(['secondary', !secondaryContent && 'secondary--hidden'])}>
+              <FitText mode='multi' min={64} max={256}>
+                {secondaryContent}
+              </FitText>
+            </div>
+          </div>
+
+          {showProgressBar && (
+            <MultiPartProgressBar
+              className={cx(['progress-container', !isPlaying && 'progress-container--paused'])}
+              now={time.current}
+              complete={totalTime}
+              eventId={eventNow?.id}
+              normalColor={viewSettings.normalColor}
+              warning={eventNow?.timeWarning}
+              warningColor={viewSettings.warningColor}
+              danger={eventNow?.timeDanger}
+              dangerColor={viewSettings.dangerColor}
+              hideOvertime={!showFinished}
+            />
+          )}
+
+          {!hideCards && (
+            <>
+              {showNow && <TitleCard className='event now' label='now' title={nowMain} secondary={nowSecondary} />}
+              {showNext && <TitleCard className='event next' label='next' title={nextMain} secondary={nextSecondary} />}
+            </>
+          )}
         </>
       )}
     </div>

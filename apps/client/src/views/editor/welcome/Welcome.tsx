@@ -59,15 +59,15 @@ export default function Welcome({ onClose }: WelcomeProps) {
       bodyElements={
         <div className={style.sections}>
           <div className={style.about}>
-            <img src='ontime-logo.png' alt='ontime' className={style.logo} />
-            <div>Ontime v{appVersion}</div>
+            <img src='ontime-logo.png' alt='chronous' className={style.logo} />
+            <div>Chronous v{appVersion}</div>
             <ExternalLink href={websiteUrl}>Website</ExternalLink>
             <ExternalLink href={documentationUrl}>Read the docs</ExternalLink>
             <ExternalLink href={discordUrl}>Discord server</ExternalLink>
           </div>
           <div className={style.column}>
             <div className={style.header}>
-              Welcome to Ontime
+              Welcome to Chronous
               <IconButton aria-label='close welcome modal' variant='subtle-white' onClick={() => onClose()}>
                 <IoClose />
               </IconButton>
