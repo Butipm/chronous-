@@ -9,6 +9,7 @@ import { useAuxTimersActive, usePlaybackControl } from '../../../common/hooks/us
 import useAppSettingsNavigation from '../../app-settings/useAppSettingsNavigation';
 import AddTime from './add-time/AddTime';
 import { AuxTimer } from './aux-timer/AuxTimer';
+import CustomTimersList from './custom-timer/CustomTimersList';
 import PlaybackButtons from './playback-buttons/PlaybackButtons';
 import PlaybackTimer from './playback-timer/PlaybackTimer';
 
@@ -71,11 +72,14 @@ export default function PlaybackControl() {
         </div>
       </div>
       {!collapsed && (
-        <div className={style.auxTimers}>
-          <AuxTimer index={1} />
-          <AuxTimer index={2} />
-          <AuxTimer index={3} />
-        </div>
+        <>
+          <div className={style.auxTimers}>
+            <AuxTimer index={1} />
+            <AuxTimer index={2} />
+            <AuxTimer index={3} />
+          </div>
+          <CustomTimersList />
+        </>
       )}
     </div>
   );

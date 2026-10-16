@@ -15,6 +15,7 @@ import { getCurrentRundown, getProjectCustomFields } from '../api-data/rundown/r
 import { editEntry } from '../api-data/rundown/rundown.service.js';
 import { ONTIME_VERSION } from '../ONTIME_VERSION.js';
 import { auxTimerService } from '../services/aux-timer-service/auxTimer.service.js';
+import { customTimerService } from '../services/aux-timer-service/customTimer.service.js';
 import * as messageService from '../services/message-service/message.service.js';
 import { validateMessage, validateTimerMessage } from '../services/message-service/message.utils.js';
 import { runtimeService } from '../services/runtime-service/runtime.service.js';
@@ -264,6 +265,70 @@ const actionHandlers: Record<ApiActionTag, ActionHandler> = {
       if ('direction' in command) {
         if (command.direction === SimpleDirection.CountUp || command.direction === SimpleDirection.CountDown) {
           return { payload: auxTimerService.setDirection(command.direction, index) };
+        }
+        throw new Error('Invalid direction payload');
+      }
+    }
+    throw new Error('No matching method provided');
+  },
+  /**
+   * User-created timers, unlimited in number, each addressed by id rather than a fixed index.
+   * Sibling to `auxtimer` (1/2/3), not a replacement - those stay exactly as they are.
+   *
+   * { "add": "Speaker Q&A" }                                    create one, returns the list
+   * { "id": "abc123", "remove": true }                          delete one
+   * { "id": "abc123", "rename": "New name" }
+   * { "id": "abc123", "command": "start" | "pause" | "stop" }
+   * { "id": "abc123", "command": { "duration": 300000 } }
+   */
+  customtimer: (payload) => {
+    assert.isObject(payload);
+
+    if ('add' in payload) {
+      const name = typeof payload.add === 'string' ? payload.add : '';
+      return { payload: customTimerService.add(name) };
+    }
+
+    if (!('id' in payload) || typeof payload.id !== 'string') {
+      throw new Error('Missing custom timer id');
+    }
+    const { id } = payload;
+
+    if ('remove' in payload) {
+      return { payload: customTimerService.remove(id) };
+    }
+    if ('rename' in payload) {
+      if (typeof payload.rename !== 'string') {
+        throw new Error('Invalid rename payload');
+      }
+      return { payload: customTimerService.rename(id, payload.rename) };
+    }
+
+    const command = 'command' in payload ? (payload.command as unknown) : undefined;
+
+    if (typeof command === 'string') {
+      switch (command) {
+        case SimplePlayback.Start:
+          return { payload: customTimerService.start(id) };
+        case SimplePlayback.Pause:
+          return { payload: customTimerService.pause(id) };
+        case SimplePlayback.Stop:
+          return { payload: customTimerService.stop(id) };
+        default:
+          throw new Error('Invalid command');
+      }
+    }
+
+    if (command && typeof command === 'object') {
+      if ('duration' in command) {
+        return { payload: customTimerService.setTime(id, numberOrError(command.duration)) };
+      }
+      if ('addtime' in command) {
+        return { payload: customTimerService.addTime(id, numberOrError(command.addtime)) };
+      }
+      if ('direction' in command) {
+        if (command.direction === SimpleDirection.CountUp || command.direction === SimpleDirection.CountDown) {
+          return { payload: customTimerService.setDirection(id, command.direction) };
         }
         throw new Error('Invalid direction payload');
       }

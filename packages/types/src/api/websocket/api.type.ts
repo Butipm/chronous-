@@ -124,6 +124,23 @@ export type AuxtimerResponse = {
   payload: 'success';
 };
 
+export type CustomtimerAction = {
+  tag: 'customtimer';
+  payload:
+    | { add: string } // create a new timer with this name (empty string for unnamed)
+    | { id: string; remove: true }
+    | { id: string; rename: string }
+    | {
+        id: string;
+        command?: SimplePlayback | { duration?: number; addtime?: number; direction?: SimpleDirection };
+      };
+};
+
+export type CustomtimerResponse = {
+  tag: 'customtimer';
+  payload: 'success';
+};
+
 export type ClientAction = {
   tag: 'client';
   payload: { target: string } & ({ rename: string } | { redirect: string } | { identify: string });
@@ -155,6 +172,7 @@ export type ApiAction =
   | LoadAction
   | AddtimeAction
   | AuxtimerAction
+  | CustomtimerAction
   | ClientAction
   | OffsetmodeAction;
 
@@ -171,6 +189,7 @@ export type ApiResponse =
   | LoadResponse
   | AddtimeResponse
   | AuxtimerResponse
+  | CustomtimerResponse
   | ClientResponse
   | OffsetmodeResponse;
 

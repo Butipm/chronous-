@@ -235,6 +235,7 @@ export const startServer = async (): Promise<{ message: string; serverPort: numb
       direction: SimpleDirection.CountDown,
       name: '',
     },
+    customTimers: [],
     ping: 1,
   });
 

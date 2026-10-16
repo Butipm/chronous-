@@ -122,7 +122,12 @@ export { runtimeStorePlaceholder } from './definitions/runtime/RuntimeStore.js';
 export { type TimerState, TimerPhase } from './definitions/runtime/TimerState.type.js';
 
 // ---> Extra Timer
-export { type SimpleTimerState, SimplePlayback, SimpleDirection } from './definitions/runtime/AuxTimer.type.js';
+export {
+  type SimpleTimerState,
+  type CustomTimerState,
+  SimplePlayback,
+  SimpleDirection,
+} from './definitions/runtime/AuxTimer.type.js';
 
 // CLIENT
 export type { Client, ClientList, ClientType } from './definitions/Clients.type.js';

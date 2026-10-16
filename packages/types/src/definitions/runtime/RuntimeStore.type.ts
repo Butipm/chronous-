@@ -1,5 +1,5 @@
 import type { OntimeEvent, OntimeGroup } from '../core/OntimeEntry.js';
-import type { SimpleTimerState } from './AuxTimer.type.js';
+import type { CustomTimerState, SimpleTimerState } from './AuxTimer.type.js';
 import type { MessageState } from './MessageControl.type.js';
 import type { Offset } from './Offset.type.js';
 import type { RundownState } from './RundownState.type.js';
@@ -29,6 +29,8 @@ export type RuntimeStore = {
   auxtimer1: SimpleTimerState;
   auxtimer2: SimpleTimerState;
   auxtimer3: SimpleTimerState;
+  /** User-created timers beyond the fixed 3 - unlimited, added/removed at runtime */
+  customTimers: CustomTimerState[];
 
   // utils
   ping: number;

@@ -147,6 +147,20 @@ export const setAuxTimer = {
   setDuration: (index: number, time: number) => sendSocket('auxtimer', { [index]: { duration: time } }),
 };
 
+/** User-created timers beyond the fixed aux1/2/3 - unlimited, each addressed by its own id */
+export const useCustomTimers = createSelector((state: RuntimeStore) => state.customTimers);
+
+export const setCustomTimer = {
+  add: (name: string = '') => sendSocket('customtimer', { add: name }),
+  remove: (id: string) => sendSocket('customtimer', { id, remove: true }),
+  rename: (id: string, name: string) => sendSocket('customtimer', { id, rename: name }),
+  start: (id: string) => sendSocket('customtimer', { id, command: SimplePlayback.Start }),
+  pause: (id: string) => sendSocket('customtimer', { id, command: SimplePlayback.Pause }),
+  stop: (id: string) => sendSocket('customtimer', { id, command: SimplePlayback.Stop }),
+  setDirection: (id: string, direction: SimpleDirection) => sendSocket('customtimer', { id, command: { direction } }),
+  setDuration: (id: string, time: number) => sendSocket('customtimer', { id, command: { duration: time } }),
+};
+
 export const useSelectedEventId = createSelector((state: RuntimeStore) => state.eventNow?.id ?? null);
 
 export const useCurrentGroupId = createSelector((state: RuntimeStore) => state.groupNow?.id ?? null);

@@ -69,5 +69,6 @@ export const runtimeStorePlaceholder: Readonly<RuntimeStore> = {
     playback: SimplePlayback.Stop,
     name: '',
   },
+  customTimers: [],
   ping: 1,
 };
