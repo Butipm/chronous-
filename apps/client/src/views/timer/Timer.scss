@@ -108,10 +108,11 @@
     &--compact {
       flex: 0 0 auto;
       justify-content: flex-start;
-      padding-bottom: $view-element-gap;
+      padding-bottom: calc($view-element-gap / 2);
 
       .timer {
-        font-size: clamp(32px, 8vw, 140px);
+        font-size: clamp(20px, 4vw, 72px);
+        line-height: 1;
       }
     }
 

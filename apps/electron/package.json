@@ -25,14 +25,14 @@
     "dist-linux": "electron-builder --publish=never --linux"
   },
   "build": {
-    "productName": "ontime",
-    "appId": "no.lightdev.ontime",
+    "productName": "Chronous",
+    "appId": "app.chronous.chronous",
     "asar": true,
     "dmg": {
-      "artifactName": "ontime-macOS-${arch}.dmg"
+      "artifactName": "chronous-macOS-${arch}.dmg"
     },
     "mac": {
-      "notarize": true,
+      "notarize": false,
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "./entitlements.plist",
@@ -40,12 +40,11 @@
       "target": {
         "target": "dmg",
         "arch": [
-          "x64",
           "arm64"
         ]
       },
       "category": "public.app-category.productivity",
-      "icon": "ontime.icon"
+      "icon": "icon.icns"
     },
     "win": {
       "target": "nsis"

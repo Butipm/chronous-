@@ -28,6 +28,16 @@ function writeStoredUrl(storageKey: string, url: string | null) {
 }
 
 /**
+ * Builds a YouTube embed URL that actually autoplays. Browsers only allow autoplay when
+ * the video starts muted (no exceptions for an iframe's allow="autoplay" attribute alone) -
+ * operators who want sound can unmute from the player's own controls. playsinline stops a
+ * mobile browser from hijacking it into a native fullscreen player instead of playing in place.
+ */
+function toYoutubeEmbedUrl(videoId: string): string {
+  return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1`;
+}
+
+/**
  * Normalises share-style URLs (eg a YouTube watch/share link) to their embeddable form.
  * Anything we do not recognise is passed through unchanged, which covers local tools
  * like FreeShow or ProPresenter's web output that already serve a plain embeddable page.
@@ -37,11 +47,11 @@ function toEmbeddableUrl(rawUrl: string): string {
     const url = new URL(rawUrl);
     if (url.hostname === 'youtu.be') {
       const id = url.pathname.slice(1);
-      if (id) return `https://www.youtube.com/embed/${id}`;
+      if (id) return toYoutubeEmbedUrl(id);
     }
     if (url.hostname.endsWith('youtube.com') && url.pathname === '/watch') {
       const id = url.searchParams.get('v');
-      if (id) return `https://www.youtube.com/embed/${id}`;
+      if (id) return toYoutubeEmbedUrl(id);
     }
     return url.href;
   } catch {
