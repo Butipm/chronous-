@@ -5,6 +5,8 @@ import { IoArrowDown, IoArrowUp, IoClose, IoPause, IoPlay, IoStop } from 'react-
 
 import TimeInput from '../../../../common/components/input/time-input/TimeInput';
 import { setCustomTimer } from '../../../../common/hooks/useSocket';
+import { cx } from '../../../../common/utils/styleUtils';
+import { useSimpleTimerEndingSoonAlert } from '../simple-timer/useSimpleTimerEndingSoonAlert';
 import TapButton from '../tap-button/TapButton';
 
 import style from './CustomTimer.module.scss';
@@ -19,8 +21,9 @@ interface CustomTimerProps {
  * for these, unlike aux1/2/3) and a remove button, since the list can grow and shrink.
  */
 export default function CustomTimer({ timer }: CustomTimerProps) {
-  const { id, playback, direction, name, duration } = timer;
+  const { id, playback, direction, name, duration, current } = timer;
   const [draftName, setDraftName] = useState(name);
+  const endingSoon = useSimpleTimerEndingSoonAlert(current, playback, direction);
 
   const isActive = playback !== SimplePlayback.Stop;
   const playbackAction = playback === SimplePlayback.Start ? 'pause' : 'play';
@@ -41,7 +44,7 @@ export default function CustomTimer({ timer }: CustomTimerProps) {
   };
 
   return (
-    <div className={style.row}>
+    <div className={cx([style.row, endingSoon && style.rowEndingSoon])}>
       <input
         className={style.nameInput}
         value={draftName}
@@ -57,7 +60,7 @@ export default function CustomTimer({ timer }: CustomTimerProps) {
 
       <div className={style.input}>
         {isActive ? (
-          <div className={style.fakeInput}>{millisToString(duration)}</div>
+          <div className={style.fakeInput}>{millisToString(current)}</div>
         ) : (
           <TimeInput
             submitHandler={handleTimeUpdate}

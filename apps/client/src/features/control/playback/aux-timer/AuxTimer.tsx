@@ -2,10 +2,12 @@ import { Playback, SimpleDirection, SimplePlayback } from 'ontime-types';
 import { millisToString, parseUserTime } from 'ontime-utils';
 import { IoArrowDown, IoArrowUp, IoPause, IoPlay, IoStop } from 'react-icons/io5';
 
+import { cx } from '../../../../common/utils/styleUtils';
 import TimeInput from '../../../../common/components/input/time-input/TimeInput';
 import Tooltip from '../../../../common/components/tooltip/Tooltip';
 import { setAuxTimer, useAuxTimerControl, useAuxTimerTime } from '../../../../common/hooks/useSocket';
 import { getAuxTimerIndexedLabel } from '../../../../common/utils/auxTimerUtils';
+import { useSimpleTimerEndingSoonAlert } from '../simple-timer/useSimpleTimerEndingSoonAlert';
 import TapButton from '../tap-button/TapButton';
 
 import style from './AuxTimer.module.scss';
@@ -16,6 +18,8 @@ interface AuxTimerProps {
 
 export function AuxTimer({ index }: AuxTimerProps) {
   const { playback, direction, name } = useAuxTimerControl(index);
+  const current = useAuxTimerTime(index);
+  const endingSoon = useSimpleTimerEndingSoonAlert(current, playback, direction);
 
   const { stop, setDirection } = setAuxTimer;
 
@@ -30,7 +34,7 @@ export function AuxTimer({ index }: AuxTimerProps) {
   const playbackAction = playback === SimplePlayback.Start ? 'pause' : 'play';
 
   return (
-    <label className={style.label}>
+    <label className={cx([style.label, endingSoon && style.labelEndingSoon])}>
       <Tooltip text={label} render={<span />} className={style.labelText}>
         {label}
       </Tooltip>
