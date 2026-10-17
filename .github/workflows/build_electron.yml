@@ -43,6 +43,11 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.TEAMID }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           CSC_LINK: ${{ secrets.CSC_LINK }}
+          # No signing secrets are configured for this fork. Without this, electron-builder's
+          # identity auto-discovery finds *something* on the macOS runner (unlike a local
+          # machine with zero identities, which skips signing outright), tries to sign with
+          # CSC_KEY_PASSWORD empty, and crashes instead of just skipping. Forces the skip.
+          CSC_IDENTITY_AUTO_DISCOVERY: false
         run: pnpm dist-mac --env-mode=loose
         timeout-minutes: 60
 
