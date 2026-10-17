@@ -3,6 +3,7 @@ import { ReactNode, useMemo, useState } from 'react';
 import { IoAdd } from 'react-icons/io5';
 
 import Button from '../../common/components/buttons/Button';
+import InviteOverlay from '../../common/components/invite-overlay/InviteOverlay';
 import Empty from '../../common/components/state/Empty';
 import EmptyPage from '../../common/components/state/EmptyPage';
 import UrlFeedOverlay, { FeedFrame } from '../../common/components/url-feed-overlay/UrlFeedOverlay';
@@ -75,6 +76,7 @@ function Countdown({ customFields, rundownData, projectData, isMirrored, setting
           </div>
         )}
         <CountdownClock />
+        <InviteOverlay />
         <UrlFeedOverlay
           feedUrl={feedUrl}
           onFeedChange={setFeedUrl}

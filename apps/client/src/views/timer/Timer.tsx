@@ -2,6 +2,7 @@ import { MaybeString, OntimeView, TimerType } from 'ontime-types';
 import { useMemo, useState } from 'react';
 
 import { FitText } from '../../common/components/fit-text/FitText';
+import InviteOverlay from '../../common/components/invite-overlay/InviteOverlay';
 import MultiPartProgressBar from '../../common/components/multi-part-progress-bar/MultiPartProgressBar';
 import EmptyPage from '../../common/components/state/EmptyPage';
 import TitleCard from '../../common/components/title-card/TitleCard';
@@ -175,6 +176,7 @@ function Timer({ customFields, projectData, isMirrored, settings, viewSettings, 
 
       <div className='feed-trigger-row'>
         {showClock && <TimerAutoTickingClock clockFormat={timeformat} />}
+        <InviteOverlay />
         <UrlFeedOverlay
           feedUrl={feedUrl}
           onFeedChange={setFeedUrl}

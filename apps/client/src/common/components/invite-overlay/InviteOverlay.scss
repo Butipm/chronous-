@@ -1,0 +1,80 @@
+@use '@/theme/viewerDefs' as *;
+
+.invite-overlay {
+  /* same in-flow handle / absolute panel convention as UrlFeedOverlay - the parent
+     header row must set position: relative */
+  position: static;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+}
+
+.invite-overlay__panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--card-background-color-override, $viewer-card-bg-color);
+  border: 1px solid rgba(white, 0.15);
+  border-radius: $element-border-radius;
+  padding: 0.75rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 2px 8px 0;
+  width: 13rem;
+  max-width: calc(100vw - 3rem - var(--pwa-safe-area-right));
+}
+
+.invite-overlay__header {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+
+  > *:first-child {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.invite-overlay__qr {
+  width: 140px;
+  height: 140px;
+  display: grid;
+  place-content: center;
+  background: white;
+  border-radius: $element-border-radius;
+}
+
+.invite-overlay__qr-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.invite-overlay__link {
+  width: 100%;
+  overflow-wrap: break-word;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--secondary-color-override, $viewer-secondary-color);
+}
+
+.invite-overlay__copy {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(white, 0.25);
+  border-radius: $element-border-radius;
+  color: var(--color-override, $viewer-color);
+  padding: 0.35rem;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
