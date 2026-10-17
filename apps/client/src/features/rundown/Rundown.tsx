@@ -369,12 +369,13 @@ export default function Rundown({ order, flatOrder, entries, id, rundownMetadata
                 : undefined,
               Footer: () => (
                 <>
-                  {isEditMode && (
-                    <QuickAddButtons
-                      previousEventId={metadata[lastMetadataKey]?.groupId ?? metadata[lastMetadataKey]?.thisId}
-                      parentGroup={null}
-                    />
-                  )}
+                  {/* always visible, same reasoning as the top-toolbar "Add event" button:
+                      adding a new entry does not carry the same "break the live show" risk
+                      as reordering/deleting, so it does not need the Edit-mode gate those do */}
+                  <QuickAddButtons
+                    previousEventId={metadata[lastMetadataKey]?.groupId ?? metadata[lastMetadataKey]?.thisId}
+                    parentGroup={null}
+                  />
                   <div className={style.spacer} />
                 </>
               ),
