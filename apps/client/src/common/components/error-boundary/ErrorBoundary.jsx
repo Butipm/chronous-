@@ -60,7 +60,7 @@ class ErrorBoundary extends React.Component {
               role='button'
               className={style.report}
               onClick={() => {
-                if (window?.process?.type === 'renderer') {
+                if (typeof window.ipcRenderer !== 'undefined') {
                   window.ipcRenderer.send('reload');
                 } else {
                   window.location.reload();

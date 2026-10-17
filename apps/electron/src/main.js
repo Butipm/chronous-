@@ -170,8 +170,17 @@ function createWindow() {
     darkTheme: true,
     webPreferences: {
       preload: path.join(__dirname, './preload.js'),
-      nodeIntegration: true,
-      contextIsolation: false,
+      // Hardened: renderer code (including whatever page an operator feeds
+      // into the <webview> below) no longer has Node/require access or a
+      // shared JS context with the preload script - only the specific,
+      // narrow API contextBridge exposes in preload.js. webviewTag is what
+      // actually lets UrlFeedOverlay/FeedFrame render an arbitrary operator-
+      // supplied URL; doing that safely is exactly why this hardening came
+      // first instead of just flipping webviewTag on over the old
+      // nodeIntegration:true/contextIsolation:false setup.
+      nodeIntegration: false,
+      contextIsolation: true,
+      webviewTag: true,
     },
   });
 

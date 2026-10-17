@@ -3,13 +3,19 @@ import { useNavigate } from 'react-router';
 
 import { addDialog } from '../stores/dialogStore';
 
-const isElectron = window.process?.type === 'renderer';
-const ipcRenderer = isElectron ? window.require('electron').ipcRenderer : null;
+// window.ipcRenderer only exists when preload.js's contextBridge call has
+// run, which only happens inside the Electron app - its mere presence is
+// the "are we in Electron" signal now that nodeIntegration is off and
+// window.process is no longer populated for the renderer (see preload.js).
+const isElectron = typeof window.ipcRenderer !== 'undefined';
 
 export function useElectronEvent() {
   const sendToElectron = useCallback((channel: string, args?: string | Record<string, unknown>) => {
-    if (isElectron && ipcRenderer) {
-      ipcRenderer.send(channel, args);
+    // isElectron is a plain boolean, so it alone doesn't narrow the optional
+    // window.ipcRenderer for TypeScript - re-checking the property itself
+    // (same truth, since isElectron is derived from it) gets real narrowing.
+    if (window.ipcRenderer) {
+      window.ipcRenderer.send(channel, args);
     }
   }, []);
 
@@ -22,12 +28,12 @@ export function useElectronListener() {
 
   // listen to requests to change the editor location
   useEffect(() => {
-    if (isElectron) {
-      ipcRenderer.on('request-editor-location', (_event: unknown, location: string) => {
+    if (window.ipcRenderer) {
+      window.ipcRenderer.on('request-editor-location', (_event: unknown, location: string) => {
         navigate(location, { relative: 'route' });
       });
 
-      ipcRenderer.on('dialog', (_event: unknown, dialog: string) => {
+      window.ipcRenderer.on('dialog', (_event: unknown, dialog: string) => {
         if (dialog === 'welcome') {
           addDialog('welcome');
         }
@@ -36,7 +42,7 @@ export function useElectronListener() {
 
     // Clean the listener after the component is dismounted
     return () => {
-      ipcRenderer?.removeAllListeners();
+      window.ipcRenderer?.removeAllListeners();
     };
   }, [isElectron, navigate]);
 }

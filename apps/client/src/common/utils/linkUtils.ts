@@ -2,22 +2,17 @@ import type { MouseEvent } from 'react';
 
 import { baseURI, serverURL } from '../../externals';
 
-type ElectronWindow = Window & {
-  process?: { type?: string };
-  ipcRenderer?: {
-    send: (channel: string, args?: string | object) => void;
-  };
-};
-
 /**
  * Open an external URLs: specifically for a electron / browser case
  * If electron: ask main process to call a new browser window
  * If browser: open in new tab
  */
 export function openLink(url: string) {
-  const electronWindow = window as ElectronWindow;
-  if (electronWindow.process?.type === 'renderer' && electronWindow.ipcRenderer) {
-    electronWindow.ipcRenderer.send('send-to-link', url);
+  // window.ipcRenderer only exists once preload.js's contextBridge call has
+  // run (Electron only) - see useElectronEvent.ts's isElectron for the same
+  // detection pattern.
+  if (typeof window.ipcRenderer !== 'undefined') {
+    window.ipcRenderer.send('send-to-link', url);
   } else {
     window.open(url);
   }

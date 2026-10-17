@@ -27,7 +27,7 @@ export default function ProtectedEditor() {
 
   // listen to shutdown request from electron process
   useEffect(() => {
-    if (window.process?.type === 'renderer') {
+    if (typeof window.ipcRenderer !== 'undefined') {
       window.ipcRenderer.on('user-request-shutdown', () => {
         setLocation('shutdown');
       });

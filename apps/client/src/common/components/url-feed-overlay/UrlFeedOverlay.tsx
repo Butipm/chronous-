@@ -218,11 +218,28 @@ export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, clas
   );
 }
 
+// Electron only (webviewTag: true in main.js's webPreferences) - window.ipcRenderer's
+// presence is the same Electron-detection signal used throughout the client,
+// see useElectronEvent.ts. A plain <iframe> can't be made to show most real
+// websites (X-Frame-Options/CSP frame-ancestors is a hard browser security
+// boundary, not something fixable client-side); <webview> runs the fed page
+// in its own separate process/guest frame instead of embedding it in this
+// page's DOM, which isn't subject to that same restriction. Only available
+// in the desktop app - the browser/phone QR-remote-control case still gets
+// the iframe below, same restriction as before.
+const isElectron = typeof window.ipcRenderer !== 'undefined';
+
 export function FeedFrame({ url, className }: { url: string; className?: string }) {
+  const embeddableUrl = toEmbeddableUrl(url);
+
+  if (isElectron) {
+    return <webview className={cx(['feed-frame', className])} src={embeddableUrl} allowpopups />;
+  }
+
   return (
     <iframe
       className={cx(['feed-frame', className])}
-      src={toEmbeddableUrl(url)}
+      src={embeddableUrl}
       title='Fed content'
       allow='autoplay; encrypted-media; fullscreen'
       allowFullScreen
