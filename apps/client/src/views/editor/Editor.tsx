@@ -1,5 +1,6 @@
-import { lazy } from 'react';
+import { lazy, useState } from 'react';
 
+import UrlFeedOverlay, { FeedFrame } from '../../common/components/url-feed-overlay/UrlFeedOverlay';
 import { RundownScopeProvider } from '../../common/context/RundownScopeContext';
 import TrackingPlaybackBar from '../../features/control/playback/tracking-playback-bar/TrackingPlaybackBar';
 import { AppMode } from '../../ontimeConfig';
@@ -48,8 +49,33 @@ export default function Editor() {
     );
   }
 
+  return <PlanningLayout />;
+}
+
+// Planning mode deliberately omits TimerControl/MessageControl entirely (it is the
+// rundown-building layout, not a playback surface), which is also where Feed Preview
+// normally lives - so it had zero presence here, not just low visibility like the editor's
+// own trigger had. A floating corner trigger (same pattern as TrackingPlaybackBar's bottom-
+// bar one) adds it back without taking permanent layout space from a view whose whole point
+// is maximizing room for the rundown/titles.
+function PlanningLayout() {
+  const [feedUrl, setFeedUrl] = useState<string | null>(null);
+
   return (
-    <div id='panels' className={styles.panelContainer}>
+    <div id='panels' className={`${styles.panelContainer} ${styles.panelContainerPlanning}`}>
+      <div className={styles.feedTrigger}>
+        <UrlFeedOverlay
+          feedUrl={feedUrl}
+          onFeedChange={setFeedUrl}
+          storageKey='ontime-planning-feed-url'
+          size='small'
+        />
+      </div>
+      {feedUrl && (
+        <div className={styles.feedPreview}>
+          <FeedFrame url={feedUrl} />
+        </div>
+      )}
       <RundownScopeProvider rundownId={null}>
         <div className={styles.rundownLayout}>
           <div className={styles.titlesPanel}>

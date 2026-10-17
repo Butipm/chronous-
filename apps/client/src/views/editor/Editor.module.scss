@@ -16,6 +16,38 @@ $max-playback-width: 30rem;
   min-height: 0;
 }
 
+.panelContainerPlanning {
+  // anchors the floating feed trigger/preview below (position: absolute) to this
+  // container's own box, not the viewport - keeps them inside the editor's layout
+  // region regardless of where that region sits on the page
+  position: relative;
+}
+
+.feedTrigger {
+  position: absolute;
+  top: $panel-gap;
+  right: $panel-gap;
+  z-index: $zindex-floating;
+}
+
+.feedPreview {
+  position: absolute;
+  top: calc($panel-gap + 2.5rem);
+  right: $panel-gap;
+  width: min(28rem, 60vw);
+  height: 16rem;
+  border-radius: $panel-border-radius;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 4px 16px 0;
+  z-index: $zindex-floating;
+
+  // .feed-frame is the shared global class (see common/components/url-feed-overlay), not a
+  // module-local one - :global stops it being hashed so this selector actually matches it
+  :global(.feed-frame) {
+    height: 100%;
+  }
+}
+
 .left {
   flex: 1 2 auto; /* flex-grow: 1, flex-shrink: 2, flex-basis: auto */
   min-width: $min-playback-width;
