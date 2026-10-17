@@ -68,7 +68,7 @@ function PlanningLayout() {
           feedUrl={feedUrl}
           onFeedChange={setFeedUrl}
           storageKey='ontime-planning-feed-url'
-          size='small'
+          size={feedUrl ? 'small' : 'medium'}
         />
       </div>
       {feedUrl && (

@@ -152,7 +152,12 @@ export default function TrackingPlaybackBar() {
 
       <div className={style.auxSection}>
         <div className={style.feedTrigger}>
-          <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} storageKey='ontime-tracking-feed-url' size='small' />
+          <UrlFeedOverlay
+            feedUrl={feedUrl}
+            onFeedChange={setFeedUrl}
+            storageKey='ontime-tracking-feed-url'
+            size={feedUrl ? 'small' : 'medium'}
+          />
           {feedUrl && (
             <div className={style.feedPreview}>
               <FeedFrame url={feedUrl} />

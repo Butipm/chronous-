@@ -35,7 +35,12 @@ export default function PlaybackControl() {
       />
       <div className={style.auxHeader}>
         <span className={style.label}>Feed preview</span>
-        <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} storageKey='ontime-editor-feed-url' size='small' />
+        <UrlFeedOverlay
+          feedUrl={feedUrl}
+          onFeedChange={setFeedUrl}
+          storageKey='ontime-editor-feed-url'
+          size={feedUrl ? 'small' : 'medium'}
+        />
       </div>
       {feedUrl && (
         <div className={style.feedPreview}>
