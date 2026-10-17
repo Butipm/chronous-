@@ -10,8 +10,13 @@ import PlaybackControl from './PlaybackControl';
 
 import style from './TimerControlExport.module.scss';
 
+interface TimerControlExportProps {
+  feedUrl?: string | null;
+  onFeedChange?: (url: string | null) => void;
+}
+
 export default memo(TimerControlExport);
-function TimerControlExport() {
+function TimerControlExport({ feedUrl, onFeedChange }: TimerControlExportProps = {}) {
   const isExtracted = window.location.pathname.includes('/timercontrol');
 
   return (
@@ -22,7 +27,7 @@ function TimerControlExport() {
 
         <div className={style.content}>
           <ErrorBoundary>
-            <PlaybackControl />
+            <PlaybackControl feedUrl={feedUrl} onFeedChange={onFeedChange} />
           </ErrorBoundary>
         </div>
       </Editor.Panel>

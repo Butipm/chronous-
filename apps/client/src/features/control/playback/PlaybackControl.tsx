@@ -1,11 +1,11 @@
 import { useLocalStorage } from '@mantine/hooks';
-import { useState } from 'react';
 import { IoChevronDown, IoChevronUp, IoSettingsOutline } from 'react-icons/io5';
 
 import IconButton from '../../../common/components/buttons/IconButton';
 import Tooltip from '../../../common/components/tooltip/Tooltip';
 import UrlFeedOverlay, { FeedFrame } from '../../../common/components/url-feed-overlay/UrlFeedOverlay';
 import { useAuxTimersActive, usePlaybackControl } from '../../../common/hooks/useSocket';
+import { useFeedUrl } from '../../../common/hooks/useFeedUrl';
 import useAppSettingsNavigation from '../../app-settings/useAppSettingsNavigation';
 import AddTime from './add-time/AddTime';
 import { AuxTimer } from './aux-timer/AuxTimer';
@@ -15,12 +15,24 @@ import PlaybackTimer from './playback-timer/PlaybackTimer';
 
 import style from './PlaybackControl.module.scss';
 
-export default function PlaybackControl() {
+interface PlaybackControlProps {
+  /** Shares the feed URL with a sibling MessageControl when both are rendered together
+   *  (the normal combined editor layout). Falls back to its own storage-backed state when
+   *  not given, so the standalone /timercontrol route still works on its own. */
+  feedUrl?: string | null;
+  onFeedChange?: (url: string | null) => void;
+}
+
+export default function PlaybackControl({ feedUrl: feedUrlProp, onFeedChange: onFeedChangeProp }: PlaybackControlProps = {}) {
   const data = usePlaybackControl();
   const { setLocation } = useAppSettingsNavigation();
   const [collapsed, setCollapsed] = useLocalStorage({ key: 'ontime-aux-timers-collapsed', defaultValue: false });
   const isAuxTimerActive = useAuxTimersActive();
-  const [feedUrl, setFeedUrl] = useState<string | null>(null);
+  const [localFeedUrl, setLocalFeedUrl] = useFeedUrl('ontime-editor-feed-url');
+  // feedUrlProp can legitimately be null (parent has shared state, but no feed set) - only
+  // fall back to local state when the prop was not passed at all (standalone usage)
+  const feedUrl = feedUrlProp !== undefined ? feedUrlProp : localFeedUrl;
+  const setFeedUrl = onFeedChangeProp ?? setLocalFeedUrl;
 
   return (
     <div className={style.mainContainer}>

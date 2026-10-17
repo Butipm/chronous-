@@ -2,6 +2,7 @@ import { lazy, useState } from 'react';
 
 import UrlFeedOverlay, { FeedFrame } from '../../common/components/url-feed-overlay/UrlFeedOverlay';
 import { RundownScopeProvider } from '../../common/context/RundownScopeContext';
+import { useFeedUrl } from '../../common/hooks/useFeedUrl';
 import TrackingPlaybackBar from '../../features/control/playback/tracking-playback-bar/TrackingPlaybackBar';
 import { AppMode } from '../../ontimeConfig';
 import TitleList from './title-list/TitleList';
@@ -17,17 +18,7 @@ export default function Editor() {
   const { layoutMode } = useEditorLayout();
 
   if (layoutMode === EditorLayoutMode.CONTROL) {
-    return (
-      <div id='panels' className={styles.panelContainer}>
-        <div className={styles.left}>
-          <TimerControl />
-          <MessageControl />
-        </div>
-        <RundownScopeProvider rundownId={null}>
-          <Rundown />
-        </RundownScopeProvider>
-      </div>
-    );
+    return <ControlLayout />;
   }
 
   if (layoutMode === EditorLayoutMode.TRACKING) {
@@ -50,6 +41,25 @@ export default function Editor() {
   }
 
   return <PlanningLayout />;
+}
+
+// Shares one feed URL between PlaybackControl's trigger (inside TimerControl) and
+// MessageControl's plain input - both key on 'ontime-editor-feed-url', so typing a URL into
+// either one updates the other and the preview shown above the trigger.
+function ControlLayout() {
+  const [feedUrl, setFeedUrl] = useFeedUrl('ontime-editor-feed-url');
+
+  return (
+    <div id='panels' className={styles.panelContainer}>
+      <div className={styles.left}>
+        <TimerControl feedUrl={feedUrl} onFeedChange={setFeedUrl} />
+        <MessageControl feedUrl={feedUrl} onFeedChange={setFeedUrl} />
+      </div>
+      <RundownScopeProvider rundownId={null}>
+        <Rundown />
+      </RundownScopeProvider>
+    </div>
+  );
 }
 
 // Planning mode deliberately omits TimerControl/MessageControl entirely (it is the

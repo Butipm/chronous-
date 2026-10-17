@@ -10,8 +10,13 @@ import MessageControl from './MessageControl';
 
 import style from './MessageControlExport.module.scss';
 
+interface MessageControlExportProps {
+  feedUrl?: string | null;
+  onFeedChange?: (url: string | null) => void;
+}
+
 export default memo(MessageControlExport);
-function MessageControlExport() {
+function MessageControlExport({ feedUrl, onFeedChange }: MessageControlExportProps = {}) {
   const isExtracted = window.location.pathname.includes('/messagecontrol');
 
   return (
@@ -22,7 +27,7 @@ function MessageControlExport() {
 
         <div className={style.contentLayout}>
           <ErrorBoundary>
-            <MessageControl />
+            <MessageControl feedUrl={feedUrl} onFeedChange={onFeedChange} />
           </ErrorBoundary>
         </div>
       </Editor.Panel>

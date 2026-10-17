@@ -75,7 +75,7 @@ export function toEmbeddableUrl(rawUrl: string): string {
   }
 }
 
-function normaliseInput(value: string): string | null {
+export function normaliseInput(value: string): string | null {
   const trimmed = value.trim();
   if (!trimmed) return null;
   const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
