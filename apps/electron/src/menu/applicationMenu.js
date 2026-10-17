@@ -1,9 +1,6 @@
 const { Menu, shell } = require('electron');
 
 const {
-  linkToGitHub,
-  linkToDocs,
-  linkToDiscord,
   isProduction,
   isMac,
   releaseTag,
@@ -45,11 +42,11 @@ function getApplicationMenu(askToQuit, clientUrl, serverUrl, redirectWindow, sho
  */
 function makeMacMenu(askToQuit) {
   return {
-    label: 'Ontime',
+    label: 'Chronous',
     submenu: [
-      { role: 'about', label: 'About Ontime' },
+      { role: 'about', label: 'About Chronous' },
       { type: 'separator' },
-      { role: 'hide', label: 'Hide Ontime' },
+      { role: 'hide', label: 'Hide Chronous' },
       { role: 'hideOthers' },
       { role: 'unhide' },
       { type: 'separator' },
@@ -315,15 +312,9 @@ function makeHelpMenu(redirectWindow) {
     role: 'help',
     submenu: [
       {
-        label: `Ontime ${releaseTag}`,
+        label: `Chronous ${releaseTag}`,
         click: () => redirectWindow('/editor?settings=about'),
       },
-      {
-        type: 'separator',
-      },
-      makeItemOpenInBrowser('See on github', linkToGitHub),
-      makeItemOpenInBrowser('Online documentation', linkToDocs),
-      makeItemOpenInBrowser('Join us on Discord', linkToDiscord),
     ],
   };
 }

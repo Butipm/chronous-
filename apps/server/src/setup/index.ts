@@ -5,9 +5,11 @@
  * - 2. the public directory, exposed by getAppDataPath()
  */
 
+import { existsSync, renameSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
+import { consoleError, consoleHighlight } from '../utils/console.js';
 import { ensureDirectory } from '../utils/fileManagement.js';
 import { config } from './config.js';
 import { isProduction } from './environment.js';
@@ -27,17 +29,62 @@ export function getAppDataPath(): string {
 
   switch (process.platform) {
     case 'darwin': {
-      return join(process.env.HOME!, 'Library', 'Application Support', 'Ontime');
+      return join(process.env.HOME!, 'Library', 'Application Support', 'Chronous');
     }
     case 'win32': {
-      return join(process.env.APPDATA!, 'Ontime');
+      return join(process.env.APPDATA!, 'Chronous');
     }
     case 'linux': {
-      return join(process.env.HOME!, '.Ontime');
+      return join(process.env.HOME!, '.Chronous');
     }
     default: {
       throw new Error('Could not resolve public folder for platform');
     }
+  }
+}
+
+/**
+ * Resolves where the pre-rebrand "Ontime"-named data folder would have been, using the
+ * same per-OS rule as getAppDataPath() above but with the old folder name.
+ */
+function getLegacyAppDataPath(): string | null {
+  switch (process.platform) {
+    case 'darwin':
+      return join(process.env.HOME!, 'Library', 'Application Support', 'Ontime');
+    case 'win32':
+      return join(process.env.APPDATA!, 'Ontime');
+    case 'linux':
+      return join(process.env.HOME!, '.Ontime');
+    default:
+      return null;
+  }
+}
+
+/**
+ * Chronous is a fork of Ontime and inherited its "Ontime"-named app-data folder - every
+ * project, upload, and setting was sitting in a folder actually meant for a different,
+ * independently installed app. getAppDataPath() above now resolves to a Chronous-named
+ * folder instead, so on an existing install this would otherwise look like a wipe on next
+ * launch. This moves the old folder's contents across once: only when the new path does not
+ * exist yet (first run post-rebrand) and the old one does (there is something to move).
+ * A plain rename is atomic and safe here because both paths share the same parent directory,
+ * so they are always on the same filesystem/volume.
+ */
+function migrateLegacyAppDataPath(currentPath: string): void {
+  if (process.env.ONTIME_DATA || existsSync(currentPath)) {
+    return;
+  }
+
+  const legacyPath = getLegacyAppDataPath();
+  if (!legacyPath || !existsSync(legacyPath)) {
+    return;
+  }
+
+  try {
+    renameSync(legacyPath, currentPath);
+    consoleHighlight(`Migrated existing data from ${legacyPath} to ${currentPath}`);
+  } catch (err) {
+    consoleError(`Could not migrate data from ${legacyPath} to ${currentPath}: ${err}`);
   }
 }
 
@@ -108,6 +155,8 @@ export const srcFiles = {
 
 /** Resolve root to public directory */
 const resolvePublicDirectory = getAppDataPath();
+// Move data from the pre-rebrand "Ontime" folder, if present and not already done
+migrateLegacyAppDataPath(resolvePublicDirectory);
 // Ensure directory tree is created
 ensureDirectory(resolvePublicDirectory);
 

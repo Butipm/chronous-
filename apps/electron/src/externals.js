@@ -7,11 +7,6 @@ const { version } = require('../package.json');
 
 const electronConfig = require('./electron.config.js');
 
-// external links
-const linkToDocs = 'https://docs.getontime.no/';
-const linkToGitHub = 'https://github.com/cpvalente/ontime';
-const linkToDiscord = 'https://discord.com/invite/eje3CSUEXm';
-
 // environment and platform constants
 const env = process.env.NODE_ENV || 'production';
 const isProduction = env === 'production';
@@ -50,15 +45,15 @@ const downloadPath = '/data/db/';
  */
 function getAppDataPath() {
   if (isMac) {
-    return path.join(process.env.HOME, 'Library', 'Application Support', 'Ontime');
+    return path.join(process.env.HOME, 'Library', 'Application Support', 'Chronous');
   }
 
   if (isWindows) {
-    return path.join(process.env.APPDATA, 'Ontime');
+    return path.join(process.env.APPDATA, 'Chronous');
   }
 
   if (isLinux) {
-    return path.join(process.env.HOME, '.Ontime');
+    return path.join(process.env.HOME, '.Chronous');
   }
 
   return '';
@@ -76,9 +71,6 @@ const trayIcon = path.join(__dirname, electronConfig.assets.pathToAssets, 'backg
 const appIcon = path.join(__dirname, electronConfig.assets.pathToAssets, 'logo.png');
 
 module.exports = {
-  linkToDocs,
-  linkToGitHub,
-  linkToDiscord,
   env,
   isProduction,
   isMac,

@@ -10,7 +10,7 @@ export const router: Router = express.Router();
 
 /** sends a session log as a file, the paths are fixed so no request can reach another file */
 function sendLog(path: string, filename: string, res: Response<ErrorResponse>) {
-  // the data folder may be hidden, eg: ~/.Ontime
+  // the data folder may be hidden, eg: ~/.Chronous
   res.download(path, filename, { dotfiles: 'allow' }, (error) => {
     if (error && !res.headersSent) {
       res.status(404).send({ message: 'Log not found' });
