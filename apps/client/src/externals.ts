@@ -5,18 +5,11 @@
 import { version } from '../../../package.json';
 import { resolveBaseURI, resolveUrl } from './externals.utils';
 
-export const githubUrl = 'https://www.github.com/cpvalente/ontime';
+// Kept only because useAppVersion.ts's query is disabled, not removed (see
+// its own comment) - this would otherwise compare Chronous's version
+// against upstream Ontime's independent release cadence, which is
+// meaningless now that the two are separate projects.
 export const apiRepoLatest = 'https://api.github.com/repos/cpvalente/ontime/releases/latest';
-export const websiteUrl = 'https://www.getontime.no';
-export const discordUrl = 'https://discord.com/invite/eje3CSUEXm';
-export const subredditUrl = 'https://www.reddit.com/r/ontimeapp/';
-export const youtubeUrl = 'https://www.youtube.com/@ontimeapp';
-
-export const documentationUrl = 'https://docs.getontime.no';
-export const customFieldsDocsUrl = 'https://docs.getontime.no/features/custom-fields/';
-
-export const githubSponsorUrl = 'https://github.com/sponsors/cpvalente';
-export const buyMeACoffeeUrl = 'https://buymeacoffee.com/cpvalente';
 
 // resolve environment
 export const appVersion = version;

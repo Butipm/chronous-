@@ -1,6 +1,5 @@
 import { baseURI, serverURL } from '../../../../externals';
 
-export const customViewsDocs = 'https://docs.getontime.no/features/custom-views/';
 const customViewSlugPattern = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 const maxUploadBytes = 4_000_000;
 export const maxUploadLabel = `${maxUploadBytes / 1_000_000}MB`;

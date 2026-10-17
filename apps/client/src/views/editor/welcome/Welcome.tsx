@@ -8,9 +8,8 @@ import Button from '../../../common/components/buttons/Button';
 import IconButton from '../../../common/components/buttons/IconButton';
 import Checkbox from '../../../common/components/checkbox/Checkbox';
 import * as Editor from '../../../common/components/editor-utils/EditorUtils';
-import ExternalLink from '../../../common/components/link/external-link/ExternalLink';
 import Modal from '../../../common/components/modal/Modal';
-import { appVersion, discordUrl, documentationUrl, websiteUrl } from '../../../externals';
+import { appVersion } from '../../../externals';
 import ImportProjectButton from './composite/ImportProjectButton';
 import WelcomeProjectList from './composite/WelcomeProjectList';
 
@@ -61,9 +60,6 @@ export default function Welcome({ onClose }: WelcomeProps) {
           <div className={style.about}>
             <img src='ontime-logo.png' alt='chronous' className={style.logo} />
             <div>Chronous v{appVersion}</div>
-            <ExternalLink href={websiteUrl}>Website</ExternalLink>
-            <ExternalLink href={documentationUrl}>Read the docs</ExternalLink>
-            <ExternalLink href={discordUrl}>Discord server</ExternalLink>
           </div>
           <div className={style.column}>
             <div className={style.header}>

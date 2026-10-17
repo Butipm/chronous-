@@ -6,9 +6,7 @@ import { deleteCustomField, editCustomField, postCustomField } from '../../../..
 import Button from '../../../../common/components/buttons/Button';
 import Info from '../../../../common/components/info/Info';
 import AppLink from '../../../../common/components/link/app-link/AppLink';
-import ExternalLink from '../../../../common/components/link/external-link/ExternalLink';
 import useCustomFields from '../../../../common/hooks-query/useCustomFields';
-import { customFieldsDocsUrl } from '../../../../externals';
 import * as Panel from '../../panel-utils/PanelUtils';
 import CustomFieldEntry from './composite/CustomFieldEntry';
 import CustomFieldForm from './composite/CustomFieldForm';
@@ -77,7 +75,6 @@ export default function CustomFieldSettings() {
               To use custom fields as a data source in an{' '}
               <AppLink search='settings=automation__automations'>Automation</AppLink>, please note the generated key.
             </span>
-            <ExternalLink href={customFieldsDocsUrl}>See the docs</ExternalLink>
           </Info>
         </Panel.Section>
         <Panel.Section>

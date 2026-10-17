@@ -5,11 +5,9 @@ import { restoreDemoView } from '../../../../common/api/customViews';
 import { maybeAxiosError } from '../../../../common/api/utils';
 import Button from '../../../../common/components/buttons/Button';
 import Info from '../../../../common/components/info/Info';
-import ExternalLink from '../../../../common/components/link/external-link/ExternalLink';
 import useCustomViews from '../../../../common/hooks-query/useCustomViews';
 import * as Panel from '../../panel-utils/PanelUtils';
 import CustomViewForm from './CustomViewForm';
-import { customViewsDocs } from './customViews.utils';
 import CustomViewsList from './CustomViewsList';
 
 export default function CustomViews() {
@@ -57,7 +55,6 @@ export default function CustomViews() {
               Upload one <strong>index.html</strong> per view to <strong>/external/&lt;name&gt;/</strong>.
             </span>
             External imports are not allowed, include all assets inside the html file.
-            <ExternalLink href={customViewsDocs}>See the docs</ExternalLink>
           </Info>
         </Panel.Section>
 

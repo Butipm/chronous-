@@ -7,15 +7,12 @@ import { maybeAxiosError } from '../../../../common/api/utils';
 import Button from '../../../../common/components/buttons/Button';
 import Info from '../../../../common/components/info/Info';
 import { SwatchPickerRHF } from '../../../../common/components/input/colour-input/SwatchPicker';
-import ExternalLink from '../../../../common/components/link/external-link/ExternalLink';
 import Switch from '../../../../common/components/switch/Switch';
 import Tag from '../../../../common/components/tag/Tag';
 import useViewSettings from '../../../../common/hooks-query/useViewSettings';
 import { preventEscape } from '../../../../common/utils/keyEvent';
 import * as Panel from '../../panel-utils/PanelUtils';
 import CodeEditorModal from './composite/StyleEditorModal';
-
-const cssOverrideDocsUrl = 'https://docs.getontime.no/features/custom-styling/';
 
 export default function ViewSettings() {
   const { data, status, mutateAsync } = useViewSettings();
@@ -82,11 +79,7 @@ export default function ViewSettings() {
           </Panel.InlineElements>
         </Panel.SubHeader>
         <Panel.Divider />
-        <Info>
-          You can customise the styles applied to Ontime views by providing overriding CSS rules.
-          <br />
-          <ExternalLink href={cssOverrideDocsUrl}>See the docs</ExternalLink>
-        </Info>
+        <Info>You can customise the styles applied to Chronous views by providing overriding CSS rules.</Info>
         <Panel.Section>
           <Panel.Loader isLoading={status === 'pending'} />
           <Panel.Error>{errors.root?.message}</Panel.Error>
@@ -102,7 +95,7 @@ export default function ViewSettings() {
                 }
                 description={
                   overrideStylesEnabled
-                    ? 'CSS override is ON. Ontime views will use the custom override stylesheet.'
+                    ? 'CSS override is ON. Chronous views will use the custom override stylesheet.'
                     : 'Enables overriding view styles with custom stylesheet'
                 }
                 descriptionTone={overrideStylesEnabled ? 'warning' : 'default'}

@@ -6,7 +6,6 @@ import { maybeAxiosError } from '../../../../common/api/utils';
 import Button from '../../../../common/components/buttons/Button';
 import IconButton from '../../../../common/components/buttons/IconButton';
 import Info from '../../../../common/components/info/Info';
-import ExternalLink from '../../../../common/components/link/external-link/ExternalLink';
 import Switch from '../../../../common/components/switch/Switch';
 import Tag from '../../../../common/components/tag/Tag';
 import useUrlPresets, { useUpdateUrlPreset } from '../../../../common/hooks-query/useUrlPresets';
@@ -18,8 +17,6 @@ type FormState = {
   isOpen: boolean;
   preset?: URLPreset;
 };
-
-const urlPresetsDocs = 'https://docs.getontime.no/features/url-presets/';
 
 export default function URLPresets() {
   const [formState, setFormState] = useState<FormState>({ isOpen: false, preset: undefined });
@@ -53,13 +50,12 @@ export default function URLPresets() {
         <Panel.Divider />
         <Panel.Section>
           <Info>
-            URL presets are user pre-defined aliases to Ontime URLs.
+            URL presets are user pre-defined aliases to Chronous URLs.
             <br />
             This URL can contain full configuration including parameters, or simply route to a specific view.
             <br />
             <br />
             The easiest way to get started is to copy an URL from your browser and paste it into the form.
-            <ExternalLink href={urlPresetsDocs}>See the docs</ExternalLink>
           </Info>
         </Panel.Section>
         <Panel.Section>

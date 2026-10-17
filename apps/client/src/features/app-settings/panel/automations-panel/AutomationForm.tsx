@@ -10,7 +10,6 @@ import IconButton from '../../../../common/components/buttons/IconButton';
 import { DropdownMenu } from '../../../../common/components/dropdown-menu/DropdownMenu';
 import Info from '../../../../common/components/info/Info';
 import Input from '../../../../common/components/input/input/Input';
-import ExternalLink from '../../../../common/components/link/external-link/ExternalLink';
 import Modal from '../../../../common/components/modal/Modal';
 import RadioGroup from '../../../../common/components/radio-group/RadioGroup';
 import Select from '../../../../common/components/select/Select';
@@ -26,7 +25,6 @@ import OutputCard, { type TestState } from './OutputCard';
 
 import style from './AutomationForm.module.scss';
 
-const integrationsDocsUrl = 'https://docs.getontime.no/api/automation/#using-variables-in-automation';
 const formId = 'automation-form';
 const testFeedbackDuration = 2000;
 
@@ -327,12 +325,11 @@ export default function AutomationForm({ automation, onClose }: AutomationFormPr
           <div className={style.innerColumn}>
             <h3>Outputs</h3>
             <Info>
-              Automation outputs can be used to send data from Ontime to external software <br />
-              or to change properties of Ontime itself. <br /> <br />
+              Automation outputs can be used to send data from Chronous to external software <br />
+              or to change properties of Chronous itself. <br /> <br />
               <span>
-                Use Ontime runtime data in these fields with template strings. Type{' '}
-                <Panel.Highlight>{'{{'}</Panel.Highlight> to see autocomplete, or{' '}
-                <ExternalLink href={integrationsDocsUrl}>read the docs</ExternalLink>
+                Use Chronous runtime data in these fields with template strings. Type{' '}
+                <Panel.Highlight>{'{{'}</Panel.Highlight> to see autocomplete.
               </span>
             </Info>
 

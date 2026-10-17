@@ -12,7 +12,6 @@ import Textarea from '../../../../common/components/input/textarea/Textarea';
 import useProjectData, { useUpdateProjectData } from '../../../../common/hooks-query/useProjectData';
 import { preventEscape } from '../../../../common/utils/keyEvent';
 import { validateLogo } from '../../../../common/utils/uploadUtils';
-import { documentationUrl } from '../../../../externals';
 import * as Panel from '../../panel-utils/PanelUtils';
 
 import style from './SettingsPanel.module.scss';
@@ -241,7 +240,7 @@ export default function ProjectData() {
           </label>
           <label>
             Project QR code URL
-            <Input fluid placeholder={documentationUrl} {...register('url')} />
+            <Input fluid placeholder='https://example.com' {...register('url')} />
           </label>
           <Panel.Section style={{ marginTop: 0 }}>
             <Panel.ListItem>

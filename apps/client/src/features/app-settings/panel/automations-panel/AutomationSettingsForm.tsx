@@ -5,15 +5,12 @@ import { maybeAxiosError } from '../../../../common/api/utils';
 import Button from '../../../../common/components/buttons/Button';
 import Info from '../../../../common/components/info/Info';
 import Input from '../../../../common/components/input/input/Input';
-import ExternalLink from '../../../../common/components/link/external-link/ExternalLink';
 import Switch from '../../../../common/components/switch/Switch';
 import Tag from '../../../../common/components/tag/Tag';
 import { preventEscape } from '../../../../common/utils/keyEvent';
 import { isOnlyNumbers } from '../../../../common/utils/regex';
 import { isOntimeCloud } from '../../../../externals';
 import * as Panel from '../../panel-utils/PanelUtils';
-
-const oscApiDocsUrl = 'https://docs.getontime.no/api/protocols/osc/';
 
 interface AutomationSettingsProps {
   enabledAutomations: boolean;
@@ -93,11 +90,10 @@ export default function AutomationSettingsForm({
 
         <Panel.Section>
           <Info>
-            <span>Control Ontime and share its data with external systems in your workflow.</span>
-            <span>- An automation is what to send: OSC and HTTP messages, or an action inside Ontime.</span>
+            <span>Control Chronous and share its data with external systems in your workflow.</span>
+            <span>- An automation is what to send: OSC and HTTP messages, or an action inside Chronous.</span>
             <span>- A trigger is when to send it. Triggers for a single event live in the event editor.</span>
-            <span>- OSC Input tells Ontime to listen to messages on the specific port.</span>
-            <ExternalLink href={oscApiDocsUrl}>See the docs</ExternalLink>
+            <span>- OSC Input tells Chronous to listen to messages on the specific port.</span>
           </Info>
         </Panel.Section>
 
@@ -119,8 +115,8 @@ export default function AutomationSettingsForm({
                 }
                 description={
                   automationState === false
-                    ? 'Automations are OFF. Triggers stay configured, but Ontime will not send messages.'
-                    : 'Allow Ontime to send messages on lifecycle triggers'
+                    ? 'Automations are OFF. Triggers stay configured, but Chronous will not send messages.'
+                    : 'Allow Chronous to send messages on lifecycle triggers'
                 }
                 descriptionTone={automationState === false ? 'warning' : 'default'}
                 error={errors.enabledAutomations?.message}
@@ -150,8 +146,8 @@ export default function AutomationSettingsForm({
                 }
                 description={
                   oscInputState === false
-                    ? 'OSC input is OFF. Ontime will not listen for incoming OSC control messages.'
-                    : 'Allow control of Ontime through OSC'
+                    ? 'OSC input is OFF. Chronous will not listen for incoming OSC control messages.'
+                    : 'Allow control of Chronous through OSC'
                 }
                 descriptionTone={oscInputState === false ? 'warning' : 'default'}
                 error={errors.enabledOscIn?.message}

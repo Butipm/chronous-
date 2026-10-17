@@ -22,7 +22,6 @@ import {
 } from '../../../../../common/api/sheets';
 import Button from '../../../../../common/components/buttons/Button';
 import Info from '../../../../../common/components/info/Info';
-import ExternalLink from '../../../../../common/components/link/external-link/ExternalLink';
 import Modal from '../../../../../common/components/modal/Modal';
 import { useLoadedRundown } from '../../../../../common/hooks-query/useLoadedRundown';
 import { removeFileExtension, validateExcelImport } from '../../../../../common/utils/uploadUtils';
@@ -32,8 +31,6 @@ import SheetImportEditor from './sheet-import/SheetImportEditor';
 import useSpreadsheetImport from './useSpreadsheetImport';
 
 import style from './SourcesPanel.module.scss';
-
-const googleSheetDocsUrl = 'https://docs.getontime.no/features/import-spreadsheet-gsheet/';
 
 type ActiveSource =
   | {
@@ -249,9 +246,6 @@ export default function SourcesPanel() {
                 Google Sheets sync needs a client secret and a one-time device authentication before you can load a
                 sheet by ID.
               </Info.Body>
-              <Info.Footer>
-                <ExternalLink href={googleSheetDocsUrl}>Read setup guide</ExternalLink>
-              </Info.Footer>
             </Info>
             <input
               ref={fileInputRef}
@@ -280,7 +274,7 @@ export default function SourcesPanel() {
                   <h4 className={style.sourceTitle}>Synchronize with Google</h4>
                 </div>
                 <p className={style.sourceDescription}>
-                  Connect a Google account once, then load any sheet by ID and keep the import flow inside Ontime.
+                  Connect a Google account once, then load any sheet by ID and keep the import flow inside Chronous.
                 </p>
                 <div className={style.sourceMeta}>Requires Google OAuth client credentials</div>
                 <Button variant='primary' size='large' fluid onClick={openGSheetFlow} disabled={hasFile !== 'none'}>

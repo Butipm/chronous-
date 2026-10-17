@@ -1,6 +1,5 @@
-import ExternalLink from '../../../../common/components/link/external-link/ExternalLink';
 import useAppVersion from '../../../../common/hooks-query/useAppVersion';
-import { appVersion, isOntimeCloud, websiteUrl } from '../../../../externals';
+import { appVersion } from '../../../../externals';
 import * as Panel from '../../panel-utils/PanelUtils';
 
 import style from './AppVersion.module.scss';
@@ -11,7 +10,7 @@ export default function AppVersion() {
   if (isError) {
     return (
       <Panel.ListItem>
-        <Panel.Field title={`Ontime ${appVersion}`} description='' error='Could not fetch version information' />
+        <Panel.Field title={`Chronous ${appVersion}`} description='' error='Could not fetch version information' />
       </Panel.ListItem>
     );
   }
@@ -23,25 +22,18 @@ export default function AppVersion() {
           title={
             <>
               <span className={style.updateIndicator} aria-hidden='true' />
-              {`Ontime ${appVersion}`}
+              {`Chronous ${appVersion}`}
             </>
           }
-          description={
-            isOntimeCloud
-              ? `Version ${data.version} is available. Restart your stage to update.`
-              : `Version ${data.version} is available.`
-          }
+          description={`Version ${data.version} is available.`}
         />
-        {!isOntimeCloud && (
-          <ExternalLink href={websiteUrl}>Download the latest version from Ontime's page</ExternalLink>
-        )}
       </Panel.ListItem>
     );
   }
 
   return (
     <Panel.ListItem>
-      <Panel.Field title={`Ontime ${appVersion}`} description='You are using the latest version.' />
+      <Panel.Field title={`Chronous ${appVersion}`} description='You are using the latest version.' />
     </Panel.ListItem>
   );
 }

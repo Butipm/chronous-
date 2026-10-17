@@ -13,7 +13,12 @@
   align-items: center;
 
   .url-feed-overlay__handle {
-    opacity: 0.35;
+    // Was 0.35 - genuinely hard to notice against the dark editor background
+    // without already knowing to look for/hover it (confirmed: a real user
+    // did not see the "Feed preview" trigger at all, not just found it
+    // unobtrusive). Still dims relative to its fully-opaque hover state
+    // below, just not to the point of being effectively invisible by default.
+    opacity: 0.7;
     transition: opacity 0.2s;
   }
 
