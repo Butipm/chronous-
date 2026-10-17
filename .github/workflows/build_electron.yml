@@ -38,15 +38,14 @@ jobs:
 
       - name: Electron - Build app
         env:
-          APPLE_ID: ${{ secrets.APPLEID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLEIDPASS }}
-          APPLE_TEAM_ID: ${{ secrets.TEAMID }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          # No signing secrets are configured for this fork. Without this, electron-builder's
-          # identity auto-discovery finds *something* on the macOS runner (unlike a local
-          # machine with zero identities, which skips signing outright), tries to sign with
-          # CSC_KEY_PASSWORD empty, and crashes instead of just skipping. Forces the skip.
+          # No Apple/code-signing secrets exist in this fork's repo. Deliberately NOT setting
+          # CSC_LINK/CSC_KEY_PASSWORD/APPLE_* here at all: ${{ secrets.X }} for a secret that
+          # doesn't exist evaluates to an empty string, not "unset" - electron-builder then
+          # treats that empty CSC_LINK as a certificate file path, resolves it to the current
+          # working directory (apps/electron), and crashes trying to stat a directory as a
+          # file ("apps/electron not a file"). CSC_IDENTITY_AUTO_DISCOVERY alone did not fix
+          # this - confirmed via CI logs that the crash happens before that check is even
+          # reached. Omitting the env vars avoids the empty-string problem at its source.
           CSC_IDENTITY_AUTO_DISCOVERY: false
         run: pnpm dist-mac --env-mode=loose
         timeout-minutes: 60
