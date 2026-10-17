@@ -102,6 +102,18 @@ html,
   background-color: $ui-black; // prevent the safari from showing white background
 }
 
+// Output views (Timer, Countdown, Backstage, Studio, Timeline, Info) are meant to fill exactly
+// one screen with nothing to scroll to, so the hard overflow:hidden above is correct there.
+// Controller/editing views (Editor, Timer Control, Operator, Cuesheet, Message Control, Rundown,
+// Log) have no such guarantee - their content height depends on how many events/timers/groups
+// exist, and on a phone's much shorter visible viewport (address bar chrome eats into it, and
+// 100vh does not account for that) it can genuinely exceed the screen with nothing below the
+// fold reachable. This class is applied to .App only on those routes - see App.tsx.
+.App--scrollable {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 // reset button styles
 button {
   all: unset;
