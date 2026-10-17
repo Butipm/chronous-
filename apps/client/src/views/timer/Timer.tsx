@@ -1,5 +1,5 @@
 import { MaybeString, OntimeView, TimerType } from 'ontime-types';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { FitText } from '../../common/components/fit-text/FitText';
 import InviteOverlay from '../../common/components/invite-overlay/InviteOverlay';
@@ -11,7 +11,7 @@ import ViewLogo from '../../common/components/view-logo/ViewLogo';
 import ViewParamsEditor from '../../common/components/view-params-editor/ViewParamsEditor';
 import { useAutoTickingClock } from '../../common/hooks/useAutoTickingClock';
 import { useFadeOutOnInactivity } from '../../common/hooks/useFadeOutOnInactivity';
-import { useTimerSocket } from '../../common/hooks/useSocket';
+import { setMessage, useTimerSocket } from '../../common/hooks/useSocket';
 import { useWindowTitle } from '../../common/hooks/useWindowTitle';
 import { cx } from '../../common/utils/styleUtils';
 import { formatTime, getDefaultFormat } from '../../common/utils/time';
@@ -54,8 +54,11 @@ export default function TimerLoader() {
 }
 
 function Timer({ customFields, projectData, isMirrored, settings, viewSettings, entries }: TimerData) {
-  const [feedUrl, setFeedUrl] = useState<string | null>(null);
   const { eventNext, eventNow, message, time, clock, timerTypeNow, countToEndNow, auxTimer } = useTimerSocket();
+  // broadcast, not local-only - same feed shown on every connected Timer view, settable from
+  // here or from the editor's MessageControl/PlaybackControl
+  const feedUrl = message.timer.feedUrl;
+  const setFeedUrl = setMessage.timerFeedUrl;
   const {
     hideClock,
     hideCards,
@@ -177,12 +180,7 @@ function Timer({ customFields, projectData, isMirrored, settings, viewSettings, 
       <div className='feed-trigger-row'>
         {showClock && <TimerAutoTickingClock clockFormat={timeformat} />}
         <InviteOverlay />
-        <UrlFeedOverlay
-          feedUrl={feedUrl}
-          onFeedChange={setFeedUrl}
-          storageKey='ontime-timer-feed-url'
-          size={feedUrl ? 'small' : 'medium'}
-        />
+        <UrlFeedOverlay feedUrl={feedUrl} onFeedChange={setFeedUrl} size={feedUrl ? 'small' : 'medium'} />
       </div>
 
       {feedUrl ? (

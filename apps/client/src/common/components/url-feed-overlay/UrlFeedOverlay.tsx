@@ -89,8 +89,11 @@ export function normaliseInput(value: string): string | null {
 interface UrlFeedOverlayProps {
   feedUrl: string | null;
   onFeedChange: (url: string | null) => void;
-  /** Keeps each view's fed URL independent (eg Timer and Countdown remember their own) */
-  storageKey: string;
+  /** Keeps each view's fed URL independent (eg Timer and Countdown remember their own) across
+   *  a reload. Omit it when feedUrl is already persisted elsewhere (eg broadcast server state,
+   *  which survives a reload on its own) - restoring from a stale local copy on top of that
+   *  would fight the real source of truth. */
+  storageKey?: string;
   className?: string;
   /** Shrinks the trigger icon - useful once a feed is active and every pixel above it counts */
   size?: 'small' | 'medium';
@@ -117,6 +120,7 @@ export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, clas
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!storageKey) return;
     const stored = readStoredUrl(storageKey);
     if (stored && !feedUrl) {
       onFeedChange(stored);
@@ -157,7 +161,7 @@ export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, clas
       event.preventDefault();
       const normalised = normaliseInput(draftUrl);
       if (!normalised) return;
-      writeStoredUrl(storageKey, normalised);
+      if (storageKey) writeStoredUrl(storageKey, normalised);
       onFeedChange(normalised);
       setIsExpanded(false);
     },
@@ -165,7 +169,7 @@ export default function UrlFeedOverlay({ feedUrl, onFeedChange, storageKey, clas
   );
 
   const handleClear = useCallback(() => {
-    writeStoredUrl(storageKey, null);
+    if (storageKey) writeStoredUrl(storageKey, null);
     onFeedChange(null);
     setDraftUrl('');
     setIsExpanded(false);

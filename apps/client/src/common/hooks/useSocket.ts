@@ -38,6 +38,10 @@ export const useExternalMessageInput = createSelector((state: RuntimeStore) => (
   visible: state.message.timer.secondarySource === 'secondary',
 }));
 
+/** The feed URL fed into the stage timer view - broadcast, same source for the editor and
+ *  every connected Timer view (see setMessage.timerFeedUrl) */
+export const useTimerFeedUrl = createSelector((state: RuntimeStore) => state.message.timer.feedUrl);
+
 export const useMessagePreview = createSelector((state: RuntimeStore) => ({
   blink: state.message.timer.blink,
   blackout: state.message.timer.blackout,
@@ -56,6 +60,7 @@ export const setMessage = {
   timerBlackout: (payload: boolean) => sendSocket('message', { timer: { blackout: payload } }),
   timerSecondarySource: (payload: TimerMessage['secondarySource']) =>
     sendSocket('message', { timer: { secondarySource: payload } }),
+  timerFeedUrl: (payload: string | null) => sendSocket('message', { timer: { feedUrl: payload } }),
 };
 
 export const usePlaybackControl = createSelector((state: RuntimeStore) => ({

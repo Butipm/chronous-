@@ -33,4 +33,24 @@ describe('validateTimerMessage()', () => {
 
     expect(validateTimerMessage(payload)).toStrictEqual(expected);
   });
+  it('accepts a feed URL string', () => {
+    const payload = {
+      feedUrl: 'https://example.com',
+    };
+    const expected = {
+      feedUrl: 'https://example.com',
+    };
+
+    expect(validateTimerMessage(payload)).toStrictEqual(expected);
+  });
+  it('accepts null to clear the feed URL', () => {
+    const payload = {
+      feedUrl: null,
+    };
+    const expected = {
+      feedUrl: null,
+    };
+
+    expect(validateTimerMessage(payload)).toStrictEqual(expected);
+  });
 });

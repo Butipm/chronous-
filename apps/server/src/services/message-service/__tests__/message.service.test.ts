@@ -36,4 +36,16 @@ describe('MessageService', () => {
       secondary: '',
     });
   });
+
+  it('should patch and clear the feed URL', () => {
+    const withFeed = messageService.patch({
+      timer: { feedUrl: 'https://example.com' },
+    });
+    expect(withFeed).toMatchObject({ timer: { feedUrl: 'https://example.com' } });
+
+    const cleared = messageService.patch({
+      timer: { feedUrl: null },
+    });
+    expect(cleared).toMatchObject({ timer: { feedUrl: null } });
+  });
 });

@@ -25,8 +25,21 @@ export function validateTimerMessage(message: unknown): Partial<TimerMessage> {
   if ('blink' in message) result.blink = coerceBoolean(message.blink);
   if ('blackout' in message) result.blackout = coerceBoolean(message.blackout);
   if ('secondarySource' in message) result.secondarySource = coerceSecondary(message.secondarySource);
+  if ('feedUrl' in message) result.feedUrl = coerceFeedUrl(message.feedUrl);
 
   return result;
+}
+
+/**
+ * Ensures the feed URL is either a string or explicitly null (clearing it) - free-form like
+ * the other message fields, no URL-format enforcement here (the client already normalises
+ * what it sends; other integrations setting this are trusted the same way they are for text)
+ */
+function coerceFeedUrl(value: unknown): string | null {
+  if (value === null) {
+    return null;
+  }
+  return decodeURI(coerceString(value));
 }
 
 /**
