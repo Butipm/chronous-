@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import { IoClose, IoPersonAddOutline } from 'react-icons/io5';
 
 import { generateUrl } from '../../api/session';
+import useInfo from '../../hooks-query/useInfo';
 import { canCopyToClipboard, copyToClipboard } from '../../utils/copyToClipboard';
+import { hostToBaseUrl } from '../../utils/linkUtils';
 import { cx } from '../../utils/styleUtils';
 import { serverURL } from '../../../externals';
 import IconButton from '../buttons/IconButton';
@@ -34,13 +36,36 @@ export default function InviteOverlay({ className }: { className?: string }) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [copied, setCopied] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { data: infoData } = useInfo();
+
+  /**
+   * serverURL is derived from window.location, so viewing this page at "localhost" (the
+   * Electron app, or a browser tab opened on the host machine itself) makes serverURL
+   * "http://localhost:...", which is meaningless to any other device - a phone scanning
+   * the QR tries to reach itself. Swap in a real network interface address whenever the
+   * page itself is being viewed over loopback, same as the host picker in the full
+   * Settings -> Sharing form already has to do. The interfaces list itself also reports a
+   * "localhost" / 127.0.0.1 entry (often first), so that has to be filtered out too, not
+   * just the page's own hostname.
+   */
+  const resolveBaseUrl = (): string => {
+    const { hostname } = window.location;
+    const isLoopback = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+    const lanInterface = infoData.networkInterfaces.find(
+      (nif) => nif.address !== '127.0.0.1' && nif.address !== '::1' && !nif.address.startsWith('127.'),
+    );
+    if (isLoopback && lanInterface) {
+      return hostToBaseUrl(lanInterface.address, infoData.serverPort);
+    }
+    return serverURL;
+  };
 
   const generate = async (path: string) => {
     setStatus('loading');
     setUrl('');
     try {
       const generated = await generateUrl({
-        baseUrl: serverURL,
+        baseUrl: resolveBaseUrl(),
         path,
         authenticate: false,
         lockConfig: false,
