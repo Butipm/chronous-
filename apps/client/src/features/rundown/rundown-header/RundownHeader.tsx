@@ -1,10 +1,14 @@
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { Toolbar } from '@base-ui/react/toolbar';
-import { OffsetMode } from 'ontime-types';
+import { OffsetMode, SupportedEntry } from 'ontime-types';
 import { memo } from 'react';
+import { IoAdd } from 'react-icons/io5';
 
+import Button from '../../../common/components/buttons/Button';
 import Tooltip from '../../../common/components/tooltip/Tooltip';
+import { useEntryActionsContext } from '../../../common/context/EntryActionsContext';
+import useRundown from '../../../common/hooks-query/useRundown';
 import { setOffsetMode, useOffsetMode } from '../../../common/hooks/useSocket';
 import { AppMode } from '../../../ontimeConfig';
 import { EditorLayoutMode, useEditorLayout } from '../../../views/editor/useEditorLayout';
@@ -49,8 +53,22 @@ function RundownHeader({ isExtracted, viewMode, setViewMode }: RundownHeaderProp
   const { editorMode, setEditorMode } = useEditorFollowMode();
   const offsetMode = useOffsetMode();
   const { layoutMode } = useEditorLayout();
+  const { addEntry } = useEntryActionsContext();
+  const { data: rundown } = useRundown();
 
   const { showRunEditToggle, showOffsetToggle, showOverflowMenu } = HEADER_CONTROLS_CONFIG[layoutMode];
+
+  // always reachable, regardless of Run/Edit - adding an event does not carry the same
+  // "break a live show" risk as reordering or deleting one, and this was the single most
+  // reported piece of friction: the + Event/Delay/Milestone toolbar only ever shows once
+  // you are in Edit mode and have a group expanded, which is not obvious at a glance.
+  const addEventAtEnd = () => {
+    const lastId = rundown.order.at(-1) ?? null;
+    addEntry(
+      { type: SupportedEntry.Event, parent: null },
+      lastId ? { after: lastId, lastEventId: lastId } : undefined,
+    );
+  };
 
   const toggleAppMode = (mode: AppMode[]) => {
     // we need to stop user from deselecting a mode
@@ -121,6 +139,14 @@ function RundownHeader({ isExtracted, viewMode, setViewMode }: RundownHeaderProp
           </Tooltip>
         </ToggleGroup>
       )}
+
+      <Tooltip
+        text='Add a new event to the end of the rundown'
+        render={<Toolbar.Button render={<Button size='small' variant='subtle' />} onClick={addEventAtEnd} />}
+      >
+        <IoAdd />
+        Add event
+      </Tooltip>
 
       {showOverflowMenu && <RundownMenu allowNavigation={!isExtracted} />}
     </Toolbar.Root>
