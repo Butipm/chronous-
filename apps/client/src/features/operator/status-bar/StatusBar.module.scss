@@ -46,4 +46,15 @@
     grid-template-columns: 1fr 1fr;
     grid-template-areas: 'timers clock';
   }
+
+  // dropping the empty first column above also drops the space that used to keep this content
+  // clear of the floating nav icon buttons (position: fixed, top left) - without this,
+  // "Running timer" renders directly underneath them on a phone-width screen.
+  // Doubled selector is deliberate: the build's RTL plugin expands the base rule's own
+  // padding-inline into :lang()-scoped selectors with higher specificity than a plain .timers
+  // media rule, which then loses regardless of source order. .timers.timers ties that
+  // specificity, and this block's later position in the stylesheet wins the tie.
+  .timers.timers {
+    padding-inline: calc(3.5rem + var(--pwa-safe-area-left)) 0.5rem;
+  }
 }

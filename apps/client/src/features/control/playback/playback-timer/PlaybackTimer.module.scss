@@ -6,6 +6,19 @@
   grid-template-rows: 1fr auto;
   grid-template-columns: 1.25rem 1fr 6.5rem;
   gap: $element-inner-spacing;
+
+  // below this, the timer's own min-width (18.75rem/5em) plus the fixed indicators and
+  // addtime columns no longer fit side by side - this happens on a phone-width controller
+  // (eg opened from the invite QR code), so addtime drops to its own full-width row instead
+  // of staying pinned to a column that forces the rest of the grid to overflow
+  @media (max-width: 420px) {
+    grid-template-areas:
+      'indicators timer'
+      'status     status'
+      'addtime    addtime';
+    grid-template-columns: 1.25rem 1fr;
+    grid-template-rows: auto auto auto;
+  }
 }
 
 .timerDisplay {

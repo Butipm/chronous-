@@ -49,4 +49,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0.5rem;
+
+  // three fixed columns do not leave enough room for each timer's own controls (duration,
+  // direction toggle, play/stop) on a phone-width controller - stack them instead of letting
+  // the row overflow and clip
+  @media (max-width: 420px) {
+    grid-template-columns: 1fr;
+  }
 }
