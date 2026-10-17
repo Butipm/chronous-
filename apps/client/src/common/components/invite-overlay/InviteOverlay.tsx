@@ -15,6 +15,7 @@ import Select from '../select/Select';
 import './InviteOverlay.scss';
 
 const roleOptions = [
+  { value: OntimeView.Editor, label: 'Editor (full rundown editing)' },
   { value: 'timercontrol', label: 'Timer Control' },
   { value: OntimeView.Operator, label: 'Operator' },
   { value: OntimeView.Cuesheet, label: 'Cuesheet' },
