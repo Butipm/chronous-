@@ -1,8 +1,9 @@
 name: Ontime CLI build
 
+# Auto-trigger on release disabled for this fork: this job publishes to npm under the
+# "ontime" package name, which this fork doesn't own/publish. Still runnable manually
+# (workflow_dispatch) if a renamed CLI package is ever needed.
 on:
-  release:
-    types: [published]
   workflow_dispatch:
 
 jobs:

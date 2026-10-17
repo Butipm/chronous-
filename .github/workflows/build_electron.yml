@@ -1,9 +1,12 @@
-name: Ontime build
+name: Chronous build
 
 on:
   push:
     tags: ['*']
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build_macos:
@@ -47,10 +50,10 @@ jobs:
         uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: ontime-macos-build
+          name: chronous-macos-build
           path: |
-            ./apps/electron/dist/ontime-macOS-x64.dmg
-            ./apps/electron/dist/ontime-macOS-arm64.dmg
+            ./apps/electron/dist/chronous-macOS-x64.dmg
+            ./apps/electron/dist/chronous-macOS-arm64.dmg
           retention-days: 1
 
       - name: Release
@@ -58,8 +61,8 @@ jobs:
         if: github.ref_type == 'tag'
         with:
           files: |
-            ./apps/electron/dist/ontime-macOS-x64.dmg
-            ./apps/electron/dist/ontime-macOS-arm64.dmg
+            ./apps/electron/dist/chronous-macOS-x64.dmg
+            ./apps/electron/dist/chronous-macOS-arm64.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -86,17 +89,19 @@ jobs:
         uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: ontime-windows-build
+          name: chronous-windows-build
           path: |
-            ./apps/electron/dist/ontime-win64.exe
-            ./apps/electron/dist/win-unpacked/
+            ./apps/electron/dist/chronous-win-x64.exe
+            ./apps/electron/dist/chronous-win-arm64.exe
           retention-days: 1
 
       - name: Release
         uses: softprops/action-gh-release@v3
         if: github.ref_type == 'tag'
         with:
-          files: './apps/electron/dist/ontime-win64.exe'
+          files: |
+            ./apps/electron/dist/chronous-win-x64.exe
+            ./apps/electron/dist/chronous-win-arm64.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -123,11 +128,11 @@ jobs:
         uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: ontime-linux-build
+          name: chronous-linux-build
           path: |
-            ./apps/electron/dist/ontime-linux-x86_64.AppImage
-            ./apps/electron/dist/ontime-linux-arm64.AppImage
-            ./apps/electron/dist/ontime-linux-armv7l.AppImage
+            ./apps/electron/dist/chronous-linux-x86_64.AppImage
+            ./apps/electron/dist/chronous-linux-arm64.AppImage
+            ./apps/electron/dist/chronous-linux-armv7l.AppImage
           retention-days: 1
 
       - name: Release
@@ -135,8 +140,8 @@ jobs:
         if: github.ref_type == 'tag'
         with:
           files: |
-            ./apps/electron/dist/ontime-linux-x86_64.AppImage
-            ./apps/electron/dist/ontime-linux-arm64.AppImage
-            ./apps/electron/dist/ontime-linux-armv7l.AppImage
+            ./apps/electron/dist/chronous-linux-x86_64.AppImage
+            ./apps/electron/dist/chronous-linux-arm64.AppImage
+            ./apps/electron/dist/chronous-linux-armv7l.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
