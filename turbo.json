@@ -14,7 +14,13 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "env": ["ROUTER_PREFIX", "IS_CLOUD"]
+      // PORT and ONTIME_DATA must be declared: turbo runs in strict env mode by
+      // default and drops every variable a task does not list. Playwright starts
+      // this task to run the e2e servers, and without these the server ignored the
+      // pinned port and the isolated data folder - it came up on whatever port
+      // app-state.json remembered while Playwright waited on 4001, and touched the
+      // developer's real data.
+      "env": ["ROUTER_PREFIX", "IS_CLOUD", "PORT", "ONTIME_DATA"]
     },
     "dev:electron": {
       "cache": false,

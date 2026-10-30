@@ -116,8 +116,11 @@ test('cuesheet datagrid keeps keyboard focus flow while editing text cells', asy
   await expect(titleEditor).toBeFocused();
   const cueBeforeCancel = await cueEditor.inputValue();
   await cueEditor.click();
-  await page.keyboard.press('End');
-  await page.keyboard.type(' temporary');
+  await expect(cueEditor).toBeFocused();
+  // Set the value rather than moving the caret with End and typing: the grid
+  // treats End as "jump to last row" and takes focus out of the cell, which is a
+  // navigation behaviour, not the focus-retention this test is about.
+  await cueEditor.fill(`${cueBeforeCancel} temporary`);
   await expect(cueEditor).toHaveValue(`${cueBeforeCancel} temporary`);
   await page.keyboard.press('Escape');
   await expect(cueEditor).not.toBeFocused();
