@@ -189,7 +189,7 @@ function parseOntimeAction(maybeOntimeAction: object): OntimeAction {
   assert.isString(maybeOntimeAction.action);
 
   if (!isOntimeActionAction(maybeOntimeAction.action)) {
-    throw new Error('Invalid Ontime action');
+    throw new Error('Invalid Chronous action');
   }
 
   // we know we have a valid action, deal with special cases

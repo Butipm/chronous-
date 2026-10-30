@@ -225,7 +225,7 @@ export default function GenerateLinkForm({ hostOptions, pathOptions, presets, is
               <input type='hidden' value={watch('path')} />
             ) : (
               <Panel.ListItem>
-                <Panel.Field title='Ontime view' description='The view or URL preset the link opens' />
+                <Panel.Field title='Chronous view' description='The view or URL preset the link opens' />
                 <Select
                   options={pathOptions}
                   value={watch('path')}
@@ -240,7 +240,7 @@ export default function GenerateLinkForm({ hostOptions, pathOptions, presets, is
               <input hidden readOnly name='baseUrl' value={serverURL} />
             ) : (
               <Panel.ListItem>
-                <Panel.Field title='Host IP' description='The network address recipients use to reach Ontime' />
+                <Panel.Field title='Host IP' description='The network address recipients use to reach Chronous' />
                 <Select
                   options={hostOptions}
                   value={watch('baseUrl')}

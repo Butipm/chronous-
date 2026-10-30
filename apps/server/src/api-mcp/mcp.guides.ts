@@ -8,7 +8,7 @@
 
 // The palette mirrors the editor colour picker swatches in
 // apps/client/src/common/components/input/colour-input/SwatchSelect.tsx — keep in sync.
-export const ONTIME_STYLE_GUIDE_MARKDOWN = `# Ontime rundown style guide
+export const ONTIME_STYLE_GUIDE_MARKDOWN = `# Chronous rundown style guide
 
 Conventions for tidy, scannable rundowns. Read before creating or restyling a rundown. Follow the user's own conventions when they have them; otherwise prefer these. When communicating with the user, be concise — short proposals beat long explanations.
 
@@ -24,7 +24,7 @@ Conventions for tidy, scannable rundowns. Read before creating or restyling a ru
 
 ## Colours
 
-Prefer Ontime's default palette — the editor's swatches — so colours look native. Each hue has a dark/light tone pair:
+Prefer Chronous's default palette — the editor's swatches — so colours look native. Each hue has a dark/light tone pair:
 
 | Hue | Dark | Light | Use |
 | --- | --- | --- | --- |
@@ -57,14 +57,14 @@ Prefer Ontime's default palette — the editor's swatches — so colours look na
 - \`linkStart\` events inside a block so schedule edits propagate.
 - \`flag\` sparingly — it marks critical moments and dilutes with overuse.
 - Set \`timeWarning\` where a moderator would signal the speaker to wrap (commonly 5 min); \`timeDanger\` for the final push (e.g. 1 min). Scale both down for short items.
-- Hard out? Backtime: build the closing items from the end with \`timeEnd\` + \`duration\` (Ontime calculates \`timeStart\`), protect their ends with \`timeStrategy: lock-end\`, and use \`countToEnd\` for true curfew items.
+- Hard out? Backtime: build the closing items from the end with \`timeEnd\` + \`duration\` (Chronous calculates \`timeStart\`), protect their ends with \`timeStrategy: lock-end\`, and use \`countToEnd\` for true curfew items.
 
 After tidying, read \`ontime://views\` and suggest views that use the new structure.
 `;
 
-export const ONTIME_VIEWS_MARKDOWN = `# Ontime views and sharing guide
+export const ONTIME_VIEWS_MARKDOWN = `# Chronous views and sharing guide
 
-Ontime renders the rundown into role-specific views at \`http://<host>:<port>/<view>\`. Recommend the right view when the user mentions a role, device, or sharing need. Prefer sharing live view links over exporting static documents — everyone sees the current version, ending the conflicting-copies problem of circulated spreadsheets. The agent cannot create views or presets — give exact URLs and point to the editor settings.
+Chronous renders the rundown into role-specific views at \`http://<host>:<port>/<view>\`. Recommend the right view when the user mentions a role, device, or sharing need. Prefer sharing live view links over exporting static documents — everyone sees the current version, ending the conflicting-copies problem of circulated spreadsheets. The agent cannot create views or presets — give exact URLs and point to the editor settings.
 
 | View | Path | For |
 | --- | --- | --- |
@@ -98,6 +98,6 @@ Docs: https://docs.getontime.no/features/url-presets/
 
 ## Custom views
 
-For branding or layouts beyond the built-in options: files in Ontime's \`external\` folder are served at \`/external/…\` and can use Ontime's APIs for live data. Recommend for sponsor branding, unusual layouts, or LED wall graphics.
+For branding or layouts beyond the built-in options: files in Chronous's \`external\` folder are served at \`/external/…\` and can use Chronous's APIs for live data. Recommend for sponsor branding, unusual layouts, or LED wall graphics.
 Docs: https://docs.getontime.no/features/custom-views/
 `;

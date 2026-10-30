@@ -9,10 +9,10 @@ export const demoDb: DatabaseModel = {
     broadcast: broadcastRundown,
   },
   project: {
-    title: 'Ontime Demo Project',
+    title: 'Chronous Demo Project',
     description: 'Demo Project to get you started',
     url: 'https://docs.getontime.no/',
-    info: 'Use Project info to share information to various Ontime views.\nie. Venue info, wifi, staff details, etc.',
+    info: 'Use Project info to share information to various Chronous views.\nie. Venue info, wifi, staff details, etc.',
     logo: 'ontime-logo.png',
     custom: [
       {

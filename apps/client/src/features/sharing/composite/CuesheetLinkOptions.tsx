@@ -171,7 +171,7 @@ export default function CuesheetLinkOptions({ initialRead, initialWrite, onChang
       {showColumnPermissions && (
         <div className={style.columnGroups}>
           <div className={style.grid}>
-            <Panel.Description>Ontime columns</Panel.Description>
+            <Panel.Description>Chronous columns</Panel.Description>
             <Panel.Description>Read</Panel.Description>
             <Panel.Description>Write</Panel.Description>
             {cuesheetDefaultColumns.map((column) => (

@@ -81,7 +81,7 @@ export function toOntimeAction(action: OntimeAction, store: DeepReadonly<Runtime
 
     default: {
       actionType satisfies never;
-      logger.warning(LogOrigin.Automation, 'Ontime action skipped', {
+      logger.warning(LogOrigin.Automation, 'Chronous action skipped', {
         reason: 'unknown-action',
         action: String(actionType),
       });

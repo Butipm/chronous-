@@ -106,10 +106,10 @@ export const defaultDemoHtml = `<!doctype html>
       <div class="logo-title">
         <img
           src="https://www.getontime.no/images/icons/ontime-logo.png"
-          alt="Ontime logo"
+          alt="Chronous logo"
           onerror="this.style.display = 'none'"
         />
-        <h1 class="title">Ontime demo</h1>
+        <h1 class="title">Chronous demo</h1>
       </div>
       <div>
         <span>Last message received at</span>

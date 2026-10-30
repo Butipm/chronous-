@@ -17,13 +17,13 @@ import { generateCrashReport } from './utils/generateCrashReport.js';
 export { initAssets, startIntegrations, startServer } from './server.js';
 
 console.log('\n');
-consoleHighlight(`Starting Ontime version ${ONTIME_VERSION}`);
+consoleHighlight(`Starting Chronous version ${ONTIME_VERSION}`);
 
 const canLog = isProduction;
 if (!canLog) {
-  console.log(`Ontime running in ${environment} environment`);
-  console.log(`Ontime source directory at ${srcDir.root} `);
-  console.log(`Ontime public directory at ${publicDir.root} `);
+  console.log(`Chronous running in ${environment} environment`);
+  console.log(`Chronous source directory at ${srcDir.root} `);
+  console.log(`Chronous public directory at ${publicDir.root} `);
 }
 
 let shutdownPromise: Promise<void> | null = null;
@@ -45,7 +45,7 @@ export async function shutdown(exitCode = 0): Promise<void> {
 const shutdownGlobalTimeout = 10_000; // 10 seconds
 
 async function performShutdown(exitCode: number): Promise<void> {
-  consoleHighlight(`Ontime shutting down with code ${exitCode}`);
+  consoleHighlight(`Chronous shutting down with code ${exitCode}`);
 
   // if shutdown takes longer than 10 seconds, force exit to avoid hanging processes
   const forceExitTimer = setTimeout(() => {
@@ -64,7 +64,7 @@ async function performShutdown(exitCode: number): Promise<void> {
   }
 }
 
-process.on('exit', (code) => consoleHighlight(`Ontime shutdown with code: ${code}`));
+process.on('exit', (code) => consoleHighlight(`Chronous shutdown with code: ${code}`));
 
 process.on('unhandledRejection', async (error) => {
   if (!isProduction && error instanceof Error && error.stack) {

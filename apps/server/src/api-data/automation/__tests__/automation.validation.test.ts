@@ -133,7 +133,8 @@ describe('parseOutput', () => {
         type: 'ontime',
         action: 'not-exist',
       };
-      expect(() => parseOutput(payload)).toThrow('Invalid Ontime action');
+      // the payload type stays 'ontime' (wire value); only the message carries the brand
+      expect(() => parseOutput(payload)).toThrow('Invalid Chronous action');
     });
 
     it('parses message-set', () => {

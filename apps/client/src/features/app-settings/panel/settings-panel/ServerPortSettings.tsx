@@ -95,7 +95,7 @@ export default function ServerPortSettings() {
           <Panel.ListGroup>
             <Panel.ListItem>
               <Panel.Field
-                title='Ontime server port'
+                title='Chronous server port'
                 description='Port ontime server listens in. Defaults to 4001 (needs app restart)'
                 error={errors.serverPort?.message}
               />

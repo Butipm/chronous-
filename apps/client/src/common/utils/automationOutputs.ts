@@ -3,7 +3,7 @@ import type { AutomationOutput } from 'ontime-types';
 const outputLabels: Record<AutomationOutput['type'], string> = {
   osc: 'OSC',
   http: 'HTTP',
-  ontime: 'Ontime',
+  ontime: 'Chronous',
 };
 
 export type OutputSummary = {

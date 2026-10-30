@@ -22,39 +22,39 @@ export default function ShutdownPanel() {
 
   return (
     <>
-      <Panel.Header>Shutdown Ontime</Panel.Header>
+      <Panel.Header>Shutdown Chronous</Panel.Header>
       <Panel.Section>
         <Panel.Card>
           <Panel.SubHeader>Shutdown</Panel.SubHeader>
           <Panel.Divider />
           {isOntimeCloud ? (
             <Info type='warning'>
-              For security reasons, shutting down the server must be done from the Ontime Cloud dashboard.
+              For security reasons, shutting down the server must be done from the Chronous Cloud dashboard.
             </Info>
           ) : (
             <Panel.Field
-              title='Stop the Ontime server'
+              title='Stop the Chronous server'
               description='The runtime state will be lost, but your project is kept for next time.'
             />
           )}
           {!isOntimeCloud && (
             <Panel.Section>
               <Button variant='destructive' onClick={handler.open} disabled={!canShutdown}>
-                Shutdown Ontime
+                Shutdown Chronous
               </Button>
-              {!canShutdown && <Panel.Description>Only available from the machine running Ontime.</Panel.Description>}
+              {!canShutdown && <Panel.Description>Only available from the machine running Chronous.</Panel.Description>}
             </Panel.Section>
           )}
         </Panel.Card>
       </Panel.Section>
       <Dialog
         isOpen={isOpen}
-        title='Shutdown Ontime'
+        title='Shutdown Chronous'
         showCloseButton
         onClose={handler.close}
         bodyElements={
           <Panel.Paragraph>
-            This will shutdown the Ontime server. <br /> Are you sure?
+            This will shutdown the Chronous server. <br /> Are you sure?
           </Panel.Paragraph>
         }
         footerElements={

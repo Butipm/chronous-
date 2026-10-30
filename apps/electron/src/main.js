@@ -18,12 +18,12 @@ const {
 
 if (!isProduction) {
   console.log(`Electron running in ${env} environment`);
-  console.log(`Ontime server at ${nodePath}`);
+  console.log(`Chronous server at ${nodePath}`);
   process.traceProcessWarnings = true;
 }
 
 /** Flag holds server loading state */
-let loaded = 'Ontime starting';
+let loaded = 'Chronous starting';
 
 /**
  * Flag whether user has requested a quit
@@ -249,15 +249,15 @@ app.whenReady().then(() => {
           if (typeof loaded === 'string') {
             tray.setToolTip(loaded);
           } else {
-            tray.setToolTip('Initialising error: please restart Ontime');
+            tray.setToolTip('Initialising error: please restart Chronous');
           }
         })
         .catch((error) => {
-          console.log('ERROR: Ontime failed to reach server', error);
+          console.log('ERROR: Chronous failed to reach server', error);
         });
     })
     .catch((error) => {
-      console.log('ERROR: Ontime failed to start', error);
+      console.log('ERROR: Chronous failed to start', error);
     });
 
   /**

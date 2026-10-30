@@ -50,7 +50,7 @@ export const EVENT_WRITABLE_FIELDS = {
   colour: {
     type: 'string',
     description:
-      'Hex colour (#RRGGBB) for visual grouping — ask the user what colour convention they use, and prefer the default Ontime palette from ontime://style-guide so colours match the editor swatches',
+      'Hex colour (#RRGGBB) for visual grouping — ask the user what colour convention they use, and prefer the default Chronous palette from ontime://style-guide so colours match the editor swatches',
   },
   skip: { type: 'boolean', description: 'If true, event is skipped during playback' },
   flag: {
@@ -78,9 +78,9 @@ export const RUNDOWN_TARGET_FIELD = {
 // Served at ontime://schema. Agents read this once per session to orient themselves
 // before issuing tool calls.
 
-export const ONTIME_SCHEMA_MARKDOWN = `# Ontime data model
+export const ONTIME_SCHEMA_MARKDOWN = `# Chronous data model
 
-A concise reference for how Ontime structures rundowns, events, and related data.
+A concise reference for how Chronous structures rundowns, events, and related data.
 
 ## Rundown
 
@@ -165,7 +165,7 @@ For existing entries, use \`ontime_group_entries\` to create a group from top-le
 \`\`\`
 
 ## Time format
-Ontime stores time values as **milliseconds from midnight (local)**. Convert user-facing times before calling tools: \`10:30\` means \`37800000\`, and a duration like \`45 min\` means \`2700000\`.
+Chronous stores time values as **milliseconds from midnight (local)**. Convert user-facing times before calling tools: \`10:30\` means \`37800000\`, and a duration like \`45 min\` means \`2700000\`.
 
 \`timeEnd\` may be lower than \`timeStart\` when an event crosses midnight; duration is calculated across the day boundary.
 
@@ -200,21 +200,21 @@ When playback is not \`stop\`, mutations to the loaded rundown affect the live r
 ## Available resources
 - \`ontime://schema\` — this document
 - \`ontime://style-guide\` — rundown design best practices: grouping, colour palette, cue naming, custom field usage. Read before creating or restyling a rundown.
-- \`ontime://views\` — Ontime's role-specific views, URL parameters, URL presets, and custom views. Read when recommending how a team member should follow or edit the show.
+- \`ontime://views\` — Chronous's role-specific views, URL parameters, URL presets, and custom views. Read when recommending how a team member should follow or edit the show.
 - \`ontime://rundown/current\` — the currently loaded rundown (JSON)
 - \`ontime://rundowns\` — all rundowns in the project (JSON)
 - \`ontime://project/info\` — project metadata (JSON)
 - \`ontime://project/custom-fields\` — custom field definitions (JSON)
-- \`ontime://docs\` — index of Ontime documentation topics with URLs
+- \`ontime://docs\` — index of Chronous documentation topics with URLs
 
 ## Further reading
-Full Ontime documentation: **https://docs.getontime.no**
+Full Chronous documentation: **https://docs.getontime.no**
 `;
 
 // ---- Documentation index ----
 // Served at ontime://docs. Agents read this when they need to point users to official docs.
 
-export const ONTIME_DOCS_MARKDOWN = `# Ontime Documentation Index
+export const ONTIME_DOCS_MARKDOWN = `# Chronous Documentation Index
 
 Main site: https://docs.getontime.no
 
@@ -247,7 +247,7 @@ Main site: https://docs.getontime.no
 - Smart time entry: https://docs.getontime.no/quick-tips/smart-time-entry/
 
 ## Helpful references
-- Ontime Cloud: https://docs.getontime.no/ontime-cloud/
+- Chronous Cloud: https://docs.getontime.no/ontime-cloud/
 - Connect to companion module: https://docs.getontime.no/additional-notes/companion-module/
 - Import data from spreadsheets: https://docs.getontime.no/features/import-spreadsheet/
 `;

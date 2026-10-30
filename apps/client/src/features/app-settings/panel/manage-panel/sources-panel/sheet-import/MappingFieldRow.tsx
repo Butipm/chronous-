@@ -14,9 +14,9 @@ export function getWarningText(warning: MappingWarning): string {
     case 'missing':
       return 'Column not in current headers, check preview';
     case 'invalid-name':
-      return 'Column cannot be converted into an Ontime field name';
+      return 'Column cannot be converted into an Chronous field name';
     case 'name-collision':
-      return 'Column name resolves to a duplicate Ontime field';
+      return 'Column name resolves to a duplicate Chronous field';
     default:
       return '';
   }

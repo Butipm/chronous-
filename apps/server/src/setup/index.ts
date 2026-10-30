@@ -50,11 +50,11 @@ export function getAppDataPath(): string {
 function getLegacyAppDataPath(): string | null {
   switch (process.platform) {
     case 'darwin':
-      return join(process.env.HOME!, 'Library', 'Application Support', 'Ontime');
+      return join(process.env.HOME!, 'Library', 'Application Support', 'Chronous');
     case 'win32':
-      return join(process.env.APPDATA!, 'Ontime');
+      return join(process.env.APPDATA!, 'Chronous');
     case 'linux':
-      return join(process.env.HOME!, '.Ontime');
+      return join(process.env.HOME!, '.Chronous');
     default:
       return null;
   }

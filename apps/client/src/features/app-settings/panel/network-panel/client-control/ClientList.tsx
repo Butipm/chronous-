@@ -58,7 +58,7 @@ export default function ClientList() {
         />
       )}
       <Panel.Section>
-        <Panel.Title>Ontime Clients ({ontimeClients.length})</Panel.Title>
+        <Panel.Title>Chronous Clients ({ontimeClients.length})</Panel.Title>
         <Panel.Table>
           <thead>
             <tr>
@@ -70,7 +70,7 @@ export default function ClientList() {
           <tbody>
             {ontimeClients.length === 0 && (
               <Panel.TableEmpty
-                title='No Ontime clients connected'
+                title='No Chronous clients connected'
                 description='Editor, cuesheet and operator windows appear here as they connect.'
               />
             )}

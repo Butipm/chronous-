@@ -52,7 +52,7 @@ function OntimeCloudStats() {
 
   return (
     <Panel.SubHeader>
-      Ontime cloud
+      Chronous cloud
       <Panel.Description>Current ping: {ping}ms</Panel.Description>
     </Panel.SubHeader>
   );

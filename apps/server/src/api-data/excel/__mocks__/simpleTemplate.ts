@@ -1,7 +1,7 @@
 export const simpleTemplate = [
   ['ⓘ Notes on import', '', '', '', '', '', 'ⓘ How to use'],
   [
-    'Ontime will import this spreasheet as a rundown in your project',
+    'Chronous will import this spreasheet as a rundown in your project',
     '',
     '',
     '',
@@ -19,7 +19,7 @@ export const simpleTemplate = [
     '2. Delete the table header with the Notes on import and How to use instructions',
   ],
   [
-    '- You can have as many columns as necessary, Ontime only imports the columns you request',
+    '- You can have as many columns as necessary, Chronous only imports the columns you request',
     '',
     '',
     '',
@@ -28,7 +28,7 @@ export const simpleTemplate = [
     '3. Remove any columns that are not necessary to your workflow',
   ],
   [
-    '- The names of the worksheet and columns are given in Ontime on import',
+    '- The names of the worksheet and columns are given in Chronous on import',
     '',
     '',
     '',
@@ -39,7 +39,7 @@ export const simpleTemplate = [
     'https://docs.getontime.no/features/import-spreadsheet/',
   ],
   [
-    '- Ontime creates an entry for every row on the table with a known Timer Type (see note on column header)',
+    '- Chronous creates an entry for every row on the table with a known Timer Type (see note on column header)',
     '',
     '',
     '',
@@ -49,7 +49,7 @@ export const simpleTemplate = [
     '',
     'https://docs.getontime.no/features/import-spreadsheet-gsheet/',
   ],
-  ['- All fields in a row are optional, Ontime will fill in with default data as needed'],
+  ['- All fields in a row are optional, Chronous will fill in with default data as needed'],
   ['ⓘ Hover over note tags to see additional help on column data'],
   [
     '',

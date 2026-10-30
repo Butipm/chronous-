@@ -198,8 +198,8 @@ export default function AutomationForm({ automation, onClose }: AutomationFormPr
         },
         {
           type: 'item' as const,
-          label: 'Ontime action',
-          description: 'Change something inside Ontime, like a message or an aux timer',
+          label: 'Chronous action',
+          description: 'Change something inside Chronous, like a message or an aux timer',
           onClick: handleAddNewOntimeAction,
         },
       ]}
@@ -355,7 +355,7 @@ export default function AutomationForm({ automation, onClose }: AutomationFormPr
                     label='OSC'
                     kindClass={style.tagOsc}
                     summary={watch(`outputs.${index}.address`)}
-                    unavailableReason={isOntimeCloud ? 'Unavailable in Ontime Cloud' : undefined}
+                    unavailableReason={isOntimeCloud ? 'Unavailable in Chronous Cloud' : undefined}
                     {...cardProps}
                   >
                     <OscOutputForm index={index} output={output} register={register} rowErrors={rowErrors} />
@@ -371,7 +371,7 @@ export default function AutomationForm({ automation, onClose }: AutomationFormPr
               }
               if (isOntimeAction(output)) {
                 return (
-                  <OutputCard key={output.id} label='Ontime action' kindClass={style.tagOntime} {...cardProps}>
+                  <OutputCard key={output.id} label='Chronous action' kindClass={style.tagOntime} {...cardProps}>
                     <OntimeActionForm
                       value={output.action}
                       index={index}

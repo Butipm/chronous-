@@ -148,7 +148,7 @@ export default function URLPresetForm({ urlPreset, onClose }: URLPresetFormProps
         <form id={formId} onSubmit={handleSubmit(setupSubmit)} className={style.column}>
           <input hidden name='enabled' value='true' />
 
-          <div>1. Enter URL and let Ontime generate the preset options</div>
+          <div>1. Enter URL and let Chronous generate the preset options</div>
           <Panel.InlineElements>
             <div>
               <Panel.Description>Alias</Panel.Description>

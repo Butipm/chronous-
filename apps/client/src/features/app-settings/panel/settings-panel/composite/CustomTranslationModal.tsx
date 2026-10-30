@@ -67,7 +67,7 @@ export default function CustomTranslationModal({ isOpen, onClose }: CustomTransl
       bodyElements={
         <Panel.Section as='form' onSubmit={handleSubmit(onSubmit)} id='custom-translations-form'>
           <Info>
-            Provide custom translations for the public views of Ontime. <br />
+            Provide custom translations for the public views of Chronous. <br />
             You will need to activate this in the settings by selecting &quot;Custom&quot; as the views language.
           </Info>
           <Panel.ListGroup>

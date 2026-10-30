@@ -22,10 +22,10 @@ export default function FeaturePanel({ location }: PanelBaseProps) {
       <div ref={linkRef}>
         <Panel.Section>
           <Panel.Card>
-            <Panel.SubHeader>Share Ontime Link</Panel.SubHeader>
+            <Panel.SubHeader>Share Chronous Link</Panel.SubHeader>
             {!isOntimeCloud && (
               <>
-                <Panel.Paragraph>Ontime is streaming on the following network interfaces</Panel.Paragraph>
+                <Panel.Paragraph>Chronous is streaming on the following network interfaces</Panel.Paragraph>
                 <InfoNif />
               </>
             )}

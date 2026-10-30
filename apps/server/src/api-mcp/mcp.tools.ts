@@ -96,7 +96,7 @@ export const TOOL_DEFINITIONS = [
   {
     name: 'ontime_create_entry',
     description:
-      'Create a new entry. Omit after/before to append at the end, use after: true to explicitly append, use before: true to prepend, or use before/after with an entry ID to position the entry. Omit rundownId for the currently loaded live rundown, or provide a rundownId from ontime_list_rundowns to edit a background rundown without loading it. If playback is running and rundownId is omitted or matches the loaded rundown, confirm the user intends to change the live rundown before calling. For type "event" provide title plus enough timing data for Ontime to infer a strategy: timeStart+duration calculates timeEnd, timeStart+timeEnd calculates duration and locks end, timeEnd+duration calculates timeStart, and all three prioritise duration. For "milestone" provide cue/title/note/colour and optional custom values using existing project custom field keys. For "delay" provide duration. For "group" provide title plus optional note/colour/custom/targetDuration.',
+      'Create a new entry. Omit after/before to append at the end, use after: true to explicitly append, use before: true to prepend, or use before/after with an entry ID to position the entry. Omit rundownId for the currently loaded live rundown, or provide a rundownId from ontime_list_rundowns to edit a background rundown without loading it. If playback is running and rundownId is omitted or matches the loaded rundown, confirm the user intends to change the live rundown before calling. For type "event" provide title plus enough timing data for Chronous to infer a strategy: timeStart+duration calculates timeEnd, timeStart+timeEnd calculates duration and locks end, timeEnd+duration calculates timeStart, and all three prioritise duration. For "milestone" provide cue/title/note/colour and optional custom values using existing project custom field keys. For "delay" provide duration. For "group" provide title plus optional note/colour/custom/targetDuration.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -195,7 +195,7 @@ export const TOOL_DEFINITIONS = [
         colour: {
           type: 'string',
           description:
-            'Hex colour (#RRGGBB) for the group — prefer the default Ontime palette from ontime://style-guide',
+            'Hex colour (#RRGGBB) for the group — prefer the default Chronous palette from ontime://style-guide',
         },
         custom: {
           type: 'object',
@@ -224,7 +224,7 @@ export const TOOL_DEFINITIONS = [
   {
     name: 'ontime_batch_create_entries',
     description:
-      'Create multiple entries, including groups with nested children. Omit rundownId for the currently loaded live rundown, or provide a rundownId from ontime_list_rundowns to edit a background rundown without loading it. If playback is running and rundownId is omitted or matches the loaded rundown, confirm the user intends to change the live rundown before calling. Use this for "build from agenda" flows to avoid many round trips. Entries are inserted in array order; omit after/before to append the first entry at the end, use after: true to explicitly append, use before: true to prepend, or use after/before with an entry ID to position the first top-level entry. Subsequent top-level entries chain from the previous. A group entry may include `children`; those entries are created inside the group in array order. Groups cannot be nested. For events, provide title plus enough timing data for Ontime to infer a strategy: timeStart+duration calculates timeEnd, timeStart+timeEnd calculates duration and locks end, timeEnd+duration calculates timeStart, and all three prioritise duration.',
+      'Create multiple entries, including groups with nested children. Omit rundownId for the currently loaded live rundown, or provide a rundownId from ontime_list_rundowns to edit a background rundown without loading it. If playback is running and rundownId is omitted or matches the loaded rundown, confirm the user intends to change the live rundown before calling. Use this for "build from agenda" flows to avoid many round trips. Entries are inserted in array order; omit after/before to append the first entry at the end, use after: true to explicitly append, use before: true to prepend, or use after/before with an entry ID to position the first top-level entry. Subsequent top-level entries chain from the previous. A group entry may include `children`; those entries are created inside the group in array order. Groups cannot be nested. For events, provide title plus enough timing data for Chronous to infer a strategy: timeStart+duration calculates timeEnd, timeStart+timeEnd calculates duration and locks end, timeEnd+duration calculates timeStart, and all three prioritise duration.',
     inputSchema: {
       type: 'object',
       required: ['entries'],
@@ -471,7 +471,7 @@ export const TOOL_DEFINITIONS = [
   {
     name: 'ontime_create_project',
     description:
-      'Create a new project file and switch to it. This swaps the loaded project. If playback is running, confirm the user accepts interrupting the live project before calling. Omit the .json extension — Ontime appends it.',
+      'Create a new project file and switch to it. This swaps the loaded project. If playback is running, confirm the user accepts interrupting the live project before calling. Omit the .json extension — Chronous appends it.',
     inputSchema: {
       type: 'object',
       required: ['filename'],

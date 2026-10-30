@@ -77,7 +77,7 @@ export default function ProjectList() {
           {numProjects === 0 && (
             <Panel.TableEmpty
               title='No projects yet'
-              description='Projects are the show files Ontime saves your rundown and settings into. Create one to get started.'
+              description='Projects are the show files Chronous saves your rundown and settings into. Create one to get started.'
             />
           )}
           {data.reorderedProjectFiles.map((project) => (

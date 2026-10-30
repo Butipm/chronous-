@@ -3,7 +3,7 @@ import type { GetPromptResult, ListPromptsResult } from '@modelcontextprotocol/s
 export const PROMPT_DEFINITIONS: ListPromptsResult['prompts'] = [
   {
     name: 'create_rundown_from_agenda',
-    description: 'Convert a plain-text agenda into an Ontime rundown using ontime_batch_create_entries',
+    description: 'Convert a plain-text agenda into an Chronous rundown using ontime_batch_create_entries',
     arguments: [{ name: 'agenda', description: 'Plain-text agenda to convert', required: true }],
   },
   {
@@ -65,8 +65,8 @@ function userPrompt(description: string, text: string): GetPromptResult {
 export function handleGetPrompt(name: string, args: Record<string, string>): GetPromptResult {
   if (name === 'create_rundown_from_agenda') {
     return userPrompt(
-      'Build an Ontime rundown from a plain-text agenda',
-      `Convert the following agenda into an Ontime rundown.
+      'Build an Chronous rundown from a plain-text agenda',
+      `Convert the following agenda into an Chronous rundown.
 Read the ontime://schema resource if you need a data model reference.
 
 Steps:
@@ -83,11 +83,11 @@ Entry type guidance:
 - Use \`group\` to collect related events into a named block. In ontime_batch_create_entries, put grouped items in the group's \`children\` array. A group may include \`title\`, \`colour\`, \`note\`, \`custom\`, and \`targetDuration\`; groups cannot be nested.
 
 Event timing:
-- Provide a title plus enough timing data for Ontime to infer a timing strategy.
+- Provide a title plus enough timing data for Chronous to infer a timing strategy.
 - \`timeStart\` + \`duration\`: keeps duration fixed and calculates \`timeEnd\`.
 - \`timeStart\` + \`timeEnd\`: keeps end time fixed and calculates \`duration\`.
 - \`timeEnd\` + \`duration\`: calculates \`timeStart\`.
-- Avoid sending \`timeStart\`, \`timeEnd\`, and \`duration\` together unless you intentionally want Ontime to prioritise duration and recalculate \`timeEnd\`.
+- Avoid sending \`timeStart\`, \`timeEnd\`, and \`duration\` together unless you intentionally want Chronous to prioritise duration and recalculate \`timeEnd\`.
 
 Timer type (timerType):
 - \`count-down\` (default): counts down from duration. Use for most timed sessions.
@@ -120,7 +120,7 @@ Flags (flag):
 Structure and colours:
 - Read the ontime://style-guide resource before deciding on structure or colours.
 - Propose a group per agenda section (morning block, keynotes, breaks) rather than a flat list — in ontime_batch_create_entries this is just a group entry with \`children\`.
-- Ask the user what colour convention they use; if they have none, propose one from the default Ontime palette in the style guide: calm hues for normal content, red only for attention items, orange for changeovers, dark tone on a group with the light tone of the same hue on its children. Colours are hex strings: \`#RRGGBB\`.
+- Ask the user what colour convention they use; if they have none, propose one from the default Chronous palette in the style guide: calm hues for normal content, red only for attention items, orange for changeovers, dark tone on a group with the light tone of the same hue on its children. Colours are hex strings: \`#RRGGBB\`.
 
 Custom fields (custom):
 - Call ontime_get_custom_fields for the project's field keys (cuesheet-style columns such as camera, graphics, speaker).
@@ -137,7 +137,7 @@ ${args.agenda}`,
   if (name === 'bulk_edit_rundown') {
     return userPrompt(
       'Apply a bulk change across the rundown',
-      `Apply the following bulk edit to the current Ontime rundown: "${args.instruction}"
+      `Apply the following bulk edit to the current Chronous rundown: "${args.instruction}"
 
 Strategy:
 1. Call ontime_list_rundowns and identify the target rundown. If the user wants a background rundown, pass its \`rundownId\` in all entry read/write calls instead of loading it.
@@ -163,7 +163,7 @@ Automation risks:
   if (name === 'validate_rundown') {
     return userPrompt(
       'Check the current rundown for common issues',
-      `Validate the currently loaded Ontime rundown and report issues.
+      `Validate the currently loaded Chronous rundown and report issues.
 
 Steps:
 1. Call ontime_get_rundown to read all events and their fields.
@@ -178,7 +178,7 @@ Schedule integrity:
 - Large unexplained positive gaps between consecutive timed events (> 30 min): check whether these are intentional
 - Long segments scheduled back-to-back with no changeover or buffer between them: one overrun will cascade — suggest a buffer event
 - Events where \`timeEnd < timeStart\`: these cross midnight; confirm this is intentional
-- Events whose \`timeStart\` is the same as or earlier than the previous playable event's \`timeStart\`: Ontime schedules these on the next day; confirm this is intentional
+- Events whose \`timeStart\` is the same as or earlier than the previous playable event's \`timeStart\`: Chronous schedules these on the next day; confirm this is intentional
 
 Timing and linking:
 - \`metadata.totalDays > 0\`: show spans midnight — confirm this is intentional
@@ -210,7 +210,7 @@ Present issues grouped by severity: ERROR (breaks playback), WARNING (likely mis
   if (name === 'restructure_rundown') {
     return userPrompt(
       'Reorder events in the rundown',
-      `Restructure the current Ontime rundown: "${args.instruction}"
+      `Restructure the current Chronous rundown: "${args.instruction}"
 
 Steps:
 1. Call ontime_list_rundowns and identify the target rundown. If the user wants a background rundown, pass its \`rundownId\` in all entry read/write calls instead of loading it.
@@ -241,7 +241,7 @@ Efficiency tip: plan moves in the direction of the target position to minimise r
     const focus = args.focus ? `\nFocus specifically on: "${args.focus}".` : '';
     return userPrompt(
       'Audit and improve rundown readability',
-      `Audit the current Ontime rundown for readability and tidiness, then propose improvements.${focus}
+      `Audit the current Chronous rundown for readability and tidiness, then propose improvements.${focus}
 
 Steps:
 1. Read the ontime://style-guide resource — it defines the conventions to audit against, including the standard colour palette.
@@ -250,7 +250,7 @@ Steps:
 4. Call ontime_get_timer_state. If playback is not \`stop\` and the target is the loaded rundown, explain that MCP edits affect the live rundown and ask the user to confirm before changing it.
 
 Audit for:
-- Colour consistency: entries coloured outside a discernible convention, missing colours on key segments, red/orange used for normal content (the style guide reserves them for attention items and changeovers), or group/children colours that ignore the dark/light tone pairing. Prefer the default Ontime palette.
+- Colour consistency: entries coloured outside a discernible convention, missing colours on key segments, red/orange used for normal content (the style guide reserves them for attention items and changeovers), or group/children colours that ignore the dark/light tone pairing. Prefer the default Chronous palette.
 - Grouping: long runs (roughly 4+) of related consecutive top-level events that would read better as a named group; groups missing \`targetDuration\`.
 - Buffers: long segments back-to-back with no changeover event between them; propose short buffer events so one overrun cannot cascade.
 - Cue naming: mixed conventions (numeric vs semantic) without apparent intent, duplicate cues, or gaps that suggest mistakes. Remember cues are automation handles — renaming them can break external triggers, so flag renames explicitly.
@@ -268,7 +268,7 @@ Then:
   if (name === 'manage_custom_fields') {
     return userPrompt(
       'List, create, rename, recolour, or delete custom field definitions',
-      `Manage the project-level custom field definitions for this Ontime project: "${args.instruction}"
+      `Manage the project-level custom field definitions for this Chronous project: "${args.instruction}"
 
 Custom fields are project-scoped. They appear as columns in the cuesheet and can be set on any event, milestone, or group. Changes apply to all rundowns in the project.
 
@@ -280,7 +280,7 @@ Creating a field:
 - Call ontime_create_custom_field with { label, type, colour }.
 - label: human-readable name (letters, numbers and spaces). The key is auto-derived: spaces → underscores (e.g. "Camera Angle" → "Camera_Angle").
 - type: "text" for short string values, "image" for image URLs. Cannot be changed after creation.
-- colour: hex colour (#RRGGBB) used to visually identify this column in the cuesheet. If unspecified, pick one from the default Ontime palette matching the department.
+- colour: hex colour (#RRGGBB) used to visually identify this column in the cuesheet. If unspecified, pick one from the default Chronous palette matching the department.
 - Returns: { key, customFields } — use the returned key when setting values on entries.
 
 Renaming or recolouring a field:

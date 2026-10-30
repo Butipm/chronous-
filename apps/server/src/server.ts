@@ -255,7 +255,7 @@ export const startServer = async (): Promise<{ message: string; serverPort: numb
     consoleSuccess(`Network: http://${address}:${resultPort}${prefix}/editor`);
   }
 
-  const returnMessage = `Ontime is listening on port ${resultPort}`;
+  const returnMessage = `Chronous is listening on port ${resultPort}`;
   logger.info(LogOrigin.Server, 'Server started', { port: resultPort });
 
   return {
