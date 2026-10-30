@@ -40,6 +40,14 @@
   min-width: 38rem;
   max-width: none;
   width: 0;
+
+  // 38rem is wider than a phone screen, so the schedule was pinned to a width the
+  // viewport could never show and scrolled sideways under the coordinator's finger.
+  // Below 800px the blocks reflow instead (see block-styling and .eventTimers), so
+  // the list can take the screen width.
+  @media (max-width: 799px) {
+    min-width: 0;
+  }
 }
 
 .side {

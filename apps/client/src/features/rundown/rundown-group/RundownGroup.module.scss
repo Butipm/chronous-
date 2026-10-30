@@ -60,6 +60,14 @@
     padding-left: 0.125rem;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
+
+    // Four fixed-width meta entries need ~456px, which a phone does not have, so
+    // the group header overflowed its own block. They wrap instead.
+    @media (max-width: 799px) {
+      flex-wrap: wrap;
+      white-space: normal;
+      row-gap: 0.25rem;
+    }
   }
 
   .metaEntry {
@@ -67,6 +75,11 @@
 
     &:first-of-type {
       width: 4.5rem; // binder + buttons
+    }
+
+    @media (max-width: 799px) {
+      width: auto;
+      min-width: 0;
     }
   }
 

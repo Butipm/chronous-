@@ -24,6 +24,12 @@ $skip-opacity: 0.2;
   gap: 2px;
   row-gap: 0.25rem;
 
+  // The fixed 2rem rows assume the timers sit on one line. Once they wrap for a
+  // phone (see .eventTimers below) the row has to grow with its content.
+  @media (max-width: 799px) {
+    grid-template-rows: 0.125rem auto auto auto 0.125rem;
+  }
+
   transition-property: background-color;
   transition-duration: $transition-time-feedback;
 
@@ -143,6 +149,15 @@ $skip-opacity: 0.2;
   gap: $block-clearance;
   height: 100%;
   min-width: 0;
+
+  // Start, end and duration cannot share one line on a phone. Letting them wrap
+  // keeps the row inside the viewport; the row's grid rows go auto (below) so the
+  // second line has somewhere to sit.
+  @media (max-width: 799px) {
+    flex-wrap: wrap;
+    height: auto;
+    row-gap: 2px;
+  }
 }
 
 .eventTimers.editMode:hover {

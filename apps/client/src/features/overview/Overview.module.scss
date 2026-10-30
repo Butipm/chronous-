@@ -3,6 +3,14 @@
   font-size: $inner-section-text-size;
   display: flex;
   overflow: hidden;
+
+  // The header carries start times, progress, over/under, the current group and the
+  // clock - far more than a phone width. It was clipped at the edge with no way to
+  // reach the rest; let it scroll instead of hiding information.
+  @media (max-width: 799px) {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
 }
 
 .isOffline {

@@ -25,6 +25,14 @@ $block-cursor-color: $orange-400;
   overflow: hidden;
 
   min-width: $block-width;
+
+  // 32rem is wider than a phone viewport, so every block forced the rundown to
+  // scroll sideways and the schedule could not be read or edited without dragging
+  // it around. Below this width the blocks reflow instead (see RundownEvent's
+  // timers wrapping), so the row fits the screen.
+  @media (max-width: 799px) {
+    min-width: 0;
+  }
 }
 
 // Make the binder the drag surface; the icon is only an affordance.
