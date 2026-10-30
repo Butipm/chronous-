@@ -63,6 +63,13 @@ $max-playback-width: 30rem;
   gap: $panel-gap;
   min-width: 0;
   min-height: 0;
+
+  // On a phone the rundown and the titles overview cannot sit side by side: the
+  // overview is a fixed 20rem, so the rundown is squeezed to a sliver and its
+  // text is clipped. Stack them instead and let the rundown take the width.
+  @media (max-width: 799px) {
+    flex-direction: column;
+  }
 }
 
 .rundownPanel {
@@ -81,4 +88,11 @@ $max-playback-width: 30rem;
   min-width: $overview-width;
   max-width: $overview-width;
   overflow: hidden;
+
+  // The overview is a navigation aid for a wide screen. On a phone it would push
+  // the schedule the coordinator came here to edit off the first screen, so it is
+  // the one thing dropped rather than stacked.
+  @media (max-width: 799px) {
+    display: none;
+  }
 }

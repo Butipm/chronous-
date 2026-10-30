@@ -172,6 +172,38 @@ $element-height: 4.5rem; // matches go button height in PlaybackButtons
 
 // hardcoded value where the timer is over the buttons
 @media (max-width: 728px) {
+  // Phone width: "Next" plus the countdown is all that fits. Two columns keep the
+  // timer in its own track instead of overlapping the transport buttons, which is
+  // what happened while this still used the desktop three-column grid.
+  .container {
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .goButton {
+    min-width: 5.5rem;
+    height: 3.5rem;
+  }
+
+  .goLabel {
+    font-size: 1rem;
+  }
+
+  .shortcutHint {
+    display: none;
+  }
+
+  .itemGroup {
+    gap: 0.25rem;
+  }
+
+  .timerSection {
+    justify-self: stretch;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+
   .addSection {
     display: none;
   }

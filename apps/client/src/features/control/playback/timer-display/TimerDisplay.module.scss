@@ -8,6 +8,12 @@
   font-weight: 600;
   font-size: 3.5rem;
 
+  // Every place this renders is a control bar, and at phone width the desktop size
+  // is wider than the bar itself - the countdown was being clipped at the edge.
+  @media (max-width: 728px) {
+    font-size: 2rem;
+  }
+
   &[data-phase='default'] {
     color: $timer-color;
   }
