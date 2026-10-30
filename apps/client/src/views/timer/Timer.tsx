@@ -11,6 +11,7 @@ import ViewLogo from '../../common/components/view-logo/ViewLogo';
 import ViewParamsEditor from '../../common/components/view-params-editor/ViewParamsEditor';
 import { useAutoTickingClock } from '../../common/hooks/useAutoTickingClock';
 import { useFadeOutOnInactivity } from '../../common/hooks/useFadeOutOnInactivity';
+import { useLocalTimer } from '../../common/hooks/useLocalTimer';
 import { setMessage, useTimerSocket } from '../../common/hooks/useSocket';
 import { useWindowTitle } from '../../common/hooks/useWindowTitle';
 import { cx } from '../../common/utils/styleUtils';
@@ -54,7 +55,9 @@ export default function TimerLoader() {
 }
 
 function Timer({ customFields, projectData, isMirrored, settings, viewSettings, entries }: TimerData) {
-  const { eventNext, eventNow, message, time, clock, timerTypeNow, countToEndNow, auxTimer } = useTimerSocket();
+  const { eventNext, eventNow, message, time: socketTime, clock, timerTypeNow, countToEndNow, auxTimer } = useTimerSocket();
+  // keeps counting if server updates stop arriving (phone asleep, Wi-Fi handoff)
+  const time = useLocalTimer(socketTime);
   // broadcast, not local-only - same feed shown on every connected Timer view, settable from
   // here or from the editor's MessageControl/PlaybackControl
   const feedUrl = message.timer.feedUrl;

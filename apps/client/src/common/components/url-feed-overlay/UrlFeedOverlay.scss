@@ -65,4 +65,13 @@
   width: 100%;
   border: none;
   background: $ui-black;
+
+  /* The IFrame API injects its own <iframe> sized from the container at mount time.
+     Force it to track the container instead, including on phone viewport changes. */
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
 }

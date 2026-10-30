@@ -3,6 +3,8 @@ import { IoClose, IoLink } from 'react-icons/io5';
 
 import IconButton from '../buttons/IconButton';
 import { cx } from '../../utils/styleUtils';
+import YoutubeFeedPlayer from './YoutubeFeedPlayer';
+import { parseYoutubeVideoId } from './youtubePlayer';
 
 import './UrlFeedOverlay.scss';
 
@@ -238,6 +240,12 @@ export function FeedFrame({ url, className }: { url: string; className?: string 
 
   if (isElectron) {
     return <webview className={cx(['feed-frame', className])} src={embeddableUrl} allowpopups />;
+  }
+
+  // YouTube gets the API player so a stalled live stream can be nudged back to
+  // life; anything else stays a plain iframe. See YoutubeFeedPlayer.
+  if (parseYoutubeVideoId(embeddableUrl)) {
+    return <YoutubeFeedPlayer url={embeddableUrl} className={className} />;
   }
 
   return (

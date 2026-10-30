@@ -60,20 +60,52 @@ async function startBackend() {
 }
 
 /**
- * Terminate node service and close electron app
+ * Terminate node service and close electron app.
+ *
+ * The server runs inside this process, so its shutdown must finish before the app
+ * can exit: quitting while its HTTP/WebSocket handles are still open leaves a
+ * windowless process behind - the app "quits" but keeps running. A timeout guards
+ * against a shutdown that never resolves, and a forced exit covers the case where
+ * some other handle still blocks the way out.
  */
-function appShutdown() {
-  // terminate node service
-  (async () => {
-    const ontimeServer = require(nodePath);
-    const { shutdown } = ontimeServer;
-    await shutdown(electronConfig.appIni.shutdownCode);
-  })();
+let isShuttingDown = false;
 
+async function appShutdown() {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
   isQuitting = true;
-  tray.destroy();
-  win.destroy();
+
+  // The window goes immediately so the close feels instant; the process follows.
+  try {
+    tray?.destroy();
+    tray = null;
+  } catch (error) {
+    console.log('ERROR: failed to destroy tray', error);
+  }
+  if (win && !win.isDestroyed()) {
+    win.destroy();
+  }
+
+  try {
+    if (isProduction) {
+      const ontimeServer = require(nodePath);
+      if (typeof ontimeServer.shutdown === 'function') {
+        await Promise.race([
+          ontimeServer.shutdown(electronConfig.appIni.shutdownCode),
+          new Promise((resolve) => setTimeout(resolve, 3000)),
+        ]);
+      }
+    }
+  } catch (error) {
+    console.log('ERROR: server shutdown failed', error);
+  }
+
   app.quit();
+
+  // A pending handle can still hold the process open after quit(); do not leave
+  // the user with an app that is gone from the screen but alive in Activity Monitor.
+  const forceExit = setTimeout(() => app.exit(0), 2000);
+  forceExit.unref?.();
 }
 
 /**
@@ -232,7 +264,9 @@ app.whenReady().then(() => {
    * recreate window if no others open
    */
   app.on('activate', () => {
-    win.show();
+    if (win && !win.isDestroyed()) {
+      win.show();
+    }
   });
 
   /**
@@ -257,6 +291,39 @@ app.whenReady().then(() => {
  */
 app.once('will-quit', () => {
   globalShortcut.unregisterAll();
+});
+
+/**
+ * Cmd+Q and the app menu quit straight away. Without this flag the window's close
+ * handler would treat that quit as a plain window close and preventDefault it,
+ * which is how a quit request could end up doing nothing at all.
+ */
+/**
+ * Cmd+Q, the app menu and the system quit all arrive here rather than through the
+ * window's close handler. Take the same shutdown path, or the server keeps its
+ * handles and the process outlives the window. appShutdown() calls quit() itself
+ * once the server is down, which re-enters here - the isShuttingDown guard lets
+ * that second pass through instead of looping.
+ */
+app.on('before-quit', (event) => {
+  isQuitting = true;
+  if (isShuttingDown) return;
+  event.preventDefault();
+  appShutdown();
+});
+
+/**
+ * Closing the last window quits the app on every platform. Without a handler here
+ * the behaviour differs between macOS and Windows/Linux, and on macOS the process
+ * stays alive with no window - the "it remains opened" case.
+ */
+app.on('window-all-closed', () => {
+  // appShutdown() destroys the window itself, which fires this event before its
+  // awaited server shutdown has finished. Let that path own the quit, or we exit
+  // with the server handles still open - the lingering-process bug all over again.
+  if (!isShuttingDown) {
+    app.quit();
+  }
 });
 
 // Ask for main window reload

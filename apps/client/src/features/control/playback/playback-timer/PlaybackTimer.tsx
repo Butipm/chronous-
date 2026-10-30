@@ -5,6 +5,7 @@ import { PropsWithChildren } from 'react';
 import AppLink from '../../../../common/components/link/app-link/AppLink';
 import Tooltip from '../../../../common/components/tooltip/Tooltip';
 import useReport from '../../../../common/hooks-query/useReport';
+import { useLocalTimer } from '../../../../common/hooks/useLocalTimer';
 import { useTimerProgress } from '../../../../common/hooks/useSocket';
 import { cx } from '../../../../common/utils/styleUtils';
 import { formatDuration, normaliseWallClock } from '../../../../common/utils/time';
@@ -27,7 +28,8 @@ function resolveAddedTimeLabel(addedTime: number) {
 
 export default function PlaybackTimer({ children }: PropsWithChildren) {
   'use memo';
-  const timer = useTimerProgress();
+  // keeps counting if server updates stop arriving (phone asleep, Wi-Fi handoff)
+  const timer = useLocalTimer(useTimerProgress());
 
   const isRolling = timer.playback === Playback.Roll;
   const isWaiting = timer.phase === TimerPhase.Pending;

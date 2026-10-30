@@ -38,11 +38,18 @@
     z-index: 0;
     background-color: #000;
     opacity: 0;
+    /* Invisible, but a positioned element with z-index 0 still paints above the
+       non-positioned <.feed-frame> iframe and hit-tests every click aimed at it,
+       which made a fed YouTube player impossible to pause or play. There is
+       nothing to intercept while it is transparent, so it must not take input. */
+    pointer-events: none;
     transition: opacity $viewer-transition-time;
 
     &--active {
       z-index: calc($zindex-floating + 1);
       opacity: 1;
+      /* a real blackout does cover the screen, so it keeps swallowing input */
+      pointer-events: auto;
     }
   }
 
