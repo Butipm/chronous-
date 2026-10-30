@@ -46,16 +46,20 @@ test('Cut-paste', async ({ page }) => {
   await page.getByTestId('entry-1').getByTestId('entry__title').fill('first');
   await page.getByTestId('entry-1').getByTestId('entry__title').press('Enter');
 
-  await page.getByRole('button', { name: 'Event' }).nth(4).click();
+  await page.getByRole('button', { name: 'Add event' }).click();
   await page.getByTestId('entry-2').getByTestId('entry__title').click();
   await page.getByTestId('entry-2').getByTestId('entry__title').fill('second');
   await page.getByTestId('entry-2').getByTestId('entry__title').press('Enter');
 
   // cut first event, paste below second
-  await page.getByTestId('entry-1').getByTestId('rundown-event').getByText('1').click();
-  await page.getByTestId('entry-1').getByTestId('rundown-event').filter({ hasText: '1' }).press('ControlOrMeta+x');
-  await page.getByTestId('entry-2').getByTestId('rundown-event').getByText('2').click();
-  await page.getByTestId('entry-2').getByTestId('rundown-event').filter({ hasText: '2' }).press('ControlOrMeta+v');
+  // Focus the row itself: the cue number is not a text node or a test id, so
+  // locating it by text only worked against an older row markup.
+  const firstRow = page.getByTestId('entry-1').getByTestId('rundown-event');
+  const secondRow = page.getByTestId('entry-2').getByTestId('rundown-event');
+  await firstRow.click({ position: { x: 4, y: 4 } });
+  await firstRow.press('ControlOrMeta+x');
+  await secondRow.click({ position: { x: 4, y: 4 } });
+  await secondRow.press('ControlOrMeta+v');
 
   // we can verify that the entries have swapped places
   const events = await page.getByTestId('entry__title').all();
@@ -76,26 +80,39 @@ test('Move', async ({ page }) => {
   // create events
   await page.getByRole('button', { name: 'Create Event' }).click();
   await expect(page.getByTestId('rundown-event')).toHaveCount(1);
-  await page.getByRole('button', { name: 'Event' }).nth(4).click();
+  // the toolbar's "Add event" appends deterministically; the per-row insert menus
+  // are positional and their "Event" buttons shift as rows are added
+  await page.getByRole('button', { name: 'Add event' }).click();
   await expect(page.getByTestId('rundown-event')).toHaveCount(2);
-  await page.getByRole('button', { name: 'Event', exact: true }).nth(1).click();
+  await page.getByRole('button', { name: 'Add event' }).click();
   await expect(page.getByTestId('rundown-event')).toHaveCount(3);
 
-  // copy move down
-  await page.getByTestId('entry-1').getByTestId('rundown-event').getByText('1').click();
-  await page
-    .getByTestId('entry-1')
-    .getByTestId('rundown-event')
-    .filter({ hasText: '1' })
-    .press('Alt+Control+ArrowDown');
-  await expect(page.getByTestId('entry-2').getByTestId('rundown-event').getByText('1', { exact: true })).toBeVisible();
+  // Identify entries by title: the cue/index number is not rendered as text in the
+  // current row markup, so the previous getByText('1') assertions were checking
+  // something that no longer exists.
+  for (const [index, title] of ['one', 'two', 'three'].entries()) {
+    const titleInput = page.getByTestId(`entry-${index + 1}`).getByTestId('entry__title');
+    await titleInput.click();
+    await titleInput.fill(title);
+    await titleInput.press('Enter');
+  }
+
+  const titles = page.getByTestId('entry__title');
+
+  // move first down one
+  const firstRow = page.getByTestId('entry-1').getByTestId('rundown-event');
+  await firstRow.click({ position: { x: 4, y: 4 } });
+  await firstRow.press('Alt+ControlOrMeta+ArrowDown');
+  await expect(titles.nth(0)).toHaveValue('two');
+  await expect(titles.nth(1)).toHaveValue('one');
 
   // move entry three up twice, faster than the server replies: both moves apply
-  await page.getByTestId('entry-3').getByTestId('rundown-event').getByText('3').click();
+  await page.getByTestId('entry-3').getByTestId('rundown-event').click({ position: { x: 4, y: 4 } });
   await page.keyboard.press('Alt+ControlOrMeta+ArrowUp');
   await page.keyboard.press('Alt+ControlOrMeta+ArrowUp');
-  await expect(page.getByTestId('entry-1').getByTestId('rundown-event').getByText('3', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('entry-2').getByTestId('rundown-event').getByText('2', { exact: true })).toBeVisible();
+  await expect(titles.nth(0)).toHaveValue('three');
+  await expect(titles.nth(1)).toHaveValue('two');
+  await expect(titles.nth(2)).toHaveValue('one');
 });
 
 test('Add group', async ({ page }) => {
