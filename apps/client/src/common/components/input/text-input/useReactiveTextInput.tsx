@@ -156,6 +156,37 @@ export default function useReactiveTextInput(
         event.stopPropagation();
       }
 
+      // Home/End belong to the caret. Left to the browser they scroll the grid's
+      // scroller to the top/bottom instead, which in a virtualised table unmounts
+      // the row being edited and drops focus to the body - pressing End while
+      // editing a cue cell jumped the view to the last entry. Move the caret here
+      // and consume the key.
+      if (
+        (event.key === 'Home' || event.key === 'End') &&
+        !event.altKey &&
+        !event.ctrlKey &&
+        !event.metaKey &&
+        !event.shiftKey
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        const target = event.currentTarget as HTMLInputElement | HTMLTextAreaElement;
+        const { value, selectionStart } = target;
+        const caret = selectionStart ?? value.length;
+        const isTextArea = target.tagName.toLowerCase() === 'textarea';
+        let next: number;
+        if (isTextArea) {
+          // textarea semantics: Home/End move within the current line
+          const lineStart = value.lastIndexOf('\n', caret - 1) + 1;
+          const lineEnd = value.indexOf('\n', caret);
+          next = event.key === 'Home' ? lineStart : lineEnd === -1 ? value.length : lineEnd;
+        } else {
+          next = event.key === 'Home' ? 0 : value.length;
+        }
+        target.setSelectionRange(next, next);
+        return;
+      }
+
       // for cells that opt out of tab-submit, track tab-out without preventing navigation
       if (event.key === 'Tab' && options?.submitOnTab === false) {
         isTabbing.current = true;

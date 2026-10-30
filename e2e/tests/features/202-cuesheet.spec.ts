@@ -117,10 +117,11 @@ test('cuesheet datagrid keeps keyboard focus flow while editing text cells', asy
   const cueBeforeCancel = await cueEditor.inputValue();
   await cueEditor.click();
   await expect(cueEditor).toBeFocused();
-  // Set the value rather than moving the caret with End and typing: the grid
-  // treats End as "jump to last row" and takes focus out of the cell, which is a
-  // navigation behaviour, not the focus-retention this test is about.
-  await cueEditor.fill(`${cueBeforeCancel} temporary`);
+  // End belongs to the caret. Before the fix it scrolled the grid's container to
+  // the last row, which unmounted the cell and dropped focus to the body.
+  await cueEditor.press('End');
+  await expect(cueEditor).toBeFocused();
+  await cueEditor.pressSequentially(' temporary');
   await expect(cueEditor).toHaveValue(`${cueBeforeCancel} temporary`);
   await page.keyboard.press('Escape');
   await expect(cueEditor).not.toBeFocused();
@@ -129,9 +130,18 @@ test('cuesheet datagrid keeps keyboard focus flow while editing text cells', asy
 
 test('cuesheet background edit from empty state', async ({ page }) => {
   // create an empty rundown
+  // Reach the rundown manager through the rundown menu rather than the settings
+  // dialog: the editor's settings control is an icon with no accessible name, and
+  // the ?settings= panel the URL opens is not stable across runs.
   await page.goto('/editor');
-  await page.getByRole('button', { name: 'Toggle settings' }).click();
-  await page.getByRole('button', { name: 'Manage rundowns' }).click();
+  // a freshly seeded data folder shows the welcome modal, which covers the editor.
+  // It appears a moment after load, so wait briefly for it rather than checking once.
+  await page
+    .getByRole('button', { name: 'close welcome modal' })
+    .click({ timeout: 3000 })
+    .catch(() => {});
+  await page.getByRole('button', { name: 'Rundown menu' }).click();
+  await page.getByRole('menuitem', { name: /Manage Rundowns/i }).first().click();
   await page.getByRole('button', { name: 'New' }).nth(1).click();
   const emptyName = `empty-${Date.now()}`;
   await page.getByRole('textbox', { name: 'Rundown title' }).fill(emptyName);
